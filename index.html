@@ -416,11 +416,19 @@ header .sub{font-size:.7rem;color:var(--text3);font-style:italic;}
   letter-spacing:.03em;
 }
 
-/* Card actions (edit/delete) */
+/* Card actions (edit/delete/collapse) */
 .card-actions{
   position:absolute;bottom:.6rem;right:.6rem;
   display:flex;gap:.25rem;opacity:0;transition:opacity .18s;
 }
+.collapse-btn{
+  position:absolute;top:.5rem;right:.5rem;
+  width:22px;height:22px;border-radius:50%;border:1px solid var(--p2);
+  background:var(--p1);color:var(--p4);font-size:.58rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s;z-index:2;flex-shrink:0;
+}
+.collapse-btn:hover{background:var(--p2);}
 .delete-btn{
   width:26px;height:26px;border-radius:50%;border:1px solid var(--border);
   background:var(--card);color:var(--text3);font-size:.72rem;cursor:pointer;
@@ -746,6 +754,13 @@ header .sub{font-size:.7rem;color:var(--text3);font-style:italic;}
 [data-theme="dark"] .format-digital{background:#0c1a3a;color:#93c5fd;border-color:#1e3a8a;}
 .book-meta{font-size:.7rem;color:var(--text3);display:flex;flex-direction:column;gap:.13rem;margin-top:.22rem;}
 
+.bulk-target-btn{
+  padding:.38rem 1.1rem;border-radius:40px;border:1.5px solid var(--border);
+  background:var(--card);color:var(--text2);font-family:'DM Sans',sans-serif;
+  font-size:.8rem;font-weight:500;cursor:pointer;transition:background .15s,border-color .15s,color .15s;
+}
+.bulk-target-btn.active{background:var(--p1);border-color:var(--p3);color:var(--p4);font-weight:600;}
+
 /* ── MISC ── */
 .empty{text-align:center;padding:2.5rem 1rem;color:var(--text3);font-style:italic;font-family:'Playfair Display',serif;}
 .empty .big{font-size:2.2rem;margin-bottom:.45rem;}
@@ -952,6 +967,7 @@ header .sub{font-size:.7rem;color:var(--text3);font-style:italic;}
         <h3 class="stat-section-title">👁️ Campos visibles en tarjetas</h3>
         <p style="font-size:.76rem;color:var(--text3);margin-bottom:.75rem;">Activa o desactiva lo que quieres ver</p>
         <div style="display:flex;flex-direction:column;gap:.45rem;" id="fieldToggles">
+          <label class="toggle-row"><input type="checkbox" id="tog-cover" checked onchange="saveFieldPrefs()"> 🖼️ Portada</label>
           <label class="toggle-row"><input type="checkbox" id="tog-author" checked onchange="saveFieldPrefs()"> ✍️ Autor</label>
           <label class="toggle-row"><input type="checkbox" id="tog-genre" checked onchange="saveFieldPrefs()"> 🏷️ Género</label>
           <label class="toggle-row"><input type="checkbox" id="tog-progress" checked onchange="saveFieldPrefs()"> 📊 Progreso de capítulos</label>
@@ -959,6 +975,9 @@ header .sub{font-size:.7rem;color:var(--text3);font-style:italic;}
           <label class="toggle-row"><input type="checkbox" id="tog-emission" checked onchange="saveFieldPrefs()"> 📡 Estado de emisión</label>
           <label class="toggle-row"><input type="checkbox" id="tog-schedule" checked onchange="saveFieldPrefs()"> 📅 Calendario de actualizaciones</label>
           <label class="toggle-row"><input type="checkbox" id="tog-extras" checked onchange="saveFieldPrefs()"> ➕ Capítulos extras</label>
+          <label class="toggle-row"><input type="checkbox" id="tog-synopsis" checked onchange="saveFieldPrefs()"> 📝 Reseña</label>
+          <label class="toggle-row"><input type="checkbox" id="tog-sinopsis" checked onchange="saveFieldPrefs()"> 💬 Sinopsis personal</label>
+          <label class="toggle-row"><input type="checkbox" id="tog-detail" onchange="saveFieldPrefs()"> 👁️ Ver detalles completos al tocar tarjeta</label>
         </div>
       </div>
     </div>
@@ -985,10 +1004,35 @@ header .sub{font-size:.7rem;color:var(--text3);font-style:italic;}
         <p style="font-size:.8rem;color:var(--text3);margin-bottom:.9rem;">Genera un PDF con tu historial de lecturas.</p>
         <button onclick="openPdfModal()" style="width:100%;padding:.6rem;border-radius:11px;border:1.5px solid #fecaca;background:#fff5f5;color:#dc2626;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;">📄 Exportar historial en PDF</button>
       </div>
+      <div style="background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:1.3rem;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--p4);margin-bottom:.35rem;">📋 Importar lista en masa</h3>
+        <p style="font-size:.8rem;color:var(--text3);margin-bottom:.9rem;">Pega una lista de títulos (uno por línea) y elige a qué TBR agregarlos.</p>
+        <div style="display:flex;gap:.45rem;margin-bottom:.7rem;">
+          <button id="bulkTargetManga" class="bulk-target-btn active" onclick="setBulkTarget('manga',this)">📚 Manga</button>
+          <button id="bulkTargetBooks" class="bulk-target-btn" onclick="setBulkTarget('books',this)">📖 Libros</button>
+        </div>
+        <textarea id="bulkInput" placeholder="Un título por línea…&#10;Título 1&#10;Título 2&#10;Título 3"
+          oninput="updateBulkPreview()"
+          style="width:100%;min-height:130px;padding:.65rem .8rem;border:1.5px solid var(--border);border-radius:11px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.82rem;resize:vertical;outline:none;box-sizing:border-box;line-height:1.55;"
+          onfocus="this.style.borderColor='var(--p3)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+        <div id="bulkPreview" style="font-size:.75rem;color:var(--text3);margin:.4rem 0 .7rem;min-height:1rem;"></div>
+        <button onclick="confirmBulkImport()" style="width:100%;padding:.6rem;border-radius:11px;border:1.5px solid var(--p2);background:var(--p1);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;">✨ Agregar a mi TBR</button>
+      </div>
     </div>
   </div>
 
 </div><!-- end wrap -->
+
+<!-- DETAIL MODAL -->
+<div class="alert-overlay" id="detailOverlay" onclick="closeDetailOnOverlay(event)">
+  <div class="alert-modal" style="max-height:88vh;overflow-y:auto;width:min(460px,94vw);">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem;">
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--p4);margin:0;" id="detailTitle"></h2>
+      <button onclick="closeDetailModal()" style="background:none;border:none;font-size:1.1rem;cursor:pointer;color:var(--text3);">✕</button>
+    </div>
+    <div id="detailBody"></div>
+  </div>
+</div>
 
 <!-- ADD MANGA MODAL -->
 <div class="add-overlay" id="addOverlay" onclick="closeAddOnOverlay(event)">
@@ -1212,7 +1256,7 @@ const EMISSIONS=[
 const WEEK_DAYS=['Lu','Ma','Mi','Ju','Vi','Sá','Do'];
 const MONTH_DATES=Array.from({length:31},(_,i)=>i+1);
 
-function defaultEntry(){return{status:'unread',rating:0,chapCur:0,chapTotal:0,extraCur:0,extraTotal:0,emission:'',freq:'week',updateDays:[],type:'manhwa',url:'',cover:'',author:'',genre:'',synopsis:'',scheduleLocked:false,finishDate:null};}
+function defaultEntry(){return{status:'unread',rating:0,chapCur:0,chapTotal:0,extraCur:0,extraTotal:0,emission:'',freq:'week',updateDays:[],type:'manhwa',url:'',cover:'',author:'',genre:'',synopsis:'',sinopsis:'',scheduleLocked:false,finishDate:null,_collapsed:false};}
 function loadState(){
   try{
     const s=JSON.parse(localStorage.getItem('tbr-manga-v5')||'{}');
@@ -1253,8 +1297,20 @@ function updatesToday(st){
   return st.updateDays.map(Number).includes(TODAY_DATE);
 }
 
+function getTodayKey(){const n=new Date();return `${n.getFullYear()}-${n.getMonth()+1}-${n.getDate()}`;}
+function getDismissedToday(){
+  try{const d=JSON.parse(localStorage.getItem('tbr-dismissed-today')||'{}');
+  if(d.date!==getTodayKey())return[];return d.ids||[];}catch{return[];}
+}
+function dismissToday(id){
+  const dismissed=getDismissedToday();
+  if(!dismissed.includes(id))dismissed.push(id);
+  localStorage.setItem('tbr-dismissed-today',JSON.stringify({date:getTodayKey(),ids:dismissed}));
+}
+
 function renderTodayBanner(){
-  const items=BOOKS.filter(b=>STATE[b.id].emission==='ongoing'&&updatesToday(STATE[b.id]));
+  const dismissed=getDismissedToday();
+  const items=BOOKS.filter(b=>STATE[b.id].emission==='ongoing'&&updatesToday(STATE[b.id])&&!dismissed.includes(b.id));
   const badge=document.getElementById('todayCount');
   const btn=document.getElementById('todayTabBtn');
   if(badge) badge.textContent=items.length;
@@ -1288,6 +1344,8 @@ function addChapFromToday(id){
     const bar=document.getElementById(`chap-bar-${id}`);if(bar)bar.style.width=pct+'%';
     const pctEl=document.getElementById(`chap-pct-${id}`);if(pctEl)pctEl.textContent=pct+'%';
     if(st.chapTotal>0&&st.chapCur>=st.chapTotal){st.status='read';save();confettiPop();render();}
+    dismissToday(id);
+    renderTodayBanner();
     showToast(`📖 +1 cap. — ${BOOKS.find(b=>b.id===id)?.title||''}`);
   } else {
     showToast('✅ ¡Ya completaste este manga!');
@@ -1397,7 +1455,8 @@ function buildCardHTML(b,i){
   const typeMap={manga:{cls:'type-manga',icon:'📕',label:'Manga'},manhwa:{cls:'type-manhwa',icon:'📗',label:'Manhwa'},novel:{cls:'type-novel',icon:'📘',label:'Novela'}};
   const typeInfo=typeMap[st.type||'manhwa'];
   const sA=getFieldPref('author'),sG=getFieldPref('genre'),sP=getFieldPref('progress');
-  const sR=getFieldPref('rating'),sE=getFieldPref('emission'),sSch=getFieldPref('schedule'),sEx=getFieldPref('extras');
+  const sR=getFieldPref('rating'),sE=getFieldPref('emission'),sSch=getFieldPref('schedule'),sEx=getFieldPref('extras'),sSyn=getFieldPref('synopsis');
+  const sCover=getFieldPref('cover'),sSinopsis=getFieldPref('sinopsis'),sDetail=getFieldPref('detail');
 
   const isLocked=st.scheduleLocked&&st.updateDays&&st.updateDays.length>0;
   const dispText=scheduleDisplay(st);
@@ -1439,15 +1498,16 @@ function buildCardHTML(b,i){
     </div>`:''}
   </div>`:'';
 
-  return `<div class="book-card${isList?' list-mode':''}${isToday?' updates-today':''}" data-id="${b.id}" style="animation-delay:${i*.04}s">
+  return `<div class="book-card${isList?' list-mode':''}${isToday?' updates-today':''}${STATE[b.id]._collapsed?' card-collapsed':''}" data-id="${b.id}" style="animation-delay:${i*.04}s">
     ${isToday?`<span class="today-tag">🌸 Hoy</span>`:''}
     <div class="card-actions">
+      ${sDetail?`<button class="delete-btn" onclick="openDetailModal(${b.id})" title="Ver detalles">👁️</button>`:''}
       <button class="delete-btn" onclick="openEditModal(${b.id})" title="Editar">✏️</button>
       <button class="delete-btn" onclick="deleteBook(${b.id})" title="Eliminar">🗑️</button>
     </div>
-    ${st.cover
+    ${sCover?(st.cover
       ?`<img class="card-cover" src="${st.cover}" alt="portada" onclick="openEditModal(${b.id})">`
-      :`<div class="cover-placeholder" onclick="openEditModal(${b.id})"><span>🖼️</span><p>Toca para añadir portada</p></div>`}
+      :`<div class="cover-placeholder" onclick="openEditModal(${b.id})"><span>🖼️</span><p>Toca para añadir portada</p></div>`):''}
     <div class="card-top">
       <span class="card-num">#${num}</span>
       <div style="flex:1;min-width:0;">
@@ -1462,28 +1522,109 @@ function buildCardHTML(b,i){
       </div>
     </div>
     <div class="status-row">${statusBtns}</div>
-    ${sE?`<div class="emission-section"><div class="card-divider"></div><div class="section-title">Emisión</div><div class="emission-row">${emitBtns}</div></div>`:''}
-    ${scheduleHtml}
-    ${chapHtml}
     ${sR?`<div class="stars-section"><div class="card-divider"></div><div class="stars-label">Puntuación</div><div class="stars-row">${stars}</div></div>`:''}
-    ${st.status==='read'?`<div class="synopsis-section">
-      <div class="card-divider"></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.28rem;">
-        <span class="stars-label" style="margin:0">Mi reseña</span>
-        <button class="schedule-edit-btn" onclick="openReviewModal(${b.id})">✏️ ${st.synopsis?'Editar':'Añadir'}</button>
-      </div>
-      ${st.synopsis?`<p>${st.synopsis}</p>`:`<p style="font-size:.73rem;color:var(--text3);font-style:italic;">Sin reseña aún</p>`}
-      <div style="display:flex;align-items:center;gap:.45rem;margin-top:.35rem;flex-wrap:wrap;">
-        <span style="font-size:.66rem;color:var(--text3);">📅 Terminado el</span>
-        <input type="date" value="${st.finishDate?new Date(st.finishDate).toISOString().slice(0,10):''}"
-          onchange="setFinishDate(${b.id},this.value)"
-          style="font-size:.68rem;border:1px solid var(--border);border-radius:7px;padding:.15rem .45rem;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;">
-      </div>
-    </div>`:''}
+    ${sSch&&isLocked?`<div class="schedule-display" style="font-size:.72rem;color:var(--p4);">${dispText}</div>`:''}
+    <div class="card-expandable"${STATE[b.id]._collapsed?' style="display:none"':''}>
+      ${sE?`<div class="emission-section"><div class="card-divider"></div><div class="section-title">Emisión</div><div class="emission-row">${emitBtns}</div></div>`:''}
+      ${scheduleHtml}
+      ${chapHtml}
+      ${sSinopsis&&st.sinopsis?`<div class="synopsis-section"><div class="card-divider"></div><div class="stars-label">Sinopsis</div><p style="font-size:.76rem;color:var(--text2);font-style:italic;line-height:1.5;">${st.sinopsis}</p></div>`:''}
+      ${sSyn&&st.status==='read'?`<div class="synopsis-section">
+        <div class="card-divider"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.28rem;">
+          <span class="stars-label" style="margin:0">Mi reseña</span>
+          <button class="schedule-edit-btn" onclick="openReviewModal(${b.id})">✏️ ${st.synopsis?'Editar':'Añadir'}</button>
+        </div>
+        ${st.synopsis?`<p>${st.synopsis}</p>`:`<p style="font-size:.73rem;color:var(--text3);font-style:italic;">Sin reseña aún</p>`}
+        <div style="display:flex;align-items:center;gap:.45rem;margin-top:.35rem;flex-wrap:wrap;">
+          <span style="font-size:.66rem;color:var(--text3);">📅 Terminado el</span>
+          <input type="date" value="${st.finishDate?new Date(st.finishDate).toISOString().slice(0,10):''}"
+            onchange="setFinishDate(${b.id},this.value)"
+            style="font-size:.68rem;border:1px solid var(--border);border-radius:7px;padding:.15rem .45rem;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;">
+        </div>
+      </div>`:''}
+    </div>
   </div>`;
 }
 
-// ══ RENDER ══
+// ══ DETAIL MODAL ══
+function openDetailModal(id){
+  const b=BOOKS.find(x=>x.id===id);if(!b)return;
+  const st=STATE[id];
+  const typeMap={manga:{icon:'📕',label:'Manga',cls:'type-manga'},manhwa:{icon:'📗',label:'Manhwa',cls:'type-manhwa'},novel:{icon:'📘',label:'Novela',cls:'type-novel'}};
+  const ti=typeMap[st.type||'manhwa'];
+  const sL={unread:'TBR',reading:'Leyendo',read:'Leído',paused:'Pausado'};
+  const eL={ongoing:'🟠 En curso',finished:'✅ Finalizado',hiatus:'⏸ En hiato',announced:'📢 Por anunciar'};
+  const stars=[1,2,3,4,5].map(n=>`<span style="font-size:1.1rem;color:${n<=st.rating?'#f59e0b':'var(--border)'}">★</span>`).join('');
+  const pct=st.chapTotal>0?Math.min(100,Math.round(st.chapCur/st.chapTotal*100)):0;
+  const dispText=scheduleDisplay(st);
+  const statusColors={unread:'var(--p4)',reading:'#f59e0b',read:'#34d399',paused:'#60a5fa'};
+  document.getElementById('detailTitle').textContent=b.title;
+  document.getElementById('detailBody').innerHTML=`
+    ${st.cover?`<img src="${st.cover}" style="width:100%;max-height:220px;object-fit:cover;border-radius:11px;margin-bottom:1rem;">`:''}
+    <div style="display:flex;flex-direction:column;gap:.7rem;font-size:.83rem;color:var(--text);">
+      <div style="display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;">
+        <span class="type-badge ${ti.cls}">${ti.icon} ${ti.label}</span>
+        ${b.priority?`<span class="priority-badge">⭐ Prioridad</span>`:''}
+        <span style="padding:.14rem .6rem;border-radius:20px;border:1.5px solid;font-size:.74rem;font-weight:600;
+          color:${statusColors[st.status]||'var(--p4)'};border-color:${statusColors[st.status]||'var(--p4)'};">
+          ${sL[st.status]||st.status}
+        </span>
+      </div>
+
+      ${st.author?`<div style="display:flex;gap:.4rem;align-items:center;"><span style="color:var(--text3);min-width:70px;">✍️ Autor</span><span>${st.author}</span></div>`:''}
+      ${st.genre?`<div style="display:flex;gap:.4rem;align-items:center;"><span style="color:var(--text3);min-width:70px;">🏷️ Género</span><span>${st.genre}</span></div>`:''}
+      ${st.emission?`<div style="display:flex;gap:.4rem;align-items:center;"><span style="color:var(--text3);min-width:70px;">📡 Emisión</span><span>${eL[st.emission]||st.emission}</span></div>`:''}
+      ${dispText?`<div style="display:flex;gap:.4rem;align-items:center;"><span style="color:var(--text3);min-width:70px;">📅 Días</span><span>${dispText}</span></div>`:''}
+
+      ${st.chapTotal>0||st.chapCur>0?`
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
+            <span style="color:var(--text3);">📊 Progreso de capítulos</span>
+            <span style="font-weight:600;">${st.chapCur}/${st.chapTotal||'?'} · ${pct}%</span>
+          </div>
+          <div style="height:9px;border-radius:20px;background:var(--progress-track);overflow:hidden;">
+            <div style="height:100%;border-radius:20px;background:linear-gradient(90deg,var(--p3),var(--p4));width:${pct}%"></div>
+          </div>
+        </div>`:''}
+
+      ${st.extraTotal>0||st.extraCur>0?`
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
+            <span style="color:var(--text3);">✨ Capítulos extra</span>
+            <span>${st.extraCur||0}/${st.extraTotal||'?'}</span>
+          </div>
+        </div>`:''}
+
+      <div style="display:flex;gap:.4rem;align-items:center;">
+        <span style="color:var(--text3);min-width:70px;">⭐ Puntuación</span>
+        <span>${stars}</span>
+      </div>
+
+      ${st.finishDate?`<div style="display:flex;gap:.4rem;align-items:center;"><span style="color:var(--text3);min-width:70px;">✅ Terminado</span><span>${new Date(st.finishDate).toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'})}</span></div>`:''}
+
+      ${st.sinopsis?`
+        <div style="background:var(--p0);border:1px solid var(--border);border-radius:11px;padding:.7rem .8rem;">
+          <div style="font-size:.7rem;font-weight:600;color:var(--p4);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.05em;">💬 Sinopsis</div>
+          <p style="font-style:italic;line-height:1.6;color:var(--text2);margin:0;font-size:.81rem;">${st.sinopsis}</p>
+        </div>`:''}
+
+      ${st.synopsis?`
+        <div style="background:var(--p0);border:1px solid var(--border);border-radius:11px;padding:.7rem .8rem;">
+          <div style="font-size:.7rem;font-weight:600;color:var(--p4);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.05em;">📝 Mi reseña</div>
+          <p style="line-height:1.6;color:var(--text2);margin:0;font-size:.81rem;">${st.synopsis}</p>
+        </div>`:''}
+
+      ${st.url?`<a href="${st.url}" target="_blank" rel="noopener" class="card-link" style="width:fit-content;" onclick="event.stopPropagation()">🔗 Ir a leer</a>`:''}
+    </div>`;
+  document.getElementById('detailOverlay').classList.add('open');
+}
+function closeDetailModal(){document.getElementById('detailOverlay').classList.remove('open');}
+function closeDetailOnOverlay(e){if(e.target===document.getElementById('detailOverlay'))closeDetailModal();}
+function toggleCollapse(id){
+  STATE[id]._collapsed=!STATE[id]._collapsed;
+  renderOneCard(id);
+}
 function render(){
   updateStats();
   const q=document.getElementById('searchInput').value.toLowerCase();
@@ -1786,7 +1927,47 @@ function deleteFromEdit(){
   saveBooks();save();closeEditModal();renderTodayBanner();render();
 }
 
-// ══ BACKUP ══
+// ══ BULK IMPORT ══
+let bulkTarget='manga';
+function setBulkTarget(t,btn){
+  bulkTarget=t;
+  document.querySelectorAll('.bulk-target-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function updateBulkPreview(){
+  const lines=getBulkLines();
+  const el=document.getElementById('bulkPreview');
+  if(!el)return;
+  el.textContent=lines.length>0?`${lines.length} título${lines.length!==1?'s':''} detectado${lines.length!==1?'s':''}`:'';}
+function getBulkLines(){
+  const val=document.getElementById('bulkInput')?.value||'';
+  return val.split('\n').map(l=>l.trim()).filter(l=>l.length>0);
+}
+function confirmBulkImport(){
+  const lines=getBulkLines();
+  if(!lines.length){showToast('✏️ Escribe al menos un título');return;}
+  let added=0;
+  if(bulkTarget==='manga'){
+    lines.forEach(title=>{
+      const newId=Date.now()+Math.floor(Math.random()*99999)+added;
+      BOOKS.push({id:newId,title,addedAt:new Date().toISOString()});
+      STATE[newId]=defaultEntry();
+      added++;
+    });
+    saveBooks();save();renderTodayBanner();render();
+  } else {
+    lines.forEach(title=>{
+      const newId=Date.now()+Math.floor(Math.random()*99999)+added;
+      BOOKS_LIB.push({id:newId,title,addedAt:new Date().toISOString()});
+      BOOKS_STATE[newId]=defaultBookEntry();
+      added++;
+    });
+    saveBooksLib();saveBooksState();
+  }
+  document.getElementById('bulkInput').value='';
+  document.getElementById('bulkPreview').textContent='';
+  showToast(`🌸 ${added} título${added!==1?'s':''} agregado${added!==1?'s':''} a ${bulkTarget==='manga'?'Manga':'Libros'}`);
+}
 function exportBackup(){
   const data={version:2,exportedAt:new Date().toISOString(),books:BOOKS,state:STATE,booksLib:BOOKS_LIB,booksState:BOOKS_STATE};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
@@ -2114,14 +2295,23 @@ function loadSavedPalette(){applyPalette(localStorage.getItem('tbr-palette')||'r
 // ══ FIELD PREFS ══
 function loadFieldPrefs(){
   const prefs=JSON.parse(localStorage.getItem('tbr-field-prefs')||'{}');
-  ['author','genre','progress','rating','emission','schedule','extras'].forEach(f=>{const el=document.getElementById(`tog-${f}`);if(el)el.checked=prefs[f]!==false;});
+  ['cover','author','genre','progress','rating','emission','schedule','extras','synopsis','sinopsis'].forEach(f=>{
+    const el=document.getElementById(`tog-${f}`);if(el)el.checked=prefs[f]!==false;
+  });
+  const detEl=document.getElementById('tog-detail');if(detEl)detEl.checked=prefs['detail']===true;
 }
 function saveFieldPrefs(){
   const prefs={};
-  ['author','genre','progress','rating','emission','schedule','extras'].forEach(f=>{const el=document.getElementById(`tog-${f}`);if(el)prefs[f]=el.checked;});
+  ['cover','author','genre','progress','rating','emission','schedule','extras','synopsis','sinopsis','detail'].forEach(f=>{
+    const el=document.getElementById(`tog-${f}`);if(el)prefs[f]=el.checked;
+  });
   localStorage.setItem('tbr-field-prefs',JSON.stringify(prefs));render();
 }
-function getFieldPref(f){const prefs=JSON.parse(localStorage.getItem('tbr-field-prefs')||'{}');return prefs[f]!==false;}
+function getFieldPref(f){
+  const prefs=JSON.parse(localStorage.getItem('tbr-field-prefs')||'{}');
+  if(f==='detail'||f==='collapse') return prefs[f]===true;
+  return prefs[f]!==false;
+}
 
 // ══ PDF MODAL ══
 function togglePdfOpt(el){el.classList.toggle('active');}
