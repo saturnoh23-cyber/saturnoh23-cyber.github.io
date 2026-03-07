@@ -871,7 +871,7 @@ header .sub{font-size:.7rem;color:var(--text3);font-style:italic;}
               <div class="filter-dropdown-item" onclick="setFilterDrop('recent','Recién añadidos',this)">🆕 Recién añadidos</div>
               <div class="filter-dropdown-divider"></div>
               <div class="filter-dropdown-item" onclick="setFilterDrop('emit-ongoing','En emisión',this)">🟠 En emisión</div>
-              <div class="filter-dropdown-item" onclick="setFilterDrop('emit-hiatus','En hiato',this)">⏸ En hiato</div>
+              <div class="filter-dropdown-item" onclick="setFilterDrop('emit-hiatus','En hiatus',this)">⏸ En hiatus</div>
               <div class="filter-dropdown-divider"></div>
               <div class="filter-dropdown-item" onclick="setFilterDrop('type-manga','Manga',this)">📕 Manga</div>
               <div class="filter-dropdown-item" onclick="setFilterDrop('type-manhwa','Manhwa',this)">📗 Manhwa</div>
@@ -1250,13 +1250,13 @@ const STATUSES=[
 const EMISSIONS=[
   {key:'ongoing',label:'En curso',cls:'e-ongoing',icon:'🟠'},
   {key:'finished',label:'Finalizado',cls:'e-finished',icon:'✅'},
-  {key:'hiatus',label:'En hiato',cls:'e-hiatus',icon:'⏸'},
+  {key:'hiatus',label:'En hiatus',cls:'e-hiatus',icon:'⏸'},
   {key:'announced',label:'Por anunciar',cls:'e-announced',icon:'📢'},
 ];
 const WEEK_DAYS=['Lu','Ma','Mi','Ju','Vi','Sá','Do'];
 const MONTH_DATES=Array.from({length:31},(_,i)=>i+1);
 
-function defaultEntry(){return{status:'unread',rating:0,chapCur:0,chapTotal:0,extraCur:0,extraTotal:0,emission:'',freq:'week',updateDays:[],type:'manhwa',url:'',cover:'',author:'',genre:'',synopsis:'',sinopsis:'',scheduleLocked:false,finishDate:null,_collapsed:false};}
+function defaultEntry(){return{status:'unread',rating:0,chapCur:0,chapTotal:0,extraCur:0,extraTotal:0,emission:'',freq:'week',updateDays:[],type:'manhwa',url:'',cover:'',author:'',genre:'',synopsis:'',sinopsis:'',scheduleLocked:false,finishDate:null,hiatusReturn:null,_collapsed:false};}
 function loadState(){
   try{
     const s=JSON.parse(localStorage.getItem('tbr-manga-v5')||'{}');
@@ -1293,6 +1293,13 @@ const TODAY_DATE=NOW.getDate();
 
 function updatesToday(st){
   if(!st.updateDays||!st.updateDays.length)return false;
+  // If in hiatus, only show updates if return date has arrived
+  if(st.emission==='hiatus'){
+    if(!st.hiatusReturn)return false;
+    const ret=new Date(st.hiatusReturn);ret.setHours(0,0,0,0);
+    const tod=new Date();tod.setHours(0,0,0,0);
+    if(tod<ret)return false;
+  }
   if(st.freq==='week') return st.updateDays.includes(TODAY_WEEKDAY);
   return st.updateDays.map(Number).includes(TODAY_DATE);
 }
@@ -1310,7 +1317,7 @@ function dismissToday(id){
 
 function renderTodayBanner(){
   const dismissed=getDismissedToday();
-  const items=BOOKS.filter(b=>STATE[b.id].emission==='ongoing'&&updatesToday(STATE[b.id])&&!dismissed.includes(b.id));
+  const items=BOOKS.filter(b=>{const st=STATE[b.id];return (st.emission==='ongoing'||st.emission==='hiatus')&&updatesToday(st)&&!dismissed.includes(b.id);});
   const badge=document.getElementById('todayCount');
   const btn=document.getElementById('todayTabBtn');
   if(badge) badge.textContent=items.length;
@@ -1388,7 +1395,7 @@ function updateStats(){
     {key:'read',e:'✅',l:'Leídos',col:'#86efac'},
     {key:'paused',e:'⏸',l:'Pausados',col:'#93c5fd'},
     {key:'ongoing',e:'🟠',l:'En emisión',col:'#fb923c',fk:'emit-ongoing'},
-    {key:'hiatus',e:'⏸',l:'En hiato',col:'#d8b4fe',fk:'emit-hiatus'},
+    {key:'hiatus',e:'⏸',l:'En hiatus',col:'#d8b4fe',fk:'emit-hiatus'},
   ];
   document.getElementById('statsRow').innerHTML=cfg.map(x=>
     `<div class="stat-pill" onclick="setFilterDrop('${x.fk||x.key}','${x.l}',null)">
@@ -1442,7 +1449,7 @@ function buildCardHTML(b,i){
   const isList=view==='list';
   const pct=st.chapTotal>0?Math.min(100,Math.round(st.chapCur/st.chapTotal*100)):0;
   const showChap=st.status==='reading'||st.status==='paused'||st.chapCur>0||st.chapTotal>0;
-  const isToday=st.emission==='ongoing'&&updatesToday(st);
+  const isToday=(st.emission==='ongoing'||st.emission==='hiatus')&&updatesToday(st);
   const isWeek=st.freq!=='month';
   const extraPct=st.extraTotal>0?Math.min(100,Math.round((st.extraCur||0)/st.extraTotal*100)):0;
 
@@ -1461,7 +1468,8 @@ function buildCardHTML(b,i){
   const isLocked=st.scheduleLocked&&st.updateDays&&st.updateDays.length>0;
   const dispText=scheduleDisplay(st);
 
-  const scheduleHtml=sSch?`<div class="schedule-section">
+  const hideSchedule=st.status==='read'||st.emission==='finished';
+  const scheduleHtml=sSch&&!hideSchedule?`<div class="schedule-section">
     <div class="card-divider"></div>
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.25rem;margin-bottom:.3rem;">
       <span class="section-title" style="margin:0">Días de actualización</span>
@@ -1523,9 +1531,9 @@ function buildCardHTML(b,i){
     </div>
     <div class="status-row">${statusBtns}</div>
     ${sR?`<div class="stars-section"><div class="card-divider"></div><div class="stars-label">Puntuación</div><div class="stars-row">${stars}</div></div>`:''}
-    ${sSch&&isLocked?`<div class="schedule-display" style="font-size:.72rem;color:var(--p4);">${dispText}</div>`:''}
+    ${sSch&&isLocked&&!hideSchedule?`<div class="schedule-display" style="font-size:.72rem;color:var(--p4);">${dispText}</div>`:''}
     <div class="card-expandable"${STATE[b.id]._collapsed?' style="display:none"':''}>
-      ${sE?`<div class="emission-section"><div class="card-divider"></div><div class="section-title">Emisión</div><div class="emission-row">${emitBtns}</div></div>`:''}
+      ${sE?`<div class="emission-section"><div class="card-divider"></div><div class="section-title">Emisión</div><div class="emission-row">${emitBtns}</div>${st.emission==='hiatus'?`<div style="display:flex;align-items:center;gap:.4rem;margin-top:.4rem;flex-wrap:wrap;"><span style="font-size:.7rem;color:var(--text3);">⏰ Regresa el</span><input type="date" value="${st.hiatusReturn?new Date(st.hiatusReturn).toISOString().slice(0,10):''}" onchange="STATE[${b.id}].hiatusReturn=this.value?new Date(this.value).getTime():null;save();renderOneCard(${b.id})" style="font-size:.7rem;border:1px solid var(--border);border-radius:7px;padding:.15rem .45rem;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;">${st.hiatusReturn?`<span style="font-size:.68rem;color:var(--p4);">${new Date(st.hiatusReturn).toLocaleDateString('es-ES',{day:'numeric',month:'short',year:'numeric'})}</span>`:''}</div>`:''}</div>`:''}
       ${scheduleHtml}
       ${chapHtml}
       ${sSinopsis&&st.sinopsis?`<div class="synopsis-section"><div class="card-divider"></div><div class="stars-label">Sinopsis</div><p style="font-size:.76rem;color:var(--text2);font-style:italic;line-height:1.5;">${st.sinopsis}</p></div>`:''}
@@ -1548,78 +1556,107 @@ function buildCardHTML(b,i){
 }
 
 // ══ DETAIL MODAL ══
+let _detailId=null;
 function openDetailModal(id){
+  _detailId=id;
+  refreshDetailModal();
+  document.getElementById('detailOverlay').classList.add('open');
+}
+function refreshDetailModal(){
+  const id=_detailId;
   const b=BOOKS.find(x=>x.id===id);if(!b)return;
   const st=STATE[id];
   const typeMap={manga:{icon:'📕',label:'Manga',cls:'type-manga'},manhwa:{icon:'📗',label:'Manhwa',cls:'type-manhwa'},novel:{icon:'📘',label:'Novela',cls:'type-novel'}};
   const ti=typeMap[st.type||'manhwa'];
-  const sL={unread:'TBR',reading:'Leyendo',read:'Leído',paused:'Pausado'};
-  const eL={ongoing:'🟠 En curso',finished:'✅ Finalizado',hiatus:'⏸ En hiato',announced:'📢 Por anunciar'};
-  const stars=[1,2,3,4,5].map(n=>`<span style="font-size:1.1rem;color:${n<=st.rating?'#f59e0b':'var(--border)'}">★</span>`).join('');
   const pct=st.chapTotal>0?Math.min(100,Math.round(st.chapCur/st.chapTotal*100)):0;
+  const statusBtns=STATUSES.map(s=>`<button class="status-btn ${s.cls}${st.status===s.key?' active':''}" onclick="setStatus(${id},'${s.key}');refreshDetailModal()">${s.label}</button>`).join('');
+  const emitBtns=EMISSIONS.map(e=>`<button class="emit-btn ${e.cls}${st.emission===e.key?' active':''}" onclick="setEmission(${id},'${e.key}');refreshDetailModal()">${e.icon} ${e.label}</button>`).join('');
+  const stars=[1,2,3,4,5].map(n=>`<span onclick="setRating(${id},${n});refreshDetailModal()" style="font-size:1.4rem;cursor:pointer;color:${n<=st.rating?'#f59e0b':'var(--border)'};">★</span>`).join('');
   const dispText=scheduleDisplay(st);
-  const statusColors={unread:'var(--p4)',reading:'#f59e0b',read:'#34d399',paused:'#60a5fa'};
   document.getElementById('detailTitle').textContent=b.title;
   document.getElementById('detailBody').innerHTML=`
     ${st.cover?`<img src="${st.cover}" style="width:100%;max-height:220px;object-fit:cover;border-radius:11px;margin-bottom:1rem;">`:''}
-    <div style="display:flex;flex-direction:column;gap:.7rem;font-size:.83rem;color:var(--text);">
+    <div style="display:flex;flex-direction:column;gap:.85rem;font-size:.83rem;color:var(--text);">
+
       <div style="display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;">
         <span class="type-badge ${ti.cls}">${ti.icon} ${ti.label}</span>
         ${b.priority?`<span class="priority-badge">⭐ Prioridad</span>`:''}
-        <span style="padding:.14rem .6rem;border-radius:20px;border:1.5px solid;font-size:.74rem;font-weight:600;
-          color:${statusColors[st.status]||'var(--p4)'};border-color:${statusColors[st.status]||'var(--p4)'};">
-          ${sL[st.status]||st.status}
-        </span>
+        ${st.author?`<span style="font-size:.72rem;color:var(--text3);">✍️ ${st.author}</span>`:''}
+        ${st.genre?`<span class="genre-badge">🏷️ ${st.genre}</span>`:''}
       </div>
 
-      ${st.author?`<div style="display:flex;gap:.4rem;align-items:center;"><span style="color:var(--text3);min-width:70px;">✍️ Autor</span><span>${st.author}</span></div>`:''}
-      ${st.genre?`<div style="display:flex;gap:.4rem;align-items:center;"><span style="color:var(--text3);min-width:70px;">🏷️ Género</span><span>${st.genre}</span></div>`:''}
-      ${st.emission?`<div style="display:flex;gap:.4rem;align-items:center;"><span style="color:var(--text3);min-width:70px;">📡 Emisión</span><span>${eL[st.emission]||st.emission}</span></div>`:''}
-      ${dispText?`<div style="display:flex;gap:.4rem;align-items:center;"><span style="color:var(--text3);min-width:70px;">📅 Días</span><span>${dispText}</span></div>`:''}
-
-      ${st.chapTotal>0||st.chapCur>0?`
-        <div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
-            <span style="color:var(--text3);">📊 Progreso de capítulos</span>
-            <span style="font-weight:600;">${st.chapCur}/${st.chapTotal||'?'} · ${pct}%</span>
-          </div>
-          <div style="height:9px;border-radius:20px;background:var(--progress-track);overflow:hidden;">
-            <div style="height:100%;border-radius:20px;background:linear-gradient(90deg,var(--p3),var(--p4));width:${pct}%"></div>
-          </div>
-        </div>`:''}
-
-      ${st.extraTotal>0||st.extraCur>0?`
-        <div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
-            <span style="color:var(--text3);">✨ Capítulos extra</span>
-            <span>${st.extraCur||0}/${st.extraTotal||'?'}</span>
-          </div>
-        </div>`:''}
-
-      <div style="display:flex;gap:.4rem;align-items:center;">
-        <span style="color:var(--text3);min-width:70px;">⭐ Puntuación</span>
-        <span>${stars}</span>
+      <div>
+        <div style="font-size:.68rem;color:var(--text3);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.05em;">Estado</div>
+        <div class="status-row">${statusBtns}</div>
       </div>
 
-      ${st.finishDate?`<div style="display:flex;gap:.4rem;align-items:center;"><span style="color:var(--text3);min-width:70px;">✅ Terminado</span><span>${new Date(st.finishDate).toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'})}</span></div>`:''}
-
-      ${st.sinopsis?`
-        <div style="background:var(--p0);border:1px solid var(--border);border-radius:11px;padding:.7rem .8rem;">
-          <div style="font-size:.7rem;font-weight:600;color:var(--p4);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.05em;">💬 Sinopsis</div>
-          <p style="font-style:italic;line-height:1.6;color:var(--text2);margin:0;font-size:.81rem;">${st.sinopsis}</p>
+      <div>
+        <div style="font-size:.68rem;color:var(--text3);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.05em;">Emisión</div>
+        <div class="emission-row">${emitBtns}</div>
+        ${st.emission==='hiatus'?`<div style="display:flex;align-items:center;gap:.4rem;margin-top:.5rem;flex-wrap:wrap;">
+          <span style="font-size:.75rem;color:var(--text3);">⏰ Regresa el</span>
+          <input type="date" value="${st.hiatusReturn?new Date(st.hiatusReturn).toISOString().slice(0,10):''}"
+            onchange="STATE[${id}].hiatusReturn=this.value?new Date(this.value).getTime():null;save();refreshDetailModal();"
+            style="font-size:.76rem;border:1.5px solid var(--border);border-radius:9px;padding:.25rem .55rem;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;">
+          ${st.hiatusReturn?`<span style="font-size:.72rem;color:var(--p4);font-weight:600;">${new Date(st.hiatusReturn).toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'})}</span>`:''}
         </div>`:''}
+      </div>
 
-      ${st.synopsis?`
-        <div style="background:var(--p0);border:1px solid var(--border);border-radius:11px;padding:.7rem .8rem;">
-          <div style="font-size:.7rem;font-weight:600;color:var(--p4);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.05em;">📝 Mi reseña</div>
-          <p style="line-height:1.6;color:var(--text2);margin:0;font-size:.81rem;">${st.synopsis}</p>
-        </div>`:''}
+      <div>
+        <div style="font-size:.68rem;color:var(--text3);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.05em;">⭐ Puntuación</div>
+        <div>${stars}</div>
+      </div>
 
-      ${st.url?`<a href="${st.url}" target="_blank" rel="noopener" class="card-link" style="width:fit-content;" onclick="event.stopPropagation()">🔗 Ir a leer</a>`:''}
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
+          <span style="font-size:.68rem;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;">📊 Capítulos</span>
+          <span style="font-size:.72rem;font-weight:600;">${pct}%</span>
+        </div>
+        <div style="height:8px;border-radius:20px;background:var(--progress-track);overflow:hidden;margin-bottom:.45rem;">
+          <div style="height:100%;border-radius:20px;background:linear-gradient(90deg,var(--p3),var(--p4));width:${pct}%"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;">
+          <input class="chapter-inp" type="number" min="0" value="${st.chapCur}" onchange="setChap(${id},'chapCur',this.value);refreshDetailModal()" placeholder="Leídos" style="width:60px;">
+          <span>/</span>
+          <input class="chapter-inp" type="number" min="0" value="${st.chapTotal||''}" onchange="setChap(${id},'chapTotal',this.value);refreshDetailModal()" placeholder="Total" style="width:60px;">
+          <span style="font-size:.72rem;color:var(--text3);">caps.</span>
+          ${st.status==='reading'?`<button class="chap-plus" onclick="addChap(${id});refreshDetailModal()">+</button>`:''}
+        </div>
+      </div>
+
+      ${st.status==='read'?`<div>
+        <div style="font-size:.68rem;color:var(--text3);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.05em;">✅ Fecha de finalización</div>
+        <input type="date" value="${st.finishDate?new Date(st.finishDate).toISOString().slice(0,10):''}"
+          onchange="setFinishDate(${id},this.value)"
+          style="font-size:.78rem;border:1px solid var(--border);border-radius:9px;padding:.3rem .6rem;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;">
+      </div>`:''}
+
+      ${dispText&&st.status!=='read'&&st.emission!=='finished'?`<div style="font-size:.78rem;color:var(--p4);">📅 ${dispText}</div>`:''}
+
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.3rem;">
+          <span style="font-size:.68rem;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;">💬 Sinopsis</span>
+        </div>
+        <textarea placeholder="Escribe la sinopsis…" onchange="STATE[${id}].sinopsis=this.value;save();"
+          style="width:100%;min-height:70px;padding:.45rem .6rem;border:1.5px solid var(--border);border-radius:9px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.78rem;resize:vertical;outline:none;box-sizing:border-box;font-style:italic;"
+          onfocus="this.style.borderColor='var(--p3)'" onblur="this.style.borderColor='var(--border)'">${st.sinopsis||''}</textarea>
+      </div>
+
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.3rem;">
+          <span style="font-size:.68rem;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;">📝 Mi reseña</span>
+        </div>
+        <textarea placeholder="Escribe tu reseña…" onchange="STATE[${id}].synopsis=this.value;save();"
+          style="width:100%;min-height:70px;padding:.45rem .6rem;border:1.5px solid var(--border);border-radius:9px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.78rem;resize:vertical;outline:none;box-sizing:border-box;"
+          onfocus="this.style.borderColor='var(--p3)'" onblur="this.style.borderColor='var(--border)'">${st.synopsis||''}</textarea>
+      </div>
+
+      ${st.url?`<a href="${st.url}" target="_blank" rel="noopener" class="card-link" style="width:fit-content;">🔗 Ir a leer</a>`:''}
+
+      <button onclick="renderOneCard(${id});" style="width:100%;padding:.5rem;border-radius:11px;border:1.5px solid var(--p2);background:var(--p1);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;">✅ Guardar cambios</button>
     </div>`;
-  document.getElementById('detailOverlay').classList.add('open');
 }
-function closeDetailModal(){document.getElementById('detailOverlay').classList.remove('open');}
+function closeDetailModal(){document.getElementById('detailOverlay').classList.remove('open');_detailId=null;}
 function closeDetailOnOverlay(e){if(e.target===document.getElementById('detailOverlay'))closeDetailModal();}
 function toggleCollapse(id){
   STATE[id]._collapsed=!STATE[id]._collapsed;
