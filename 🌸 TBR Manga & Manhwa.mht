@@ -1,0 +1,1982 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: https://saturnoh23-cyber.github.io/index.html
+Subject: =?utf-8?Q?=F0=9F=8C=B8=20TBR=20Manga=20&=20Manhwa?=
+Date: Fri, 6 Mar 2026 17:55:54 -0800
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--EeXRwB3hEx4FBgnNnf0skB6fVcxrPEmhOanMeZ57mu----"
+
+
+------MultipartBoundary--EeXRwB3hEx4FBgnNnf0skB6fVcxrPEmhOanMeZ57mu----
+Content-Type: text/html
+Content-ID: <frame-61E193EFA698F2A9901328521F12C6FD@mhtml.blink>
+Content-Transfer-Encoding: binary
+Content-Location: https://saturnoh23-cyber.github.io/index.html
+
+<!DOCTYPE html><html lang="es" data-theme="light"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="stylesheet" type="text/css" href="cid:css-9d198caf-6e44-441a-8964-33c539287fa3@mhtml.blink" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ff8fab">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="TBR Manga">
+<meta name="description" content="Mi lista de lectura de manga, manhwa y novelas">
+<link rel="manifest" href="https://saturnoh23-cyber.github.io/manifest.json">
+<link rel="apple-touch-icon" href="https://saturnoh23-cyber.github.io/icon-192.png">
+<title>🌸 TBR Manga &amp; Manhwa</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&amp;display=swap" rel="stylesheet">
+
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <button class="theme-toggle" id="themeBtn">🌙</button>
+    <div style="font-size:1.7rem;margin-bottom:.35rem;">🌸</div>
+    <h1>TBR Manga &amp; Manhwa</h1>
+    <p class="sub">mi lista de lectura pendiente</p>
+    <div class="stats-row" id="statsRow"><div class="stat-pill"><span class="stat-dot" style="background:#c4b5fd"></span>📖 20 Sin leer</div><div class="stat-pill"><span class="stat-dot" style="background:#fcd34d"></span>✨ 0 Leyendo</div><div class="stat-pill"><span class="stat-dot" style="background:#86efac"></span>✅ 0 Leídos</div><div class="stat-pill"><span class="stat-dot" style="background:#93c5fd"></span>⏸ 0 Pausados</div><div class="stat-pill"><span class="stat-dot" style="background:#fb923c"></span>🟠 0 En emisión</div><div class="stat-pill"><span class="stat-dot" style="background:#d8b4fe"></span>⏸ 0 En hiato</div></div>
+  </header>
+
+  <!-- Today alert modal -->
+  <div class="alert-overlay" id="alertOverlay">
+    <div class="alert-modal">
+      <h2>🌸 ¡Actualizan hoy!</h2>
+      <p class="alert-sub">Estos mangas tienen nuevo capítulo disponible</p>
+      <div id="alertList"></div>
+      <button class="alert-close">¡Genial, a leer! 📖</button>
+    </div>
+  </div>
+
+  <!-- Today's updates panel -->
+  <div class="today-panel" id="todayPanel">
+    <div class="today-panel-header">
+      <span class="today-panel-title">📅 Actualizan hoy</span>
+      <span class="today-panel-date" id="todayPanelDate">viernes, 6 de marzo de 2026</span>
+      <button class="today-panel-close">✕</button>
+    </div>
+    <div id="todayList"><div class="today-empty">No hay actualizaciones programadas para hoy 🌸</div></div>
+  </div>
+
+  <!-- MAIN TABS -->
+  <div class="main-tabs">
+    <button class="main-tab active" id="tabManga">📚 Manga &amp; Manhwa</button>
+    <button class="main-tab" id="tabBooks">📖 Libros</button>
+    <button class="main-tab" id="tabSettings">⚙️ Datos</button>
+  </div>
+
+  <!-- MANGA TAB -->
+  <div class="tab-section active" id="sectionManga">
+  <div class="toolbar">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Buscar título…">
+    </div>
+    <div class="filter-row">
+      <div class="filter-group">
+        <button class="filter-btn active">Todos</button>
+        <button class="filter-btn">Sin leer</button>
+        <button class="filter-btn">Leyendo</button>
+        <button class="filter-btn">Leído</button>
+        <button class="filter-btn">Pausado</button>
+        <button class="filter-btn">🆕 Recién añadidos</button>
+      </div>
+      <div class="filter-sep"></div>
+      <div class="filter-group">
+        <button class="filter-btn">🟠 En emisión</button>
+        <button class="filter-btn">⏸ En hiato</button>
+      </div>
+      <div class="filter-sep"></div>
+      <div class="filter-group">
+        <button class="filter-btn">📕 Manga</button>
+        <button class="filter-btn">📗 Manhwa</button>
+        <button class="filter-btn">📘 Novela</button>
+      </div>
+    </div>
+    <div class="view-btns">
+      <button class="view-btn active" id="gridBtn" title="Cuadrícula">▦</button>
+      <button class="view-btn" id="listBtn" title="Lista">☰</button>
+    </div>
+    <button class="raffle-btn">🎲 Sortéame uno</button>
+    <button class="add-btn">➕ Añadir</button>
+    <button class="add-btn" style="border-color:#f0c0d0;color:#c04060;">📄 Exportar PDF</button>
+    <button class="today-tab-btn" id="todayTabBtn">
+      📅 Hoy <span class="today-badge" id="todayCount">0</span>
+    </button>
+  </div>
+  <div id="bookGrid" class=""><div class="book-card" style="animation-delay:0s">
+      
+      <div style="position:absolute;bottom:.7rem;right:.7rem;display:flex;gap:.3rem;opacity:0;transition:opacity .18s;" class="card-actions">
+        <button class="delete-btn" style="position:static;opacity:1;" title="Editar">✏️</button>
+        <button class="delete-btn" style="position:static;opacity:1;" title="Eliminar">🗑️</button>
+      </div>
+      <div class="cover-placeholder">
+             <span>🖼️</span>
+             <p>Toca para añadir portada</p>
+           </div>
+      <div class="card-top">
+        <span class="card-num">#1</span>
+        <div style="flex:1">
+          <div class="card-title">Sweet No Sugar</div>
+          <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.25rem;">
+            <span class="priority-badge">⭐ Prioridad</span>
+            <span class="type-badge type-manhwa">📗 Manhwa</span>
+          </div>
+          
+        </div>
+      </div>
+      <div class="status-row"><button class="status-btn s-unread active">Sin leer</button><button class="status-btn s-reading">Leyendo</button><button class="status-btn s-read">Leído</button><button class="status-btn s-paused">Pausado</button></div>
+      <div class="emission-section">
+        <div class="card-divider"></div>
+        <div class="section-title">Emisión</div>
+        <div class="emission-row"><button class="emit-btn e-ongoing">🟠 En curso</button><button class="emit-btn e-finished">✅ Finalizado</button><button class="emit-btn e-hiatus">⏸ En hiato</button><button class="emit-btn e-announced">📢 Por anunciar</button></div>
+      </div>
+      <div class="schedule-section">
+      <div class="card-divider"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem;">
+        <span class="section-title" style="margin:0">Días de actualización</span>
+        <div style="display:flex;align-items:center;gap:.35rem;">
+               <div class="freq-toggle">
+                 <button class="freq-btn active">Semanal</button>
+                 <button class="freq-btn">Mensual</button>
+               </div>
+               
+             </div>
+      </div>
+      <div class="days-grid"><span class="day-chip">Lu</span><span class="day-chip">Ma</span><span class="day-chip">Mi</span><span class="day-chip">Ju</span><span class="day-chip today-date">Vi</span><span class="day-chip">Sá</span><span class="day-chip">Do</span></div>
+           
+    </div>
+      
+      <div class="stars-section">
+        <div class="card-divider"></div>
+        <div class="stars-label">Puntuación</div>
+        <div class="stars-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      </div>
+      
+    </div><div class="book-card" style="animation-delay:0.04s">
+      
+      <div style="position:absolute;bottom:.7rem;right:.7rem;display:flex;gap:.3rem;opacity:0;transition:opacity .18s;" class="card-actions">
+        <button class="delete-btn" style="position:static;opacity:1;" title="Editar">✏️</button>
+        <button class="delete-btn" style="position:static;opacity:1;" title="Eliminar">🗑️</button>
+      </div>
+      <div class="cover-placeholder">
+             <span>🖼️</span>
+             <p>Toca para añadir portada</p>
+           </div>
+      <div class="card-top">
+        <span class="card-num">#2</span>
+        <div style="flex:1">
+          <div class="card-title">Our Secret Alliance</div>
+          <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.25rem;">
+            
+            <span class="type-badge type-manhwa">📗 Manhwa</span>
+          </div>
+          
+        </div>
+      </div>
+      <div class="status-row"><button class="status-btn s-unread active">Sin leer</button><button class="status-btn s-reading">Leyendo</button><button class="status-btn s-read">Leído</button><button class="status-btn s-paused">Pausado</button></div>
+      <div class="emission-section">
+        <div class="card-divider"></div>
+        <div class="section-title">Emisión</div>
+        <div class="emission-row"><button class="emit-btn e-ongoing">🟠 En curso</button><button class="emit-btn e-finished">✅ Finalizado</button><button class="emit-btn e-hiatus">⏸ En hiato</button><button class="emit-btn e-announced">📢 Por anunciar</button></div>
+      </div>
+      <div class="schedule-section">
+      <div class="card-divider"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem;">
+        <span class="section-title" style="margin:0">Días de actualización</span>
+        <div style="display:flex;align-items:center;gap:.35rem;">
+               <div class="freq-toggle">
+                 <button class="freq-btn active">Semanal</button>
+                 <button class="freq-btn">Mensual</button>
+               </div>
+               
+             </div>
+      </div>
+      <div class="days-grid"><span class="day-chip">Lu</span><span class="day-chip">Ma</span><span class="day-chip">Mi</span><span class="day-chip">Ju</span><span class="day-chip today-date">Vi</span><span class="day-chip">Sá</span><span class="day-chip">Do</span></div>
+           
+    </div>
+      
+      <div class="stars-section">
+        <div class="card-divider"></div>
+        <div class="stars-label">Puntuación</div>
+        <div class="stars-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      </div>
+      
+    </div><div class="book-card" style="animation-delay:0.08s">
+      
+      <div style="position:absolute;bottom:.7rem;right:.7rem;display:flex;gap:.3rem;opacity:0;transition:opacity .18s;" class="card-actions">
+        <button class="delete-btn" style="position:static;opacity:1;" title="Editar">✏️</button>
+        <button class="delete-btn" style="position:static;opacity:1;" title="Eliminar">🗑️</button>
+      </div>
+      <div class="cover-placeholder">
+             <span>🖼️</span>
+             <p>Toca para añadir portada</p>
+           </div>
+      <div class="card-top">
+        <span class="card-num">#3</span>
+        <div style="flex:1">
+          <div class="card-title">Contrato Matrimonial</div>
+          <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.25rem;">
+            
+            <span class="type-badge type-manhwa">📗 Manhwa</span>
+          </div>
+          
+        </div>
+      </div>
+      <div class="status-row"><button class="status-btn s-unread active">Sin leer</button><button class="status-btn s-reading">Leyendo</button><button class="status-btn s-read">Leído</button><button class="status-btn s-paused">Pausado</button></div>
+      <div class="emission-section">
+        <div class="card-divider"></div>
+        <div class="section-title">Emisión</div>
+        <div class="emission-row"><button class="emit-btn e-ongoing">🟠 En curso</button><button class="emit-btn e-finished">✅ Finalizado</button><button class="emit-btn e-hiatus">⏸ En hiato</button><button class="emit-btn e-announced">📢 Por anunciar</button></div>
+      </div>
+      <div class="schedule-section">
+      <div class="card-divider"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem;">
+        <span class="section-title" style="margin:0">Días de actualización</span>
+        <div style="display:flex;align-items:center;gap:.35rem;">
+               <div class="freq-toggle">
+                 <button class="freq-btn active">Semanal</button>
+                 <button class="freq-btn">Mensual</button>
+               </div>
+               
+             </div>
+      </div>
+      <div class="days-grid"><span class="day-chip">Lu</span><span class="day-chip">Ma</span><span class="day-chip">Mi</span><span class="day-chip">Ju</span><span class="day-chip today-date">Vi</span><span class="day-chip">Sá</span><span class="day-chip">Do</span></div>
+           
+    </div>
+      
+      <div class="stars-section">
+        <div class="card-divider"></div>
+        <div class="stars-label">Puntuación</div>
+        <div class="stars-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      </div>
+      
+    </div><div class="book-card" style="animation-delay:0.12s">
+      
+      <div style="position:absolute;bottom:.7rem;right:.7rem;display:flex;gap:.3rem;opacity:0;transition:opacity .18s;" class="card-actions">
+        <button class="delete-btn" style="position:static;opacity:1;" title="Editar">✏️</button>
+        <button class="delete-btn" style="position:static;opacity:1;" title="Eliminar">🗑️</button>
+      </div>
+      <div class="cover-placeholder">
+             <span>🖼️</span>
+             <p>Toca para añadir portada</p>
+           </div>
+      <div class="card-top">
+        <span class="card-num">#4</span>
+        <div style="flex:1">
+          <div class="card-title">La forma correcta de salvar al pobre omega</div>
+          <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.25rem;">
+            
+            <span class="type-badge type-manhwa">📗 Manhwa</span>
+          </div>
+          
+        </div>
+      </div>
+      <div class="status-row"><button class="status-btn s-unread active">Sin leer</button><button class="status-btn s-reading">Leyendo</button><button class="status-btn s-read">Leído</button><button class="status-btn s-paused">Pausado</button></div>
+      <div class="emission-section">
+        <div class="card-divider"></div>
+        <div class="section-title">Emisión</div>
+        <div class="emission-row"><button class="emit-btn e-ongoing">🟠 En curso</button><button class="emit-btn e-finished">✅ Finalizado</button><button class="emit-btn e-hiatus">⏸ En hiato</button><button class="emit-btn e-announced">📢 Por anunciar</button></div>
+      </div>
+      <div class="schedule-section">
+      <div class="card-divider"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem;">
+        <span class="section-title" style="margin:0">Días de actualización</span>
+        <div style="display:flex;align-items:center;gap:.35rem;">
+               <div class="freq-toggle">
+                 <button class="freq-btn active">Semanal</button>
+                 <button class="freq-btn">Mensual</button>
+               </div>
+               
+             </div>
+      </div>
+      <div class="days-grid"><span class="day-chip">Lu</span><span class="day-chip">Ma</span><span class="day-chip">Mi</span><span class="day-chip">Ju</span><span class="day-chip today-date">Vi</span><span class="day-chip">Sá</span><span class="day-chip">Do</span></div>
+           
+    </div>
+      
+      <div class="stars-section">
+        <div class="card-divider"></div>
+        <div class="stars-label">Puntuación</div>
+        <div class="stars-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      </div>
+      
+    </div><div class="book-card" style="animation-delay:0.16s">
+      
+      <div style="position:absolute;bottom:.7rem;right:.7rem;display:flex;gap:.3rem;opacity:0;transition:opacity .18s;" class="card-actions">
+        <button class="delete-btn" style="position:static;opacity:1;" title="Editar">✏️</button>
+        <button class="delete-btn" style="position:static;opacity:1;" title="Eliminar">🗑️</button>
+      </div>
+      <div class="cover-placeholder">
+             <span>🖼️</span>
+             <p>Toca para añadir portada</p>
+           </div>
+      <div class="card-top">
+        <span class="card-num">#5</span>
+        <div style="flex:1">
+          <div class="card-title">The Elegant Sea of Savagery</div>
+          <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.25rem;">
+            
+            <span class="type-badge type-manhwa">📗 Manhwa</span>
+          </div>
+          
+        </div>
+      </div>
+      <div class="status-row"><button class="status-btn s-unread active">Sin leer</button><button class="status-btn s-reading">Leyendo</button><button class="status-btn s-read">Leído</button><button class="status-btn s-paused">Pausado</button></div>
+      <div class="emission-section">
+        <div class="card-divider"></div>
+        <div class="section-title">Emisión</div>
+        <div class="emission-row"><button class="emit-btn e-ongoing">🟠 En curso</button><button class="emit-btn e-finished">✅ Finalizado</button><button class="emit-btn e-hiatus">⏸ En hiato</button><button class="emit-btn e-announced">📢 Por anunciar</button></div>
+      </div>
+      <div class="schedule-section">
+      <div class="card-divider"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem;">
+        <span class="section-title" style="margin:0">Días de actualización</span>
+        <div style="display:flex;align-items:center;gap:.35rem;">
+               <div class="freq-toggle">
+                 <button class="freq-btn active">Semanal</button>
+                 <button class="freq-btn">Mensual</button>
+               </div>
+               
+             </div>
+      </div>
+      <div class="days-grid"><span class="day-chip">Lu</span><span class="day-chip">Ma</span><span class="day-chip">Mi</span><span class="day-chip">Ju</span><span class="day-chip today-date">Vi</span><span class="day-chip">Sá</span><span class="day-chip">Do</span></div>
+           
+    </div>
+      
+      <div class="stars-section">
+        <div class="card-divider"></div>
+        <div class="stars-label">Puntuación</div>
+        <div class="stars-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      </div>
+      
+    </div><div class="book-card" style="animation-delay:0.2s">
+      
+      <div style="position:absolute;bottom:.7rem;right:.7rem;display:flex;gap:.3rem;opacity:0;transition:opacity .18s;" class="card-actions">
+        <button class="delete-btn" style="position:static;opacity:1;" title="Editar">✏️</button>
+        <button class="delete-btn" style="position:static;opacity:1;" title="Eliminar">🗑️</button>
+      </div>
+      <div class="cover-placeholder">
+             <span>🖼️</span>
+             <p>Toca para añadir portada</p>
+           </div>
+      <div class="card-top">
+        <span class="card-num">#6</span>
+        <div style="flex:1">
+          <div class="card-title">Yume Nara Doko Made</div>
+          <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.25rem;">
+            
+            <span class="type-badge type-manhwa">📗 Manhwa</span>
+          </div>
+          
+        </div>
+      </div>
+      <div class="status-row"><button class="status-btn s-unread active">Sin leer</button><button class="status-btn s-reading">Leyendo</button><button class="status-btn s-read">Leído</button><button class="status-btn s-paused">Pausado</button></div>
+      <div class="emission-section">
+        <div class="card-divider"></div>
+        <div class="section-title">Emisión</div>
+        <div class="emission-row"><button class="emit-btn e-ongoing">🟠 En curso</button><button class="emit-btn e-finished">✅ Finalizado</button><button class="emit-btn e-hiatus">⏸ En hiato</button><button class="emit-btn e-announced">📢 Por anunciar</button></div>
+      </div>
+      <div class="schedule-section">
+      <div class="card-divider"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem;">
+        <span class="section-title" style="margin:0">Días de actualización</span>
+        <div style="display:flex;align-items:center;gap:.35rem;">
+               <div class="freq-toggle">
+                 <button class="freq-btn active">Semanal</button>
+                 <button class="freq-btn">Mensual</button>
+               </div>
+               
+             </div>
+      </div>
+      <div class="days-grid"><span class="day-chip">Lu</span><span class="day-chip">Ma</span><span class="day-chip">Mi</span><span class="day-chip">Ju</span><span class="day-chip today-date">Vi</span><span class="day-chip">Sá</span><span class="day-chip">Do</span></div>
+           
+    </div>
+      
+      <div class="stars-section">
+        <div class="card-divider"></div>
+        <div class="stars-label">Puntuación</div>
+        <div class="stars-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      </div>
+      
+    </div><div class="book-card" style="animation-delay:0.24s">
+      
+      <div style="position:absolute;bottom:.7rem;right:.7rem;display:flex;gap:.3rem;opacity:0;transition:opacity .18s;" class="card-actions">
+        <button class="delete-btn" style="position:static;opacity:1;" title="Editar">✏️</button>
+        <button class="delete-btn" style="position:static;opacity:1;" title="Eliminar">🗑️</button>
+      </div>
+      <div class="cover-placeholder">
+             <span>🖼️</span>
+             <p>Toca para añadir portada</p>
+           </div>
+      <div class="card-top">
+        <span class="card-num">#7</span>
+        <div style="flex:1">
+          <div class="card-title">Yume Nara Doko Made Yurisaremasuka</div>
+          <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.25rem;">
+            
+            <span class="type-badge type-manhwa">📗 Manhwa</span>
+          </div>
+          
+        </div>
+      </div>
+      <div class="status-row"><button class="status-btn s-unread active">Sin leer</button><button class="status-btn s-reading">Leyendo</button><button class="status-btn s-read">Leído</button><button class="status-btn s-paused">Pausado</button></div>
+      <div class="emission-section">
+        <div class="card-divider"></div>
+        <div class="section-title">Emisión</div>
+        <div class="emission-row"><button class="emit-btn e-ongoing">🟠 En curso</button><button class="emit-btn e-finished">✅ Finalizado</button><button class="emit-btn e-hiatus">⏸ En hiato</button><button class="emit-btn e-announced">📢 Por anunciar</button></div>
+      </div>
+      <div class="schedule-section">
+      <div class="card-divider"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem;">
+        <span class="section-title" style="margin:0">Días de actualización</span>
+        <div style="display:flex;align-items:center;gap:.35rem;">
+               <div class="freq-toggle">
+                 <button class="freq-btn active">Semanal</button>
+                 <button class="freq-btn">Mensual</button>
+               </div>
+               
+             </div>
+      </div>
+      <div class="days-grid"><span class="day-chip">Lu</span><span class="day-chip">Ma</span><span class="day-chip">Mi</span><span class="day-chip">Ju</span><span class="day-chip today-date">Vi</span><span class="day-chip">Sá</span><span class="day-chip">Do</span></div>
+           
+    </div>
+      
+      <div class="stars-section">
+        <div class="card-divider"></div>
+        <div class="stars-label">Puntuación</div>
+        <div class="stars-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      </div>
+      
+    </div><div class="book-card" style="animation-delay:0.28s">
+      
+      <div style="position:absolute;bottom:.7rem;right:.7rem;display:flex;gap:.3rem;opacity:0;transition:opacity .18s;" class="card-actions">
+        <button class="delete-btn" style="position:static;opacity:1;" title="Editar">✏️</button>
+        <button class="delete-btn" style="position:static;opacity:1;" title="Eliminar">🗑️</button>
+      </div>
+      <div class="cover-placeholder">
+             <span>🖼️</span>
+             <p>Toca para añadir portada</p>
+           </div>
+      <div class="card-top">
+        <span class="card-num">#8</span>
+        <div style="flex:1">
+          <div class="card-title">Léeme entre líneas</div>
+          <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.25rem;">
+            
+            <span class="type-badge type-manhwa">📗 Manhwa</span>
+          </div>
+          
+        </div>
+      </div>
+      <div class="status-row"><button class="status-btn s-unread active">Sin leer</button><button class="status-btn s-reading">Leyendo</button><button class="status-btn s-read">Leído</button><button class="status-btn s-paused">Pausado</button></div>
+      <div class="emission-section">
+        <div class="card-divider"></div>
+        <div class="section-title">Emisión</div>
+        <div class="emission-row"><button class="emit-btn e-ongoing">🟠 En curso</button><button class="emit-btn e-finished">✅ Finalizado</button><button class="emit-btn e-hiatus">⏸ En hiato</button><button class="emit-btn e-announced">📢 Por anunciar</button></div>
+      </div>
+      <div class="schedule-section">
+      <div class="card-divider"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem;">
+        <span class="section-title" style="margin:0">Días de actualización</span>
+        <div style="display:flex;align-items:center;gap:.35rem;">
+               <div class="freq-toggle">
+                 <button class="freq-btn active">Semanal</button>
+                 <button class="freq-btn">Mensual</button>
+               </div>
+               
+             </div>
+      </div>
+      <div class="days-grid"><span class="day-chip">Lu</span><span class="day-chip">Ma</span><span class="day-chip">Mi</span><span class="day-chip">Ju</span><span class="day-chip today-date">Vi</span><span class="day-chip">Sá</span><span class="day-chip">Do</span></div>
+           
+    </div>
+      
+      <div class="stars-section">
+        <div class="card-divider"></div>
+        <div class="stars-label">Puntuación</div>
+        <div class="stars-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      </div>
+      
+    </div><div class="book-card" style="animation-delay:0.32s">
+      
+      <div style="position:absolute;bottom:.7rem;right:.7rem;display:flex;gap:.3rem;opacity:0;transition:opacity .18s;" class="card-actions">
+        <button class="delete-btn" style="position:static;opacity:1;" title="Editar">✏️</button>
+        <button class="delete-btn" style="position:static;opacity:1;" title="Eliminar">🗑️</button>
+      </div>
+      <div class="cover-placeholder">
+             <span>🖼️</span>
+             <p>Toca para añadir portada</p>
+           </div>
+      <div class="card-top">
+        <span class="card-num">#9</span>
+        <div style="flex:1">
+          <div class="card-title">El buen maestro</div>
+          <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.25rem;">
+            
+            <span class="type-badge type-manhwa">📗 Manhwa</span>
+          </div>
+          
+        </div>
+      </div>
+      <div class="status-row"><button class="status-btn s-unread active">Sin leer</button><button class="status-btn s-reading">Leyendo</button><button class="status-btn s-read">Leído</button><button class="status-btn s-paused">Pausado</button></div>
+      <div class="emission-section">
+        <div class="card-divider"></div>
+        <div class="section-title">Emisión</div>
+        <div class="emission-row"><button class="emit-btn e-ongoing">🟠 En curso</button><button class="emit-btn e-finished">✅ Finalizado</button><button class="emit-btn e-hiatus">⏸ En hiato</button><button class="emit-btn e-announced">📢 Por anunciar</button></div>
+      </div>
+      <div class="schedule-section">
+      <div class="card-divider"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem;">
+        <span class="section-title" style="margin:0">Días de actualización</span>
+        <div style="display:flex;align-items:center;gap:.35rem;">
+               <div class="freq-toggle">
+                 <button class="freq-btn active">Semanal</button>
+                 <button class="freq-btn">Mensual</button>
+               </div>
+               
+             </div>
+      </div>
+      <div class="days-grid"><span class="day-chip">Lu</span><span class="day-chip">Ma</span><span class="day-chip">Mi</span><span class="day-chip">Ju</span><span class="day-chip today-date">Vi</span><span class="day-chip">Sá</span><span class="day-chip">Do</span></div>
+           
+    </div>
+      
+      <div class="stars-section">
+        <div class="card-divider"></div>
+        <div class="stars-label">Puntuación</div>
+        <div class="stars-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      </div>
+      
+    </div><div class="book-card" style="animation-delay:0.36s">
+      
+      <div style="position:absolute;bottom:.7rem;right:.7rem;display:flex;gap:.3rem;opacity:0;transition:opacity .18s;" class="card-actions">
+        <button class="delete-btn" style="position:static;opacity:1;" title="Editar">✏️</button>
+        <button class="delete-btn" style="position:static;opacity:1;" title="Eliminar">🗑️</button>
+      </div>
+      <div class="cover-placeholder">
+             <span>🖼️</span>
+             <p>Toca para añadir portada</p>
+           </div>
+      <div class="card-top">
+        <span class="card-num">#10</span>
+        <div style="flex:1">
+          <div class="card-title">En confesión salada</div>
+          <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.25rem;">
+            
+            <span class="type-badge type-manhwa">📗 Manhwa</span>
+          </div>
+          
+        </div>
+      </div>
+      <div class="status-row"><button class="status-btn s-unread active">Sin leer</button><button class="status-btn s-reading">Leyendo</button><button class="status-btn s-read">Leído</button><button class="status-btn s-paused">Pausado</button></div>
+      <div class="emission-section">
+        <div class="card-divider"></div>
+        <div class="section-title">Emisión</div>
+        <div class="emission-row"><button class="emit-btn e-ongoing">🟠 En curso</button><button class="emit-btn e-finished">✅ Finalizado</button><button class="emit-btn e-hiatus">⏸ En hiato</button><button class="emit-btn e-announced">📢 Por anunciar</button></div>
+      </div>
+      <div class="schedule-section">
+      <div class="card-divider"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem;">
+        <span class="section-title" style="margin:0">Días de actualización</span>
+        <div style="display:flex;align-items:center;gap:.35rem;">
+               <div class="freq-toggle">
+                 <button class="freq-btn active">Semanal</button>
+                 <button class="freq-btn">Mensual</button>
+               </div>
+               
+             </div>
+      </div>
+      <div class="days-grid"><span class="day-chip">Lu</span><span class="day-chip">Ma</span><span class="day-chip">Mi</span><span class="day-chip">Ju</span><span class="day-chip today-date">Vi</span><span class="day-chip">Sá</span><span class="day-chip">Do</span></div>
+           
+    </div>
+      
+      <div class="stars-section">
+        <div class="card-divider"></div>
+        <div class="stars-label">Puntuación</div>
+        <div class="stars-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      </div>
+      
+    </div><div class="book-card" style="animation-delay:0.4s">
+      
+      <div style="position:absolute;bottom:.7rem;right:.7rem;display:flex;gap:.3rem;opacity:0;transition:opacity .18s;" class="card-actions">
+        <button class="delete-btn" style="position:static;opacity:1;" title="Editar">✏️</button>
+        <button class="delete-btn" style="position:static;opacity:1;" title="Eliminar">🗑️</button>
+      </div>
+      <div class="cover-placeholder">
+             <span>🖼️</span>
+             <p>Toca para añadir portada</p>
+           </div>
+      <div class="card-top">
+        <span class="card-num">#11</span>
+        <div style="flex:1">
+          <div class="card-title">Para el omega hambriento</div>
+          <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.25rem;">
+            
+            <span class="type-badge type-manhwa">📗 Manhwa</span>
+          </div>
+          
+        </div>
+      </div>
+      <div class="status-row"><button class="status-btn s-unread active">Sin leer</button><button class="status-btn s-reading">Leyendo</button><button class="status-btn s-read">Leído</button><button class="status-btn s-paused">Pausado</button></div>
+      <div class="emission-section">
+        <div class="card-divider"></div>
+        <div class="section-title">Emisión</div>
+        <div class="emission-row"><button class="emit-btn e-ongoing">🟠 En curso</button><button class="emit-btn e-finished">✅ Finalizado</button><button class="emit-btn e-hiatus">⏸ En hiato</button><button class="emit-btn e-announced">📢 Por anunciar</button></div>
+      </div>
+      <div class="schedule-section">
+      <div class="card-divider"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem;">
+        <span class="section-title" style="margin:0">Días de actualización</span>
+        <div style="display:flex;align-items:center;gap:.35rem;">
+               <div class="freq-toggle">
+                 <button class="freq-btn active">Semanal</button>
+                 <button class="freq-btn">Mensual</button>
+               </div>
+               
+             </div>
+      </div>
+      <div class="days-grid"><span class="day-chip">Lu</span><span class="day-chip">Ma</span><span class="day-chip">Mi</span><span class="day-chip">Ju</span><span class="day-chip today-date">Vi</span><span class="day-chip">Sá</span><span class="day-chip">Do</span></div>
+           
+    </div>
+      
+      <div class="stars-section">
+        <div class="card-divider"></div>
+        <div class="stars-label">Puntuación</div>
+        <div class="stars-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      </div>
+      
+    </div><div class="book-card" style="animation-delay:0.44s">
+      
+      <div style="position:absolute;bottom:.7rem;right:.7rem;display:flex;gap:.3rem;opacity:0;transition:opacity .18s;" class="card-actions">
+        <button class="delete-btn" style="position:static;opacity:1;" title="Editar">✏️</button>
+        <button class="delete-btn" style="position:static;opacity:1;" title="Eliminar">🗑️</button>
+      </div>
+      <div class="cover-placeholder">
+             <span>🖼️</span>
+             <p>Toca para añadir portada</p>
+           </div>
+      <div class="card-top">
+        <span class="card-num">#12</span>
+        <div style="flex:1">
+          <div class="card-title">My Little Biscuit</div>
+          <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.25rem;">
+            
+            <span class="type-badge type-manhwa">📗 Manhwa</span>
+          </div>
+          
+        </div>
+      </div>
+      <div class="status-row"><button class="status-btn s-unread active">Sin leer</button><button class="status-btn s-reading">Leyendo</button><button class="status-btn s-read">Leído</button><button class="status-btn s-paused">Pausado</button></div>
+      <div class="emission-section">
+        <div class="card-divider"></div>
+        <div class="section-title">Emisión</div>
+        <div class="emission-row"><button class="emit-btn e-ongoing">🟠 En curso</button><button class="emit-btn e-finished">✅ Finalizado</button><button class="emit-btn e-hiatus">⏸ En hiato</button><button class="emit-btn e-announced">📢 Por anunciar</button></div>
+      </div>
+      <div class="schedule-section">
+      <div class="card-divider"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem;">
+        <span class="section-title" style="margin:0">Días de actualización</span>
+        <div style="display:flex;align-items:center;gap:.35rem;">
+               <div class="freq-toggle">
+                 <button class="freq-btn active">Semanal</button>
+                 <button class="freq-btn">Mensual</button>
+               </div>
+               
+             </div>
+      </div>
+      <div class="days-grid"><span class="day-chip">Lu</span><span class="day-chip">Ma</span><span class="day-chip">Mi</span><span class="day-chip">Ju</span><span class="day-chip today-date">Vi</span><span class="day-chip">Sá</span><span class="day-chip">Do</span></div>
+           
+    </div>
+      
+      <div class="stars-section">
+        <div class="card-divider"></div>
+        <div class="stars-label">Puntuación</div>
+        <div class="stars-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      </div>
+      
+    </div><div class="book-card" style="animation-delay:0.48s">
+      
+      <div style="position:absolute;bottom:.7rem;right:.7rem;display:flex;gap:.3rem;opacity:0;transition:opacity .18s;" class="card-actions">
+        <button class="delete-btn" style="position:static;opacity:1;" title="Editar">✏️</button>
+        <button class="delete-btn" style="position:static;opacity:1;" title="Eliminar">🗑️</button>
+      </div>
+      <div class="cover-placeholder">
+             <span>🖼️</span>
+             <p>Toca para añadir portada</p>
+           </div>
+      <div class="card-top">
+        <span class="card-num">#13</span>
+        <div style="flex:1">
+          <div class="card-title">Tategami ni Airabuyuu</div>
+          <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.25rem;">
+            
+            <span class="type-badge type-manhwa">📗 Manhwa</span>
+          </div>
+          
+        </div>
+      </div>
+      <div class="status-row"><button class="status-btn s-unread active">Sin leer</button><button class="status-btn s-reading">Leyendo</button><button class="status-btn s-read">Leído</button><button class="status-btn s-paused">Pausado</button></div>
+      <div class="emission-section">
+        <div class="card-divider"></div>
+        <div class="section-title">Emisión</div>
+        <div class="emission-row"><button class="emit-btn e-ongoing">🟠 En curso</button><button class="emit-btn e-finished">✅ Finalizado</button><button class="emit-btn e-hiatus">⏸ En hiato</button><button class="emit-btn e-announced">📢 Por anunciar</button></div>
+      </div>
+      <div class="schedule-section">
+      <div class="card-divider"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem;">
+        <span class="section-title" style="margin:0">Días de actualización</span>
+        <div style="display:flex;align-items:center;gap:.35rem;">
+               <div class="freq-toggle">
+                 <button class="freq-btn active">Semanal</button>
+                 <button class="freq-btn">Mensual</button>
+               </div>
+               
+             </div>
+      </div>
+      <div class="days-grid"><span class="day-chip">Lu</span><span class="day-chip">Ma</span><span class="day-chip">Mi</span><span class="day-chip">Ju</span><span class="day-chip today-date">Vi</span><span class="day-chip">Sá</span><span class="day-chip">Do</span></div>
+           
+    </div>
+      
+      <div class="stars-section">
+        <div class="card-divider"></div>
+        <div class="stars-label">Puntuación</div>
+        <div class="stars-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      </div>
+      
+    </div><div class="book-card" style="animation-delay:0.52s">
+      
+      <div style="position:absolute;bottom:.7rem;right:.7rem;display:flex;gap:.3rem;opacity:0;transition:opacity .18s;" class="card-actions">
+        <button class="delete-btn" style="position:static;opacity:1;" title="Editar">✏️</button>
+        <button class="delete-btn" style="position:static;opacity:1;" title="Eliminar">🗑️</button>
+      </div>
+      <div class="cover-placeholder">
+             <span>🖼️</span>
+             <p>Toca para añadir portada</p>
+           </div>
+      <div class="card-top">
+        <span class="card-num">#14</span>
+        <div style="flex:1">
+          <div class="card-title">Meguru Mirai</div>
+          <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.25rem;">
+            
+            <span class="type-badge type-manhwa">📗 Manhwa</span>
+          </div>
+          
+        </div>
+      </div>
+      <div class="status-row"><button class="status-btn s-unread active">Sin leer</button><button class="status-btn s-reading">Leyendo</button><button class="status-btn s-read">Leído</button><button class="status-btn s-paused">Pausado</button></div>
+      <div class="emission-section">
+        <div class="card-divider"></div>
+        <div class="section-title">Emisión</div>
+        <div class="emission-row"><button class="emit-btn e-ongoing">🟠 En curso</button><button class="emit-btn e-finished">✅ Finalizado</button><button class="emit-btn e-hiatus">⏸ En hiato</button><button class="emit-btn e-announced">📢 Por anunciar</button></div>
+      </div>
+      <div class="schedule-section">
+      <div class="card-divider"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem;">
+        <span class="section-title" style="margin:0">Días de actualización</span>
+        <div style="display:flex;align-items:center;gap:.35rem;">
+               <div class="freq-toggle">
+                 <button class="freq-btn active">Semanal</button>
+                 <button class="freq-btn">Mensual</button>
+               </div>
+               
+             </div>
+      </div>
+      <div class="days-grid"><span class="day-chip">Lu</span><span class="day-chip">Ma</span><span class="day-chip">Mi</span><span class="day-chip">Ju</span><span class="day-chip today-date">Vi</span><span class="day-chip">Sá</span><span class="day-chip">Do</span></div>
+           
+    </div>
+      
+      <div class="stars-section">
+        <div class="card-divider"></div>
+        <div class="stars-label">Puntuación</div>
+        <div class="stars-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      </div>
+      
+    </div><div class="book-card" style="animation-delay:0.56s">
+      
+      <div style="position:absolute;bottom:.7rem;right:.7rem;display:flex;gap:.3rem;opacity:0;transition:opacity .18s;" class="card-actions">
+        <button class="delete-btn" style="position:static;opacity:1;" title="Editar">✏️</button>
+        <button class="delete-btn" style="position:static;opacity:1;" title="Eliminar">🗑️</button>
+      </div>
+      <div class="cover-placeholder">
+             <span>🖼️</span>
+             <p>Toca para añadir portada</p>
+           </div>
+      <div class="card-top">
+        <span class="card-num">#15</span>
+        <div style="flex:1">
+          <div class="card-title">La novia del dragón</div>
+          <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.25rem;">
+            
+            <span class="type-badge type-manhwa">📗 Manhwa</span>
+          </div>
+          
+        </div>
+      </div>
+      <div class="status-row"><button class="status-btn s-unread active">Sin leer</button><button class="status-btn s-reading">Leyendo</button><button class="status-btn s-read">Leído</button><button class="status-btn s-paused">Pausado</button></div>
+      <div class="emission-section">
+        <div class="card-divider"></div>
+        <div class="section-title">Emisión</div>
+        <div class="emission-row"><button class="emit-btn e-ongoing">🟠 En curso</button><button class="emit-btn e-finished">✅ Finalizado</button><button class="emit-btn e-hiatus">⏸ En hiato</button><button class="emit-btn e-announced">📢 Por anunciar</button></div>
+      </div>
+      <div class="schedule-section">
+      <div class="card-divider"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem;">
+        <span class="section-title" style="margin:0">Días de actualización</span>
+        <div style="display:flex;align-items:center;gap:.35rem;">
+               <div class="freq-toggle">
+                 <button class="freq-btn active">Semanal</button>
+                 <button class="freq-btn">Mensual</button>
+               </div>
+               
+             </div>
+      </div>
+      <div class="days-grid"><span class="day-chip">Lu</span><span class="day-chip">Ma</span><span class="day-chip">Mi</span><span class="day-chip">Ju</span><span class="day-chip today-date">Vi</span><span class="day-chip">Sá</span><span class="day-chip">Do</span></div>
+           
+    </div>
+      
+      <div class="stars-section">
+        <div class="card-divider"></div>
+        <div class="stars-label">Puntuación</div>
+        <div class="stars-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      </div>
+      
+    </div><div class="book-card" style="animation-delay:0.6s">
+      
+      <div style="position:absolute;bottom:.7rem;right:.7rem;display:flex;gap:.3rem;opacity:0;transition:opacity .18s;" class="card-actions">
+        <button class="delete-btn" style="position:static;opacity:1;" title="Editar">✏️</button>
+        <button class="delete-btn" style="position:static;opacity:1;" title="Eliminar">🗑️</button>
+      </div>
+      <div class="cover-placeholder">
+             <span>🖼️</span>
+             <p>Toca para añadir portada</p>
+           </div>
+      <div class="card-top">
+        <span class="card-num">#16</span>
+        <div style="flex:1">
+          <div class="card-title">Senza Replication</div>
+          <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.25rem;">
+            
+            <span class="type-badge type-manhwa">📗 Manhwa</span>
+          </div>
+          
+        </div>
+      </div>
+      <div class="status-row"><button class="status-btn s-unread active">Sin leer</button><button class="status-btn s-reading">Leyendo</button><button class="status-btn s-read">Leído</button><button class="status-btn s-paused">Pausado</button></div>
+      <div class="emission-section">
+        <div class="card-divider"></div>
+        <div class="section-title">Emisión</div>
+        <div class="emission-row"><button class="emit-btn e-ongoing">🟠 En curso</button><button class="emit-btn e-finished">✅ Finalizado</button><button class="emit-btn e-hiatus">⏸ En hiato</button><button class="emit-btn e-announced">📢 Por anunciar</button></div>
+      </div>
+      <div class="schedule-section">
+      <div class="card-divider"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem;">
+        <span class="section-title" style="margin:0">Días de actualización</span>
+        <div style="display:flex;align-items:center;gap:.35rem;">
+               <div class="freq-toggle">
+                 <button class="freq-btn active">Semanal</button>
+                 <button class="freq-btn">Mensual</button>
+               </div>
+               
+             </div>
+      </div>
+      <div class="days-grid"><span class="day-chip">Lu</span><span class="day-chip">Ma</span><span class="day-chip">Mi</span><span class="day-chip">Ju</span><span class="day-chip today-date">Vi</span><span class="day-chip">Sá</span><span class="day-chip">Do</span></div>
+           
+    </div>
+      
+      <div class="stars-section">
+        <div class="card-divider"></div>
+        <div class="stars-label">Puntuación</div>
+        <div class="stars-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      </div>
+      
+    </div><div class="book-card" style="animation-delay:0.64s">
+      
+      <div style="position:absolute;bottom:.7rem;right:.7rem;display:flex;gap:.3rem;opacity:0;transition:opacity .18s;" class="card-actions">
+        <button class="delete-btn" style="position:static;opacity:1;" title="Editar">✏️</button>
+        <button class="delete-btn" style="position:static;opacity:1;" title="Eliminar">🗑️</button>
+      </div>
+      <div class="cover-placeholder">
+             <span>🖼️</span>
+             <p>Toca para añadir portada</p>
+           </div>
+      <div class="card-top">
+        <span class="card-num">#17</span>
+        <div style="flex:1">
+          <div class="card-title">¿Amigos hasta el infinito y más allá?</div>
+          <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.25rem;">
+            
+            <span class="type-badge type-manhwa">📗 Manhwa</span>
+          </div>
+          
+        </div>
+      </div>
+      <div class="status-row"><button class="status-btn s-unread active">Sin leer</button><button class="status-btn s-reading">Leyendo</button><button class="status-btn s-read">Leído</button><button class="status-btn s-paused">Pausado</button></div>
+      <div class="emission-section">
+        <div class="card-divider"></div>
+        <div class="section-title">Emisión</div>
+        <div class="emission-row"><button class="emit-btn e-ongoing">🟠 En curso</button><button class="emit-btn e-finished">✅ Finalizado</button><button class="emit-btn e-hiatus">⏸ En hiato</button><button class="emit-btn e-announced">📢 Por anunciar</button></div>
+      </div>
+      <div class="schedule-section">
+      <div class="card-divider"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem;">
+        <span class="section-title" style="margin:0">Días de actualización</span>
+        <div style="display:flex;align-items:center;gap:.35rem;">
+               <div class="freq-toggle">
+                 <button class="freq-btn active">Semanal</button>
+                 <button class="freq-btn">Mensual</button>
+               </div>
+               
+             </div>
+      </div>
+      <div class="days-grid"><span class="day-chip">Lu</span><span class="day-chip">Ma</span><span class="day-chip">Mi</span><span class="day-chip">Ju</span><span class="day-chip today-date">Vi</span><span class="day-chip">Sá</span><span class="day-chip">Do</span></div>
+           
+    </div>
+      
+      <div class="stars-section">
+        <div class="card-divider"></div>
+        <div class="stars-label">Puntuación</div>
+        <div class="stars-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      </div>
+      
+    </div><div class="book-card" style="animation-delay:0.68s">
+      
+      <div style="position:absolute;bottom:.7rem;right:.7rem;display:flex;gap:.3rem;opacity:0;transition:opacity .18s;" class="card-actions">
+        <button class="delete-btn" style="position:static;opacity:1;" title="Editar">✏️</button>
+        <button class="delete-btn" style="position:static;opacity:1;" title="Eliminar">🗑️</button>
+      </div>
+      <div class="cover-placeholder">
+             <span>🖼️</span>
+             <p>Toca para añadir portada</p>
+           </div>
+      <div class="card-top">
+        <span class="card-num">#18</span>
+        <div style="flex:1">
+          <div class="card-title">Cazando fantasmas</div>
+          <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.25rem;">
+            
+            <span class="type-badge type-manhwa">📗 Manhwa</span>
+          </div>
+          
+        </div>
+      </div>
+      <div class="status-row"><button class="status-btn s-unread active">Sin leer</button><button class="status-btn s-reading">Leyendo</button><button class="status-btn s-read">Leído</button><button class="status-btn s-paused">Pausado</button></div>
+      <div class="emission-section">
+        <div class="card-divider"></div>
+        <div class="section-title">Emisión</div>
+        <div class="emission-row"><button class="emit-btn e-ongoing">🟠 En curso</button><button class="emit-btn e-finished">✅ Finalizado</button><button class="emit-btn e-hiatus">⏸ En hiato</button><button class="emit-btn e-announced">📢 Por anunciar</button></div>
+      </div>
+      <div class="schedule-section">
+      <div class="card-divider"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem;">
+        <span class="section-title" style="margin:0">Días de actualización</span>
+        <div style="display:flex;align-items:center;gap:.35rem;">
+               <div class="freq-toggle">
+                 <button class="freq-btn active">Semanal</button>
+                 <button class="freq-btn">Mensual</button>
+               </div>
+               
+             </div>
+      </div>
+      <div class="days-grid"><span class="day-chip">Lu</span><span class="day-chip">Ma</span><span class="day-chip">Mi</span><span class="day-chip">Ju</span><span class="day-chip today-date">Vi</span><span class="day-chip">Sá</span><span class="day-chip">Do</span></div>
+           
+    </div>
+      
+      <div class="stars-section">
+        <div class="card-divider"></div>
+        <div class="stars-label">Puntuación</div>
+        <div class="stars-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      </div>
+      
+    </div><div class="book-card" style="animation-delay:0.72s">
+      
+      <div style="position:absolute;bottom:.7rem;right:.7rem;display:flex;gap:.3rem;opacity:0;transition:opacity .18s;" class="card-actions">
+        <button class="delete-btn" style="position:static;opacity:1;" title="Editar">✏️</button>
+        <button class="delete-btn" style="position:static;opacity:1;" title="Eliminar">🗑️</button>
+      </div>
+      <div class="cover-placeholder">
+             <span>🖼️</span>
+             <p>Toca para añadir portada</p>
+           </div>
+      <div class="card-top">
+        <span class="card-num">#19</span>
+        <div style="flex:1">
+          <div class="card-title">La doncella secreta del conde</div>
+          <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.25rem;">
+            
+            <span class="type-badge type-manhwa">📗 Manhwa</span>
+          </div>
+          
+        </div>
+      </div>
+      <div class="status-row"><button class="status-btn s-unread active">Sin leer</button><button class="status-btn s-reading">Leyendo</button><button class="status-btn s-read">Leído</button><button class="status-btn s-paused">Pausado</button></div>
+      <div class="emission-section">
+        <div class="card-divider"></div>
+        <div class="section-title">Emisión</div>
+        <div class="emission-row"><button class="emit-btn e-ongoing">🟠 En curso</button><button class="emit-btn e-finished">✅ Finalizado</button><button class="emit-btn e-hiatus">⏸ En hiato</button><button class="emit-btn e-announced">📢 Por anunciar</button></div>
+      </div>
+      <div class="schedule-section">
+      <div class="card-divider"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem;">
+        <span class="section-title" style="margin:0">Días de actualización</span>
+        <div style="display:flex;align-items:center;gap:.35rem;">
+               <div class="freq-toggle">
+                 <button class="freq-btn active">Semanal</button>
+                 <button class="freq-btn">Mensual</button>
+               </div>
+               
+             </div>
+      </div>
+      <div class="days-grid"><span class="day-chip">Lu</span><span class="day-chip">Ma</span><span class="day-chip">Mi</span><span class="day-chip">Ju</span><span class="day-chip today-date">Vi</span><span class="day-chip">Sá</span><span class="day-chip">Do</span></div>
+           
+    </div>
+      
+      <div class="stars-section">
+        <div class="card-divider"></div>
+        <div class="stars-label">Puntuación</div>
+        <div class="stars-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      </div>
+      
+    </div><div class="book-card" style="animation-delay:0.76s">
+      
+      <div style="position:absolute;bottom:.7rem;right:.7rem;display:flex;gap:.3rem;opacity:0;transition:opacity .18s;" class="card-actions">
+        <button class="delete-btn" style="position:static;opacity:1;" title="Editar">✏️</button>
+        <button class="delete-btn" style="position:static;opacity:1;" title="Eliminar">🗑️</button>
+      </div>
+      <div class="cover-placeholder">
+             <span>🖼️</span>
+             <p>Toca para añadir portada</p>
+           </div>
+      <div class="card-top">
+        <span class="card-num">#20</span>
+        <div style="flex:1">
+          <div class="card-title">Tímame o ámame</div>
+          <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.25rem;">
+            
+            <span class="type-badge type-manhwa">📗 Manhwa</span>
+          </div>
+          
+        </div>
+      </div>
+      <div class="status-row"><button class="status-btn s-unread active">Sin leer</button><button class="status-btn s-reading">Leyendo</button><button class="status-btn s-read">Leído</button><button class="status-btn s-paused">Pausado</button></div>
+      <div class="emission-section">
+        <div class="card-divider"></div>
+        <div class="section-title">Emisión</div>
+        <div class="emission-row"><button class="emit-btn e-ongoing">🟠 En curso</button><button class="emit-btn e-finished">✅ Finalizado</button><button class="emit-btn e-hiatus">⏸ En hiato</button><button class="emit-btn e-announced">📢 Por anunciar</button></div>
+      </div>
+      <div class="schedule-section">
+      <div class="card-divider"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem;">
+        <span class="section-title" style="margin:0">Días de actualización</span>
+        <div style="display:flex;align-items:center;gap:.35rem;">
+               <div class="freq-toggle">
+                 <button class="freq-btn active">Semanal</button>
+                 <button class="freq-btn">Mensual</button>
+               </div>
+               
+             </div>
+      </div>
+      <div class="days-grid"><span class="day-chip">Lu</span><span class="day-chip">Ma</span><span class="day-chip">Mi</span><span class="day-chip">Ju</span><span class="day-chip today-date">Vi</span><span class="day-chip">Sá</span><span class="day-chip">Do</span></div>
+           
+    </div>
+      
+      <div class="stars-section">
+        <div class="card-divider"></div>
+        <div class="stars-label">Puntuación</div>
+        <div class="stars-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      </div>
+      
+    </div></div>
+</div><!-- end sectionManga -->
+
+<!-- BOOKS TAB -->
+<div class="tab-section" id="sectionBooks">
+  <div class="toolbar">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchBooksInput" placeholder="Buscar libro, autor…">
+    </div>
+    <div class="filter-row">
+      <div class="filter-group">
+        <button class="filter-btn active">Todos</button>
+        <button class="filter-btn">Sin leer</button>
+        <button class="filter-btn">Leyendo</button>
+        <button class="filter-btn">Leído</button>
+        <button class="filter-btn">Pausado</button>
+        <button class="filter-btn">🆕 Recién añadidos</button>
+      </div>
+      <div class="filter-sep"></div>
+      <div class="filter-group">
+        <button class="filter-btn">📗 Físico</button>
+        <button class="filter-btn">💻 Digital</button>
+      </div>
+    </div>
+    <button class="add-btn">➕ Añadir libro</button>
+  </div>
+  <div class="stats-row" id="statsRowBooks" style="margin-bottom:1rem;"></div>
+  <div id="bookGrid2"></div>
+</div><!-- end sectionBooks -->
+
+<!-- SETTINGS TAB -->
+<div class="tab-section" id="sectionSettings">
+  <div style="max-width:480px;margin:2rem auto;display:flex;flex-direction:column;gap:1.2rem;">
+    <div style="background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:1.4rem;">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--p4);margin-bottom:.4rem;">💾 Respaldar datos</h3>
+      <p style="font-size:.82rem;color:var(--text3);margin-bottom:1rem;">Descarga un archivo con todos tus manga, libros, reseñas, portadas y puntuaciones. Guárdalo en tu Google Drive o donde prefieras.</p>
+      <button style="width:100%;padding:.65rem;border-radius:12px;border:1.5px solid var(--p2);background:var(--p1);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:500;cursor:pointer;transition:all .2s;">
+        💾 Descargar respaldo (.json)
+      </button>
+    </div>
+    <div style="background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:1.4rem;">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--p4);margin-bottom:.4rem;">📥 Restaurar datos</h3>
+      <p style="font-size:.82rem;color:var(--text3);margin-bottom:1rem;">Sube tu archivo de respaldo para recuperar todos tus datos. Esto reemplazará los datos actuales.</p>
+      <label style="display:block;width:100%;padding:.65rem;border-radius:12px;border:1.5px solid #bbf7d0;background:#f0fdf4;color:#166534;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:500;cursor:pointer;text-align:center;transition:all .2s;box-sizing:border-box;">
+        📥 Seleccionar archivo de respaldo
+        <input type="file" id="importFile" accept=".json" style="display:none">
+      </label>
+    </div>
+    <div style="background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:1.4rem;">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--p4);margin-bottom:.4rem;">📄 Exportar PDF</h3>
+      <p style="font-size:.82rem;color:var(--text3);margin-bottom:1rem;">Genera un PDF con tu historial de lecturas completadas, filtrado por mes o año.</p>
+      <button style="width:100%;padding:.65rem;border-radius:12px;border:1.5px solid #fecaca;background:#fff5f5;color:#dc2626;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:500;cursor:pointer;transition:all .2s;">
+        📄 Exportar historial en PDF
+      </button>
+    </div>
+  </div>
+</div><!-- end sectionSettings -->
+
+</div><!-- end wrap -->
+
+<!-- ADD MANGA MODAL -->
+<div class="add-overlay" id="addOverlay">
+  <div class="add-modal" style="max-height:92vh;overflow-y:auto;">
+    <h2>🌸 Añadir manga</h2>
+    <div id="addEntries">
+      <!-- entries injected by JS -->
+    </div>
+    <button class="add-more-btn">＋ Añadir otro</button>
+    <div class="add-actions">
+      <button class="add-cancel">Cancelar</button>
+      <button class="add-confirm">Guardar todo ✨</button>
+    </div>
+  </div>
+</div>
+
+<!-- PDF EXPORT MODAL -->
+<div class="add-overlay" id="pdfOverlay">
+  <div class="add-modal">
+    <h2>📄 Exportar PDF</h2>
+    <div class="add-field">
+      <label>Filtrar por</label>
+      <select id="pdfFilter">
+        <option value="all-read">Todos los leídos</option>
+        <option value="year">Por año</option>
+        <option value="month">Por mes y año</option>
+      </select>
+    </div>
+    <div id="pdfYearRow" class="add-field" style="display:none">
+      <label>Año</label>
+      <select id="pdfYear"></select>
+    </div>
+    <div id="pdfMonthRow" class="add-field" style="display:none">
+      <label>Mes</label>
+      <select id="pdfMonth">
+        <option value="0">Enero</option><option value="1">Febrero</option>
+        <option value="2">Marzo</option><option value="3">Abril</option>
+        <option value="4">Mayo</option><option value="5">Junio</option>
+        <option value="6">Julio</option><option value="7">Agosto</option>
+        <option value="8">Septiembre</option><option value="9">Octubre</option>
+        <option value="10">Noviembre</option><option value="11">Diciembre</option>
+      </select>
+    </div>
+    <div class="add-actions">
+      <button class="add-cancel">Cancelar</button>
+      <button class="add-confirm">Generar PDF 📄</button>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEW MODAL (shown when marking as read) -->
+<div class="add-overlay" id="reviewOverlay">
+  <div class="add-modal">
+    <h2>✅ ¡Terminaste de leer!</h2>
+    <p style="font-size:.8rem;color:var(--text3);margin-bottom:1.1rem;font-style:italic;" id="reviewBookTitle"></p>
+    <div class="add-field">
+      <label>Sinopsis / reseña personal (opcional)</label>
+      <textarea id="reviewSynopsis" placeholder="¿De qué trata? ¿Qué te pareció? Escribe lo que quieras recordar…" style="min-height:90px;"></textarea>
+    </div>
+    <div class="add-actions">
+      <button class="add-cancel">Omitir</button>
+      <button class="add-confirm">Guardar reseña 🌸</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT BOOK MODAL -->
+<div class="add-overlay" id="editOverlay">
+  <div class="add-modal">
+    <h2>✏️ Editar título</h2>
+    
+    <div class="add-field">
+      <label>Portada</label>
+      <div id="editCoverPreview" style="margin-bottom:.5rem;"></div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;">
+        <label style="padding:.38rem .85rem;border-radius:40px;border:1.5px solid var(--p2);
+          background:var(--p1);color:var(--p4);font-size:.78rem;cursor:pointer;
+          font-family:'DM Sans',sans-serif;white-space:nowrap;">
+          🖼️ Subir imagen
+          <input type="file" id="editCoverFile" accept="image/*" style="display:none">
+        </label>
+        <input type="url" id="editCoverUrl" placeholder="O pega URL de imagen…" style="flex:1;min-width:140px;padding:.38rem .7rem;border:1.5px solid var(--border);
+          border-radius:40px;background:var(--input-bg);color:var(--text);
+          font-family:'DM Sans',sans-serif;font-size:.78rem;outline:none;">
+        <button style="padding:.35rem .7rem;border-radius:40px;border:1px solid #fca5a5;
+          background:transparent;color:#dc2626;font-size:.72rem;cursor:pointer;
+          font-family:'DM Sans',sans-serif;white-space:nowrap;">✕ Quitar</button>
+      </div>
+    </div>
+    <div class="add-field">
+      <label>Título *</label>
+      <input type="text" id="editTitle" placeholder="Nombre del manga…">
+      <div class="add-error" id="editError" style="display:none;font-size:.75rem;color:#e05f85;margin-top:.2rem;">Por favor escribe un título</div>
+    </div>
+    <div class="add-field">
+      <label>Tipo</label>
+      <select id="editType">
+        <option value="manhwa">📗 Manhwa</option>
+        <option value="manga">📕 Manga</option>
+        <option value="novel">📘 Novela ligera</option>
+      </select>
+    </div>
+    <div class="add-field">
+      <label>Enlace (opcional)</label>
+      <input type="url" id="editUrl" placeholder="https://…">
+    </div>
+    <div class="add-priority-row">
+      <input type="checkbox" id="editPriority">
+      <label for="editPriority">⭐ Marcar como prioridad</label>
+    </div>
+    <div class="add-actions" style="margin-top:.8rem;">
+      <button class="add-cancel">Cancelar</button>
+      <button class="add-confirm">Guardar cambios ✨</button>
+    </div>
+    <div style="margin-top:.7rem;border-top:1px solid var(--border);padding-top:.7rem;">
+      <button style="width:100%;padding:.5rem;border-radius:12px;border:1.5px solid #fca5a5;background:#fff5f5;color:#dc2626;font-family:'DM Sans',sans-serif;font-size:.82rem;cursor:pointer;transition:all .18s;">🗑️ Eliminar de la lista</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <h2>🎲 Ruleta de lectura</h2>
+    <p class="msub">Solo entre los títulos sin leer</p>
+    <div class="roulette-ring">
+      <div class="roulette-inner">
+        <div class="roulette-title" id="rouletteTitle">¿Cuál será? ✨</div>
+      </div>
+    </div>
+    <div class="result-box" id="resultBox">Pulsa el botón para girar 🌸</div>
+    <button class="spin-btn" id="spinBtn">Girar ruleta 🎲</button><br>
+    <button class="close-btn">Cerrar</button>
+  </div>
+</div>
+
+<!-- ADD BOOK MODAL -->
+<div class="add-overlay" id="addBookOverlay">
+  <div class="add-modal" style="max-height:92vh;overflow-y:auto;">
+    <h2>📖 Añadir libro</h2>
+    <div class="add-field">
+      <label>Título *</label>
+      <input type="text" id="bTitle" placeholder="Nombre del libro…">
+      <div class="add-error" id="bTitleError" style="display:none;font-size:.75rem;color:#e05f85;margin-top:.2rem;">Por favor escribe un título</div>
+    </div>
+    <div class="add-field">
+      <label>Autor</label>
+      <input type="text" id="bAuthor" placeholder="Nombre del autor…">
+    </div>
+    <div class="add-field">
+      <label>Género</label>
+      <input type="text" id="bGenre" placeholder="Ej: Fantasía, Romance, Terror…">
+    </div>
+    <div class="add-field">
+      <label>Saga / Serie (opcional)</label>
+      <input type="text" id="bSaga" placeholder="Ej: Trono de cristal #1">
+    </div>
+    <div style="display:flex;gap:.7rem;">
+      <div class="add-field" style="flex:1">
+        <label>Formato</label>
+        <select id="bFormat">
+          <option value="fisico">📗 Físico</option>
+          <option value="digital">💻 Digital</option>
+        </select>
+      </div>
+      <div class="add-field" style="flex:1">
+        <label>Páginas</label>
+        <input type="number" id="bPages" placeholder="0" min="0" style="width:100%">
+      </div>
+    </div>
+    <div class="add-field">
+      <label>Enlace (opcional)</label>
+      <input type="url" id="bUrl" placeholder="https://…">
+    </div>
+    <div class="add-priority-row">
+      <input type="checkbox" id="bPriority">
+      <label for="bPriority">⭐ Marcar como prioridad</label>
+    </div>
+    <div class="add-actions">
+      <button class="add-cancel">Cancelar</button>
+      <button class="add-confirm">Guardar libro ✨</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT BOOK MODAL (books tab) -->
+<div class="add-overlay" id="editBookOverlay">
+  <div class="add-modal" style="max-height:92vh;overflow-y:auto;">
+    <h2>✏️ Editar libro</h2>
+    
+    <div class="add-field">
+      <label>Portada</label>
+      <div id="editBookCoverPreview" style="margin-bottom:.5rem;"></div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;">
+        <label style="padding:.38rem .85rem;border-radius:40px;border:1.5px solid var(--p2);background:var(--p1);color:var(--p4);font-size:.78rem;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;">
+          🖼️ Subir imagen
+          <input type="file" id="editBookCoverFile" accept="image/*" style="display:none">
+        </label>
+        <input type="url" id="editBookCoverUrl" placeholder="O pega URL…" style="flex:1;min-width:120px;padding:.38rem .7rem;border:1.5px solid var(--border);border-radius:40px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.78rem;outline:none;">
+        <button style="padding:.35rem .7rem;border-radius:40px;border:1px solid #fca5a5;background:transparent;color:#dc2626;font-size:.72rem;cursor:pointer;font-family:'DM Sans',sans-serif;">✕ Quitar</button>
+      </div>
+    </div>
+    <div class="add-field">
+      <label>Título *</label>
+      <input type="text" id="editBTitle" placeholder="Nombre del libro…">
+      <div class="add-error" id="editBTitleError" style="display:none;font-size:.75rem;color:#e05f85;margin-top:.2rem;">Por favor escribe un título</div>
+    </div>
+    <div class="add-field"><label>Autor</label><input type="text" id="editBAuthor" placeholder="Autor…"></div>
+    <div class="add-field"><label>Género</label><input type="text" id="editBGenre" placeholder="Género…"></div>
+    <div class="add-field"><label>Saga / Serie</label><input type="text" id="editBSaga" placeholder="Saga…"></div>
+    <div style="display:flex;gap:.7rem;">
+      <div class="add-field" style="flex:1"><label>Formato</label>
+        <select id="editBFormat"><option value="fisico">📗 Físico</option><option value="digital">💻 Digital</option></select>
+      </div>
+      <div class="add-field" style="flex:1"><label>Páginas</label>
+        <input type="number" id="editBPages" placeholder="0" min="0" style="width:100%">
+      </div>
+    </div>
+    <div class="add-field"><label>Enlace</label><input type="url" id="editBUrl" placeholder="https://…"></div>
+    <div class="add-priority-row">
+      <input type="checkbox" id="editBPriority">
+      <label for="editBPriority">⭐ Prioridad</label>
+    </div>
+    <div class="add-actions" style="margin-top:.8rem;">
+      <button class="add-cancel">Cancelar</button>
+      <button class="add-confirm">Guardar cambios ✨</button>
+    </div>
+    <div style="margin-top:.7rem;border-top:1px solid var(--border);padding-top:.7rem;">
+      <button style="width:100%;padding:.5rem;border-radius:12px;border:1.5px solid #fca5a5;background:#fff5f5;color:#dc2626;font-family:'DM Sans',sans-serif;font-size:.82rem;cursor:pointer;">🗑️ Eliminar libro</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+</body></html>
+------MultipartBoundary--EeXRwB3hEx4FBgnNnf0skB6fVcxrPEmhOanMeZ57mu----
+Content-Type: text/css
+Content-Transfer-Encoding: binary
+Content-Location: https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap
+
+@charset "utf-8";
+
+@font-face { font-family: "DM Sans"; font-style: italic; font-weight: 300; font-display: swap; src: url("https://fonts.gstatic.com/s/dmsans/v17/rP2rp2ywxg089UriCZaSExd86J3t9jz86Mvy4qCRAL19DksVat_XDV36TGcrpdo4zzw.woff2") format("woff2"); unicode-range: U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304, U+308, U+329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+
+@font-face { font-family: "DM Sans"; font-style: italic; font-weight: 300; font-display: swap; src: url("https://fonts.gstatic.com/s/dmsans/v17/rP2rp2ywxg089UriCZaSExd86J3t9jz86Mvy4qCRAL19DksVat_XDV30TGcrpdo4.woff2") format("woff2"); unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+@font-face { font-family: "DM Sans"; font-style: normal; font-weight: 300; font-display: swap; src: url("https://fonts.gstatic.com/s/dmsans/v17/rP2Yp2ywxg089UriI5-g4vlH9VoD8Cmcqbu6-K6z9mXgjU0.woff2") format("woff2"); unicode-range: U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304, U+308, U+329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+
+@font-face { font-family: "DM Sans"; font-style: normal; font-weight: 300; font-display: swap; src: url("https://fonts.gstatic.com/s/dmsans/v17/rP2Yp2ywxg089UriI5-g4vlH9VoD8Cmcqbu0-K6z9mXg.woff2") format("woff2"); unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+@font-face { font-family: "DM Sans"; font-style: normal; font-weight: 400; font-display: swap; src: url("https://fonts.gstatic.com/s/dmsans/v17/rP2Yp2ywxg089UriI5-g4vlH9VoD8Cmcqbu6-K6z9mXgjU0.woff2") format("woff2"); unicode-range: U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304, U+308, U+329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+
+@font-face { font-family: "DM Sans"; font-style: normal; font-weight: 400; font-display: swap; src: url("https://fonts.gstatic.com/s/dmsans/v17/rP2Yp2ywxg089UriI5-g4vlH9VoD8Cmcqbu0-K6z9mXg.woff2") format("woff2"); unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+@font-face { font-family: "DM Sans"; font-style: normal; font-weight: 500; font-display: swap; src: url("https://fonts.gstatic.com/s/dmsans/v17/rP2Yp2ywxg089UriI5-g4vlH9VoD8Cmcqbu6-K6z9mXgjU0.woff2") format("woff2"); unicode-range: U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304, U+308, U+329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+
+@font-face { font-family: "DM Sans"; font-style: normal; font-weight: 500; font-display: swap; src: url("https://fonts.gstatic.com/s/dmsans/v17/rP2Yp2ywxg089UriI5-g4vlH9VoD8Cmcqbu0-K6z9mXg.woff2") format("woff2"); unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+@font-face { font-family: "Playfair Display"; font-style: italic; font-weight: 400; font-display: swap; src: url("https://fonts.gstatic.com/s/playfairdisplay/v40/nuFRD-vYSZviVYUb_rj3ij__anPXDTnCjmHKM4nYO7KN_qiTXtXA-X-oE0qsEw.woff2") format("woff2"); unicode-range: U+301, U+400-45F, U+490-491, U+4B0-4B1, U+2116; }
+
+@font-face { font-family: "Playfair Display"; font-style: italic; font-weight: 400; font-display: swap; src: url("https://fonts.gstatic.com/s/playfairdisplay/v40/nuFRD-vYSZviVYUb_rj3ij__anPXDTnCjmHKM4nYO7KN_qiTXt7A-X-oE0qsEw.woff2") format("woff2"); unicode-range: U+102-103, U+110-111, U+128-129, U+168-169, U+1A0-1A1, U+1AF-1B0, U+300-301, U+303-304, U+308-309, U+323, U+329, U+1EA0-1EF9, U+20AB; }
+
+@font-face { font-family: "Playfair Display"; font-style: italic; font-weight: 400; font-display: swap; src: url("https://fonts.gstatic.com/s/playfairdisplay/v40/nuFRD-vYSZviVYUb_rj3ij__anPXDTnCjmHKM4nYO7KN_qiTXt_A-X-oE0qsEw.woff2") format("woff2"); unicode-range: U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304, U+308, U+329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+
+@font-face { font-family: "Playfair Display"; font-style: italic; font-weight: 400; font-display: swap; src: url("https://fonts.gstatic.com/s/playfairdisplay/v40/nuFRD-vYSZviVYUb_rj3ij__anPXDTnCjmHKM4nYO7KN_qiTXtHA-X-oE0o.woff2") format("woff2"); unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+@font-face { font-family: "Playfair Display"; font-style: normal; font-weight: 400; font-display: swap; src: url("https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTjYgEM86xRbPQ.woff2") format("woff2"); unicode-range: U+301, U+400-45F, U+490-491, U+4B0-4B1, U+2116; }
+
+@font-face { font-family: "Playfair Display"; font-style: normal; font-weight: 400; font-display: swap; src: url("https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTPYgEM86xRbPQ.woff2") format("woff2"); unicode-range: U+102-103, U+110-111, U+128-129, U+168-169, U+1A0-1A1, U+1AF-1B0, U+300-301, U+303-304, U+308-309, U+323, U+329, U+1EA0-1EF9, U+20AB; }
+
+@font-face { font-family: "Playfair Display"; font-style: normal; font-weight: 400; font-display: swap; src: url("https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTLYgEM86xRbPQ.woff2") format("woff2"); unicode-range: U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304, U+308, U+329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+
+@font-face { font-family: "Playfair Display"; font-style: normal; font-weight: 400; font-display: swap; src: url("https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTzYgEM86xQ.woff2") format("woff2"); unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+@font-face { font-family: "Playfair Display"; font-style: normal; font-weight: 600; font-display: swap; src: url("https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTjYgEM86xRbPQ.woff2") format("woff2"); unicode-range: U+301, U+400-45F, U+490-491, U+4B0-4B1, U+2116; }
+
+@font-face { font-family: "Playfair Display"; font-style: normal; font-weight: 600; font-display: swap; src: url("https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTPYgEM86xRbPQ.woff2") format("woff2"); unicode-range: U+102-103, U+110-111, U+128-129, U+168-169, U+1A0-1A1, U+1AF-1B0, U+300-301, U+303-304, U+308-309, U+323, U+329, U+1EA0-1EF9, U+20AB; }
+
+@font-face { font-family: "Playfair Display"; font-style: normal; font-weight: 600; font-display: swap; src: url("https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTLYgEM86xRbPQ.woff2") format("woff2"); unicode-range: U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304, U+308, U+329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+
+@font-face { font-family: "Playfair Display"; font-style: normal; font-weight: 600; font-display: swap; src: url("https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTzYgEM86xQ.woff2") format("woff2"); unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+------MultipartBoundary--EeXRwB3hEx4FBgnNnf0skB6fVcxrPEmhOanMeZ57mu----
+Content-Type: text/css
+Content-Transfer-Encoding: binary
+Content-Location: cid:css-9d198caf-6e44-441a-8964-33c539287fa3@mhtml.blink
+
+@charset "utf-8";
+
+:root { --p0: #fff5f7; --p1: #ffe4ec; --p2: #ffc2d4; --p3: #ff8fab; --p4: #e05f85; --p5: #a0395a; --text: #4a1e30; --text2: #8a4a60; --text3: #b88090; --card: #ffffff; --bg: #fff5f7; --border: #f5d0db; --shadow: #ffc2d430; --toolbar: #ffffffcc; --input-bg: #ffffff; --modal-bg: #ffffff; --progress-track: #fde8ed; }
+
+[data-theme="dark"] { --p0: #1a0d12; --p1: #2d1520; --p2: #5a2a3a; --p3: #c06080; --p4: #e07090; --p5: #f0a0b8; --text: #f5d0db; --text2: #d4909f; --text3: #906070; --card: #261218; --bg: #1a0d12; --border: #3d1f28; --shadow: #00000050; --toolbar: #1a0d12cc; --input-bg: #261218; --modal-bg: #261218; --progress-track: #3d1f28; }
+
+* { margin: 0px; padding: 0px; box-sizing: border-box; }
+
+body { font-family: "DM Sans", sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; transition: background 0.35s, color 0.35s; }
+
+body::before { content: ""; position: fixed; inset: 0px; pointer-events: none; z-index: 0; background: radial-gradient(70% 50% at 0% 0%, rgba(255, 214, 229, 0.19) 0%, transparent 60%), radial-gradient(50% 50% at 100% 100%, rgba(255, 194, 212, 0.125) 0%, transparent 60%); transition: opacity 0.35s; }
+
+[data-theme="dark"] body::before { opacity: 0.25; }
+
+.wrap { max-width: 1400px; margin: 0px auto; padding: 1.5rem 1.5rem 5rem; position: relative; z-index: 1; }
+
+header { text-align: center; margin-bottom: 1.6rem; padding: 2rem 1.5rem 1.6rem; background: linear-gradient(150deg,var(--p1),var(--p0)); border-radius: 24px; border: 1.5px solid var(--border); box-shadow: 0 8px 32px var(--shadow); animation: 0.5s ease 0s 1 normal both running fadeUp; position: relative; }
+
+.theme-toggle { position: absolute; top: 1rem; right: 1rem; width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid var(--border); background: var(--card); cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; transition: 0.2s; box-shadow: 0 2px 8px var(--shadow); }
+
+.theme-toggle:hover { transform: rotate(20deg) scale(1.1); }
+
+header h1 { font-family: "Playfair Display", serif; font-size: 1.9rem; font-weight: 600; color: var(--text); margin-bottom: 0.2rem; }
+
+header .sub { font-size: 0.82rem; color: var(--text3); font-style: italic; }
+
+.stats-row { display: flex; gap: 0.5rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+
+.stat-pill { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 0.28rem 0.85rem; font-size: 0.73rem; color: var(--text2); display: flex; align-items: center; gap: 0.3rem; transition: background 0.3s, border 0.3s; }
+
+.stat-dot { width: 7px; height: 7px; border-radius: 50%; }
+
+.today-tab-btn { display: flex; align-items: center; gap: 0.45rem; padding: 0.48rem 1rem; border-radius: 40px; border: 1.5px solid var(--p2); background: var(--p1); color: var(--p4); font-family: "DM Sans", sans-serif; font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: 0.2s; white-space: nowrap; position: relative; }
+
+.today-tab-btn:hover { background: var(--p2); border-color: var(--p3); }
+
+.today-tab-btn.has-updates { background: linear-gradient(135deg,var(--p3),var(--p4)); border-color: transparent; color: rgb(255, 255, 255); box-shadow: rgba(255, 143, 171, 0.267) 0px 3px 12px; }
+
+.today-badge { background: rgb(255, 255, 255); color: var(--p4); border-radius: 20px; font-size: 0.68rem; font-weight: 700; padding: 0.05rem 0.4rem; min-width: 18px; text-align: center; }
+
+.today-tab-btn.has-updates .today-badge { background: rgba(255, 255, 255, 0.9); color: rgb(224, 95, 133); }
+
+.today-panel { display: none; background: linear-gradient(135deg,var(--p1),#fff8fb); border: 1.5px solid var(--p2); border-radius: 16px; padding: 1rem 1.2rem; margin-bottom: 1.2rem; animation: 0.3s ease 0s 1 normal both running fadeUp; }
+
+.today-panel.show { display: block; }
+
+.today-panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.7rem; }
+
+.today-panel-title { font-family: "Playfair Display", serif; font-size: 1rem; color: var(--p4); }
+
+.today-panel-date { font-size: 0.75rem; color: var(--text3); font-style: italic; }
+
+.today-panel-close { background: none; border: none; cursor: pointer; font-size: 1rem; color: var(--text3); padding: 0.1rem 0.3rem; border-radius: 6px; transition: color 0.15s; }
+
+.today-panel-close:hover { color: var(--p4); }
+
+.today-empty { font-size: 0.82rem; color: var(--text3); font-style: italic; padding: 0.3rem 0px; }
+
+.today-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.83rem; color: var(--text); padding: 0.3rem 0px; border-bottom: 1px solid var(--border); }
+
+.today-item:last-child { border-bottom: none; }
+
+.today-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--p3); flex-shrink: 0; }
+
+.alert-overlay { position: fixed; inset: 0px; background: rgba(74, 30, 48, 0.4); backdrop-filter: blur(6px); z-index: 200; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+
+.alert-overlay.open { opacity: 1; pointer-events: all; }
+
+.alert-modal { background: var(--modal-bg); border-radius: 24px; padding: 1.8rem 2rem; width: min(440px, 92vw); box-shadow: rgba(0, 0, 0, 0.267) 0px 24px 64px; border: 2px solid var(--p2); transform: scale(0.9); transition: transform 0.3s, background 0.3s; position: relative; }
+
+.alert-overlay.open .alert-modal { transform: scale(1); }
+
+.alert-modal h2 { font-family: "Playfair Display", serif; font-size: 1.35rem; color: var(--p4); margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.5rem; }
+
+.alert-modal .alert-sub { font-size: 0.78rem; color: var(--text3); margin-bottom: 1.1rem; font-style: italic; }
+
+.alert-item { display: flex; align-items: center; gap: 0.7rem; padding: 0.65rem 0.8rem; background: linear-gradient(135deg,var(--p1),#fff8fb); border: 1px solid var(--p2); border-radius: 12px; margin-bottom: 0.45rem; }
+
+.alert-item:last-of-type { margin-bottom: 1.1rem; }
+
+.alert-icon { font-size: 1.3rem; flex-shrink: 0; }
+
+.alert-info { flex: 1 1 0%; }
+
+.alert-title { font-family: "Playfair Display", serif; font-size: 0.92rem; font-weight: 600; color: var(--text); }
+
+.alert-meta { font-size: 0.7rem; color: var(--text3); margin-top: 0.1rem; }
+
+.alert-close { width: 100%; padding: 0.6rem; border-radius: 40px; border: none; background: linear-gradient(135deg,var(--p3),var(--p4)); color: white; font-family: "DM Sans", sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; box-shadow: 0 3px 12px var(--shadow); transition: 0.2s; }
+
+.alert-close:hover { transform: translateY(-1px); box-shadow: 0 5px 16px var(--shadow); }
+
+.toolbar { position: sticky; top: 0.5rem; z-index: 20; background: var(--toolbar); backdrop-filter: blur(12px); border: 1px solid var(--border); border-radius: 16px; padding: 0.7rem 0.9rem; display: flex; gap: 0.55rem; flex-wrap: wrap; align-items: center; margin-bottom: 1.2rem; box-shadow: 0 4px 20px var(--shadow); animation: 0.5s ease 0.1s 1 normal both running fadeUp; transition: background 0.35s, border 0.35s; }
+
+.search-wrap { flex: 1 1 0%; min-width: 150px; position: relative; }
+
+.search-wrap input { width: 100%; padding: 0.5rem 0.9rem 0.5rem 2.1rem; border: 1.5px solid var(--border); border-radius: 40px; background: var(--input-bg); color: var(--text); font-family: "DM Sans", sans-serif; font-size: 0.83rem; outline: none; transition: border-color 0.2s, background 0.3s; }
+
+.search-wrap input::placeholder { color: var(--text3); }
+
+.search-wrap input:focus { border-color: var(--p3); }
+
+.search-icon { position: absolute; left: 0.7rem; top: 50%; transform: translateY(-50%); font-size: 0.85rem; pointer-events: none; }
+
+.filter-row { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+
+.filter-btn { padding: 0.38rem 0.82rem; border-radius: 40px; border: 1.5px solid var(--border); background: var(--card); font-family: "DM Sans", sans-serif; font-size: 0.76rem; color: var(--text2); cursor: pointer; transition: 0.18s; white-space: nowrap; }
+
+.filter-btn:hover { border-color: var(--p3); color: var(--p4); }
+
+.filter-btn.active { background: linear-gradient(135deg,var(--p3),var(--p4)); border-color: transparent; color: rgb(255, 255, 255); box-shadow: 0 2px 10px var(--shadow); }
+
+.view-btns { display: flex; gap: 0.3rem; }
+
+.view-btn { width: 32px; height: 32px; border-radius: 9px; border: 1.5px solid var(--border); background: var(--card); cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; transition: 0.18s; }
+
+.view-btn:hover { border-color: var(--p3); }
+
+.view-btn.active { background: var(--p2); border-color: var(--p2); }
+
+.raffle-btn { padding: 0.48rem 1rem; border-radius: 40px; border: none; background: linear-gradient(135deg,var(--p3),var(--p4)); color: rgb(255, 255, 255); font-family: "DM Sans", sans-serif; font-size: 0.8rem; font-weight: 500; cursor: pointer; box-shadow: rgba(255, 143, 171, 0.267) 0px 3px 12px; transition: 0.2s; white-space: nowrap; }
+
+.raffle-btn:hover { transform: translateY(-2px); box-shadow: rgba(255, 143, 171, 0.333) 0px 5px 18px; }
+
+#bookGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.8rem; }
+
+#bookGrid.list-view { grid-template-columns: 1fr; gap: 0.45rem; }
+
+@media (min-width: 768px) {
+  #bookGrid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+}
+
+@media (min-width: 1100px) {
+  #bookGrid { grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); gap: 0.9rem; }
+}
+
+@media (min-width: 1400px) {
+  #bookGrid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+}
+
+.book-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 16px; padding: 0.85rem; display: flex; flex-direction: column; gap: 0.5rem; transition: transform 0.2s, box-shadow 0.2s, background 0.3s, border 0.3s; animation: 0.35s ease 0s 1 normal both running fadeUp; position: relative; overflow: hidden; }
+
+.book-card::after { content: ""; position: absolute; top: 0px; left: 0px; right: 0px; height: 3px; background: linear-gradient(90deg,var(--p2),var(--p3)); opacity: 0; transition: opacity 0.2s; }
+
+.book-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px var(--shadow); }
+
+.book-card:hover::after { opacity: 1; }
+
+.book-card.updates-today { border-color: var(--p3); box-shadow: 0 0 0 2px var(--p2),0 4px 16px var(--shadow); }
+
+.book-card.updates-today::after { opacity: 1; }
+
+.today-tag { position: absolute; top: 0.7rem; right: 0.7rem; background: linear-gradient(135deg,var(--p3),var(--p4)); color: white; font-size: 0.6rem; font-weight: 600; padding: 0.18rem 0.55rem; border-radius: 20px; letter-spacing: 0.04em; box-shadow: 0 2px 8px var(--shadow); }
+
+.card-top { display: flex; align-items: flex-start; gap: 0.5rem; }
+
+.card-num { font-family: "Playfair Display", serif; font-size: 0.7rem; font-style: italic; color: var(--text3); min-width: 1.4rem; }
+
+.card-title { font-family: "Playfair Display", serif; font-size: 0.96rem; font-weight: 600; color: var(--text); line-height: 1.3; flex: 1 1 0%; }
+
+.priority-badge { font-size: 0.65rem; background: linear-gradient(135deg, rgba(255, 143, 171, 0.133), rgba(255, 194, 212, 0.267)); border: 1px solid var(--p2); color: var(--p4); padding: 0.12rem 0.45rem; border-radius: 20px; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.15rem; margin-top: 0.25rem; }
+
+.status-row { display: flex; gap: 0.25rem; flex-wrap: wrap; }
+
+.status-btn { padding: 0.2rem 0.5rem; border-radius: 20px; border: 1px solid transparent; font-size: 0.66rem; cursor: pointer; font-family: "DM Sans", sans-serif; transition: 0.15s; opacity: 0.45; }
+
+.status-btn:hover { opacity: 0.8; }
+
+.status-btn.active { opacity: 1; font-weight: 500; }
+
+.s-unread { background: rgb(240, 240, 245); color: rgb(136, 136, 136); border-color: rgb(221, 221, 221); }
+
+.s-unread.active { background: rgb(237, 233, 254); color: rgb(124, 58, 237); border-color: rgb(196, 181, 253); }
+
+.s-reading { background: rgb(254, 249, 238); color: rgb(146, 64, 14); border-color: rgb(253, 230, 138); }
+
+.s-reading.active { background: rgb(255, 251, 235); color: rgb(217, 119, 6); border-color: rgb(252, 211, 77); }
+
+.s-read { background: rgb(240, 253, 244); color: rgb(22, 101, 52); border-color: rgb(187, 247, 208); }
+
+.s-read.active { background: rgb(220, 252, 231); color: rgb(21, 128, 61); border-color: rgb(134, 239, 172); }
+
+.s-paused { background: rgb(239, 246, 255); color: rgb(30, 64, 175); border-color: rgb(191, 219, 254); }
+
+.s-paused.active { background: rgb(219, 234, 254); color: rgb(29, 78, 216); border-color: rgb(147, 197, 253); }
+
+[data-theme="dark"] .s-unread { background: rgb(42, 42, 58); color: rgb(170, 170, 170); border-color: rgb(68, 68, 68); }
+
+[data-theme="dark"] .s-unread.active { background: rgb(61, 53, 96); color: rgb(196, 160, 255); border-color: rgb(124, 95, 208); }
+
+[data-theme="dark"] .s-reading { background: rgb(42, 32, 10); color: rgb(192, 144, 32); border-color: rgb(128, 96, 16); }
+
+[data-theme="dark"] .s-reading.active { background: rgb(58, 45, 10); color: rgb(240, 192, 64); border-color: rgb(192, 144, 48); }
+
+[data-theme="dark"] .s-read { background: rgb(10, 32, 16); color: rgb(80, 160, 96); border-color: rgb(32, 80, 48); }
+
+[data-theme="dark"] .s-read.active { background: rgb(13, 45, 18); color: rgb(112, 208, 128); border-color: rgb(64, 160, 80); }
+
+[data-theme="dark"] .s-paused { background: rgb(10, 21, 48); color: rgb(80, 112, 192); border-color: rgb(32, 48, 96); }
+
+[data-theme="dark"] .s-paused.active { background: rgb(13, 31, 69); color: rgb(128, 160, 232); border-color: rgb(48, 80, 160); }
+
+.section-title { font-size: 0.65rem; color: var(--text3); margin-bottom: 0.28rem; }
+
+.emission-row { display: flex; gap: 0.22rem; flex-wrap: wrap; }
+
+.emit-btn { padding: 0.18rem 0.48rem; border-radius: 20px; border: 1px solid transparent; font-size: 0.64rem; cursor: pointer; font-family: "DM Sans", sans-serif; transition: 0.15s; opacity: 0.45; }
+
+.emit-btn:hover { opacity: 0.8; }
+
+.emit-btn.active { opacity: 1; font-weight: 500; }
+
+.e-ongoing { background: rgb(255, 247, 237); color: rgb(194, 65, 12); border-color: rgb(254, 215, 170); }
+
+.e-ongoing.active { background: rgb(255, 237, 213); color: rgb(234, 88, 12); border-color: rgb(251, 146, 60); }
+
+.e-finished { background: rgb(240, 253, 244); color: rgb(21, 128, 61); border-color: rgb(187, 247, 208); }
+
+.e-finished.active { background: rgb(220, 252, 231); color: rgb(22, 163, 74); border-color: rgb(134, 239, 172); }
+
+.e-hiatus { background: rgb(250, 245, 255); color: rgb(126, 34, 206); border-color: rgb(233, 213, 255); }
+
+.e-hiatus.active { background: rgb(243, 232, 255); color: rgb(147, 51, 234); border-color: rgb(216, 180, 254); }
+
+.e-announced { background: rgb(239, 246, 255); color: rgb(29, 78, 216); border-color: rgb(191, 219, 254); }
+
+.e-announced.active { background: rgb(219, 234, 254); color: rgb(37, 99, 235); border-color: rgb(147, 197, 253); }
+
+[data-theme="dark"] .e-ongoing { background: rgb(42, 21, 0); color: rgb(240, 128, 48); border-color: rgb(112, 48, 16); }
+
+[data-theme="dark"] .e-ongoing.active { background: rgb(58, 32, 0); color: rgb(255, 153, 64); border-color: rgb(160, 72, 32); }
+
+[data-theme="dark"] .e-finished { background: rgb(10, 32, 16); color: rgb(80, 160, 96); border-color: rgb(32, 80, 48); }
+
+[data-theme="dark"] .e-finished.active { background: rgb(13, 45, 18); color: rgb(112, 208, 128); border-color: rgb(64, 160, 80); }
+
+[data-theme="dark"] .e-hiatus { background: rgb(26, 10, 42); color: rgb(192, 128, 240); border-color: rgb(80, 32, 112); }
+
+[data-theme="dark"] .e-hiatus.active { background: rgb(34, 13, 56); color: rgb(208, 144, 255); border-color: rgb(112, 48, 160); }
+
+[data-theme="dark"] .e-announced { background: rgb(10, 21, 48); color: rgb(80, 112, 192); border-color: rgb(32, 48, 96); }
+
+[data-theme="dark"] .e-announced.active { background: rgb(13, 31, 69); color: rgb(128, 160, 232); border-color: rgb(48, 80, 160); }
+
+.schedule-section { }
+
+.freq-toggle { display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; width: fit-content; }
+
+.freq-btn { padding: 0.18rem 0.55rem; font-size: 0.65rem; border: none; cursor: pointer; font-family: "DM Sans", sans-serif; background: transparent; color: var(--text3); transition: 0.15s; white-space: nowrap; }
+
+.freq-btn.active { background: var(--p2); color: var(--text); }
+
+.days-grid { display: flex; gap: 0.22rem; flex-wrap: wrap; margin-top: 0.3rem; }
+
+.day-chip { width: 30px; height: 26px; border-radius: 8px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text3); font-size: 0.65rem; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.15s; user-select: none; }
+
+.day-chip:hover { border-color: var(--p3); color: var(--p4); }
+
+.day-chip.active { background: linear-gradient(135deg,var(--p2),var(--p3)); border-color: transparent; color: rgb(255, 255, 255); }
+
+.date-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.18rem; margin-top: 0.3rem; }
+
+.date-chip { height: 24px; border-radius: 6px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text3); font-size: 0.62rem; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.15s; user-select: none; }
+
+.date-chip:hover { border-color: var(--p3); color: var(--p4); }
+
+.date-chip.active { background: linear-gradient(135deg,var(--p3),var(--p4)); border-color: transparent; color: rgb(255, 255, 255); font-weight: 600; }
+
+.date-chip.today-date { border-color: var(--p3); color: var(--p4); }
+
+.schedule-display { font-size: 0.68rem; color: var(--p4); font-weight: 500; margin-top: 0.3rem; min-height: 0.9rem; line-height: 1.4; }
+
+.chapter-label { font-size: 0.65rem; color: var(--text3); margin-bottom: 0.3rem; display: flex; justify-content: space-between; }
+
+.chapter-label span { color: var(--p4); font-weight: 500; }
+
+.progress-bar-wrap { height: 6px; background: var(--progress-track); border-radius: 10px; overflow: hidden; margin-bottom: 0.35rem; }
+
+.progress-bar-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg,var(--p3),var(--p4)); transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+
+.chapter-inputs { display: flex; align-items: center; gap: 0.4rem; }
+
+.chapter-inp { width: 52px; padding: 0.28rem 0.4rem; border: 1px solid var(--border); border-radius: 8px; background: var(--input-bg); color: var(--text); font-size: 0.75rem; font-family: "DM Sans", sans-serif; text-align: center; outline: none; transition: border 0.2s; }
+
+.chapter-inp:focus { border-color: var(--p3); }
+
+.chapter-sep, .chapter-of { font-size: 0.68rem; color: var(--text3); }
+
+.stars-label { font-size: 0.65rem; color: var(--text3); margin-bottom: 0.2rem; }
+
+.stars-row { display: flex; gap: 0.1rem; }
+
+.star { font-size: 1.1rem; cursor: pointer; transition: transform 0.15s, filter 0.15s, opacity 0.15s; filter: grayscale(1); opacity: 0.25; user-select: none; }
+
+.star.lit { filter: none; opacity: 1; }
+
+.star:hover { transform: scale(1.25); filter: none; opacity: 1; }
+
+.card-divider { height: 1px; background: var(--border); opacity: 0.6; }
+
+.book-card.list-mode { flex-flow: wrap; align-items: flex-start; gap: 0.6rem; padding: 0.75rem 1rem; }
+
+.book-card.list-mode .card-top { flex: 1 1 0%; min-width: 160px; }
+
+.book-card.list-mode .priority-badge { display: none; }
+
+.book-card.list-mode .chapter-section, .book-card.list-mode .schedule-section, .book-card.list-mode .emission-section { order: 5; width: 100%; }
+
+.book-card.list-mode .stars-section { margin-left: auto; }
+
+.overlay { position: fixed; inset: 0px; background: rgba(74, 30, 48, 0.533); backdrop-filter: blur(8px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+
+.overlay.open { opacity: 1; pointer-events: all; }
+
+.modal { background: var(--modal-bg); border-radius: 24px; padding: 2rem 2rem 1.8rem; width: min(420px, 92vw); text-align: center; box-shadow: rgba(0, 0, 0, 0.267) 0px 24px 64px; border: 2px solid var(--border); transform: scale(0.88); transition: transform 0.3s, background 0.3s; }
+
+.overlay.open .modal { transform: scale(1); }
+
+.modal h2 { font-family: "Playfair Display", serif; font-size: 1.5rem; color: var(--text); margin-bottom: 0.25rem; }
+
+.modal .msub { font-size: 0.8rem; color: var(--text3); margin-bottom: 1.3rem; }
+
+.roulette-ring { width: 220px; height: 220px; border-radius: 50%; border: 4px solid var(--p2); margin: 0px auto 1.3rem; position: relative; overflow: hidden; box-shadow: 0 0 0 8px var(--p1),0 8px 32px var(--shadow); }
+
+.roulette-inner { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg,var(--p1),var(--p0)); padding: 0.8rem; }
+
+.roulette-title { font-family: "Playfair Display", serif; font-size: 0.88rem; font-weight: 600; color: var(--text); text-align: center; line-height: 1.3; }
+
+.roulette-ring::after { content: "▼"; position: absolute; top: 5px; left: 50%; transform: translateX(-50%); color: var(--p4); font-size: 1rem; z-index: 10; }
+
+.spin-btn { padding: 0.6rem 1.8rem; border-radius: 40px; border: none; background: linear-gradient(135deg,var(--p3),var(--p4)); color: rgb(255, 255, 255); font-family: "DM Sans", sans-serif; font-size: 0.88rem; font-weight: 500; cursor: pointer; box-shadow: rgba(255, 143, 171, 0.267) 0px 4px 16px; transition: 0.2s; margin-bottom: 0.9rem; }
+
+.spin-btn:hover { transform: translateY(-2px); }
+
+.spin-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+.result-box { background: var(--p1); border: 1.5px solid var(--p2); border-radius: 14px; padding: 0.85rem 1.1rem; margin-bottom: 0.9rem; min-height: 48px; display: flex; align-items: center; justify-content: center; font-family: "Playfair Display", serif; font-size: 0.95rem; color: var(--text); font-style: italic; }
+
+.result-box.pop { animation: 0.4s ease 0s 1 normal none running pop; }
+
+@keyframes pop { 
+  0% { transform: scale(0.9); opacity: 0.4; }
+  60% { transform: scale(1.06); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.close-btn { padding: 0.42rem 1.1rem; border-radius: 40px; border: 1.5px solid var(--border); background: transparent; font-size: 0.78rem; color: var(--text2); cursor: pointer; font-family: "DM Sans", sans-serif; transition: 0.18s; }
+
+.close-btn:hover { border-color: var(--p3); color: var(--p4); }
+
+.empty { text-align: center; padding: 3rem 1rem; color: var(--text3); font-style: italic; font-family: "Playfair Display", serif; }
+
+.empty .big { font-size: 2.5rem; margin-bottom: 0.5rem; }
+
+.add-overlay { position: fixed; inset: 0px; background: rgba(74, 30, 48, 0.467); backdrop-filter: blur(7px); z-index: 150; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+
+.add-overlay.open { opacity: 1; pointer-events: all; }
+
+.add-modal { background: var(--modal-bg); border-radius: 24px; padding: 1.8rem 2rem 1.6rem; width: min(420px, 92vw); box-shadow: rgba(0, 0, 0, 0.267) 0px 24px 64px; border: 2px solid var(--border); transform: scale(0.9); transition: transform 0.3s, background 0.3s; }
+
+.add-overlay.open .add-modal { transform: scale(1); }
+
+.add-modal h2 { font-family: "Playfair Display", serif; font-size: 1.35rem; color: var(--text); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.5rem; }
+
+.add-field { margin-bottom: 0.9rem; }
+
+.add-field label { display: block; font-size: 0.72rem; color: var(--text3); margin-bottom: 0.3rem; letter-spacing: 0.03em; }
+
+.add-field input, .add-field select { width: 100%; padding: 0.55rem 0.85rem; border: 1.5px solid var(--border); border-radius: 12px; background: var(--input-bg); color: var(--text); font-family: "DM Sans", sans-serif; font-size: 0.88rem; outline: none; transition: border-color 0.2s, background 0.3s; appearance: none; }
+
+.add-field input:focus, .add-field select:focus { border-color: var(--p3); }
+
+.add-field input::placeholder { color: var(--text3); }
+
+.add-priority-row { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.2rem; }
+
+.add-priority-row label { font-size: 0.82rem; color: var(--text2); cursor: pointer; user-select: none; }
+
+.add-priority-row input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--p4); cursor: pointer; }
+
+.add-error { font-size: 0.75rem; color: rgb(224, 95, 133); margin-top: 0.2rem; display: none; }
+
+.add-error.show { display: block; }
+
+.add-actions { display: flex; gap: 0.6rem; margin-top: 1.2rem; }
+
+.add-confirm { flex: 1 1 0%; padding: 0.58rem; border-radius: 40px; border: none; background: linear-gradient(135deg,var(--p3),var(--p4)); color: white; font-family: "DM Sans", sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; box-shadow: 0 3px 12px var(--shadow); transition: 0.2s; }
+
+.add-confirm:hover { transform: translateY(-1px); }
+
+.add-cancel { padding: 0.58rem 1.2rem; border-radius: 40px; border: 1.5px solid var(--border); background: transparent; color: var(--text2); font-family: "DM Sans", sans-serif; font-size: 0.85rem; cursor: pointer; transition: 0.18s; }
+
+.add-cancel:hover { border-color: var(--p3); color: var(--p4); }
+
+.add-btn { padding: 0.48rem 1rem; border-radius: 40px; border: 1.5px solid var(--p2); background: var(--card); color: var(--p4); font-family: "DM Sans", sans-serif; font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: 0.2s; white-space: nowrap; display: flex; align-items: center; gap: 0.3rem; }
+
+.add-btn:hover { background: var(--p1); border-color: var(--p3); }
+
+.schedule-locked { background: var(--p1); border: 1px solid var(--p2); border-radius: 10px; padding: 0.5rem 0.75rem; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+
+.schedule-locked-text { font-size: 0.75rem; color: var(--text2); font-weight: 500; }
+
+.schedule-edit-btn { padding: 0.18rem 0.55rem; border-radius: 20px; border: 1.5px solid var(--p2); background: var(--card); color: var(--p4); font-size: 0.65rem; cursor: pointer; font-family: "DM Sans", sans-serif; transition: 0.15s; white-space: nowrap; flex-shrink: 0; }
+
+.schedule-edit-btn:hover { background: var(--p1); border-color: var(--p3); }
+
+.schedule-save-btn { padding: 0.18rem 0.55rem; border-radius: 20px; border: none; background: linear-gradient(135deg,var(--p3),var(--p4)); color: white; font-size: 0.65rem; cursor: pointer; font-family: "DM Sans", sans-serif; transition: 0.15s; white-space: nowrap; flex-shrink: 0; }
+
+.schedule-save-btn:hover { opacity: 0.85; }
+
+.card-cover { width: 100%; height: 160px; border-radius: 10px; object-fit: cover; background: var(--p1); border: 1.5px solid var(--border); display: block; cursor: pointer; transition: opacity 0.2s; }
+
+.card-cover:hover { opacity: 0.85; }
+
+.cover-placeholder { width: 100%; height: 160px; border-radius: 10px; background: linear-gradient(135deg,var(--p1),var(--p0)); border: 2px dashed var(--p2); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; gap: 0.3rem; }
+
+.cover-placeholder:hover { background: var(--p1); border-color: var(--p3); }
+
+.cover-placeholder span { font-size: 1.4rem; }
+
+.cover-placeholder p { font-size: 0.63rem; color: var(--text3); text-align: center; padding: 0px 0.4rem; }
+
+.cover-input { display: none; }
+
+.book-card.list-mode .card-cover, .book-card.list-mode .cover-placeholder { width: 50px; height: 72px; flex-shrink: 0; border-radius: 7px; }
+
+.book-card.list-mode .cover-placeholder span { font-size: 0.9rem; }
+
+.book-card.list-mode .cover-placeholder p { display: none; }
+
+.extras-section { margin-top: 0.5rem; }
+
+.extras-label { font-size: 0.65rem; color: var(--text3); margin-bottom: 0.28rem; display: flex; justify-content: space-between; }
+
+.extras-label span { color: rgb(160, 96, 208); font-weight: 500; }
+
+.extras-bar-wrap { height: 5px; background: var(--progress-track); border-radius: 10px; overflow: hidden; margin-bottom: 0.32rem; }
+
+.extras-bar-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, rgb(192, 144, 224), rgb(144, 80, 192)); transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+
+[data-theme="dark"] .extras-bar-fill { background: linear-gradient(90deg, rgb(128, 64, 176), rgb(96, 32, 160)); }
+
+.entry-row { background: var(--p0); border: 1.5px solid var(--border); border-radius: 14px; padding: 0.9rem 1rem; margin-bottom: 0.7rem; position: relative; }
+
+.entry-row-num { font-size: 0.68rem; color: var(--text3); font-style: italic; margin-bottom: 0.55rem; }
+
+.entry-remove { position: absolute; top: 0.65rem; right: 0.65rem; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--border); background: var(--card); color: var(--text3); font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.15s; }
+
+.entry-remove:hover { background: rgb(254, 226, 226); border-color: rgb(252, 165, 165); color: rgb(220, 38, 38); }
+
+.entry-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+
+.add-field textarea { width: 100%; padding: 0.5rem 0.85rem; border: 1.5px solid var(--border); border-radius: 12px; background: var(--input-bg); color: var(--text); font-family: "DM Sans", sans-serif; font-size: 0.83rem; outline: none; transition: border-color 0.2s, background 0.3s; resize: vertical; min-height: 60px; }
+
+.add-field textarea:focus { border-color: var(--p3); }
+
+.add-field textarea::placeholder { color: var(--text3); }
+
+.add-more-btn { width: 100%; padding: 0.48rem; border-radius: 12px; border: 1.5px dashed var(--p2); background: transparent; color: var(--p4); font-family: "DM Sans", sans-serif; font-size: 0.82rem; cursor: pointer; transition: 0.18s; margin-bottom: 0.9rem; }
+
+.add-more-btn:hover { background: var(--p1); }
+
+.card-link { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.68rem; color: var(--p4); text-decoration: none; border: 1px solid var(--p2); border-radius: 20px; padding: 0.15rem 0.55rem; background: var(--p1); transition: 0.15s; margin-top: 0.1rem; width: fit-content; }
+
+.card-link:hover { background: var(--p2); }
+
+.type-badge { font-size: 0.6rem; padding: 0.1rem 0.45rem; border-radius: 20px; border: 1px solid; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.15rem; margin-top: 0.2rem; width: fit-content; }
+
+.type-manga { background: rgb(255, 240, 249); color: rgb(192, 38, 160); border-color: rgb(240, 171, 220); }
+
+.type-manhwa { background: rgb(255, 245, 240); color: rgb(192, 80, 0); border-color: rgb(245, 192, 160); }
+
+.type-novel { background: rgb(240, 244, 255); color: rgb(48, 80, 192); border-color: rgb(176, 192, 240); }
+
+[data-theme="dark"] .type-manga { background: rgb(42, 5, 32); color: rgb(224, 96, 192); border-color: rgb(128, 32, 96); }
+
+[data-theme="dark"] .type-manhwa { background: rgb(42, 21, 0); color: rgb(224, 112, 32); border-color: rgb(128, 64, 16); }
+
+[data-theme="dark"] .type-novel { background: rgb(10, 16, 48); color: rgb(96, 128, 224); border-color: rgb(48, 64, 128); }
+
+.filter-group { display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; }
+
+.filter-sep { width: 1px; height: 18px; background: var(--border); flex-shrink: 0; }
+
+.chap-plus { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--p2); background: var(--p1); color: var(--p4); font-size: 1rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.18s; flex-shrink: 0; line-height: 1; user-select: none; }
+
+.chap-plus:hover { background: var(--p2); border-color: var(--p3); transform: scale(1.15); }
+
+.chap-plus:active { transform: scale(0.95); }
+
+.chap-bump { animation: 0.25s ease 0s 1 normal none running bump; }
+
+@keyframes bump { 
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+.delete-btn { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border); background: var(--card); color: var(--text3); font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.18s; }
+
+.delete-btn:hover { background: rgb(254, 226, 226); border-color: rgb(252, 165, 165); color: rgb(220, 38, 38); }
+
+.card-actions { position: absolute; bottom: 0.7rem; right: 0.7rem; display: flex; gap: 0.3rem; opacity: 0; transition: opacity 0.18s; }
+
+.book-card:hover .card-actions { opacity: 1; }
+
+.main-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.4rem; border-bottom: 2px solid var(--border); padding-bottom: 0px; }
+
+.main-tab { padding: 0.55rem 1.4rem; border-radius: 12px 12px 0px 0px; border: 1.5px solid transparent; background: none; font-family: "DM Sans", sans-serif; font-size: 0.88rem; font-weight: 500; color: var(--text2); cursor: pointer; transition: 0.2s; margin-bottom: -2px; }
+
+.main-tab:hover { color: var(--p4); background: var(--p1); }
+
+.main-tab.active { background: var(--card); border-top-color: ; border-right-color: ; border-left-color: ; border-bottom-color: var(--card); color: var(--p4); font-weight: 600; }
+
+.tab-section { display: none; }
+
+.tab-section.active { display: block; }
+
+.book-card.book-mode { border-top: 3px solid rgb(167, 139, 250); }
+
+.genre-badge { font-size: 0.6rem; padding: 0.1rem 0.45rem; border-radius: 20px; border: 1px solid rgb(221, 214, 254); background: rgb(245, 243, 255); color: rgb(124, 58, 237); white-space: nowrap; }
+
+[data-theme="dark"] .genre-badge { background: rgb(45, 27, 105); color: rgb(196, 181, 253); border-color: rgb(76, 29, 149); }
+
+.format-fisico { font-size: 0.6rem; padding: 0.1rem 0.45rem; border-radius: 20px; background: rgb(240, 253, 244); color: rgb(22, 101, 52); border: 1px solid rgb(187, 247, 208); white-space: nowrap; }
+
+.format-digital { font-size: 0.6rem; padding: 0.1rem 0.45rem; border-radius: 20px; background: rgb(239, 246, 255); color: rgb(30, 64, 175); border: 1px solid rgb(191, 219, 254); white-space: nowrap; }
+
+[data-theme="dark"] .format-fisico { background: rgb(5, 46, 22); color: rgb(134, 239, 172); border-color: rgb(20, 83, 45); }
+
+[data-theme="dark"] .format-digital { background: rgb(12, 26, 58); color: rgb(147, 197, 253); border-color: rgb(30, 58, 138); }
+
+.book-meta { font-size: 0.73rem; color: var(--text3); display: flex; flex-direction: column; gap: 0.15rem; margin-top: 0.25rem; }
+
+.book-meta span { display: flex; align-items: center; gap: 0.25rem; }
+
+@keyframes fadeUp { 
+  0% { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0px); }
+}
+
+.confetti { position: fixed; pointer-events: none; z-index: 200; border-radius: 50%; animation: 1.3s ease-in 0s 1 normal forwards running confettiFall; }
+
+@keyframes confettiFall { 
+  0% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(320px) rotate(720deg); opacity: 0; }
+}
+------MultipartBoundary--EeXRwB3hEx4FBgnNnf0skB6fVcxrPEmhOanMeZ57mu------
