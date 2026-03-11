@@ -664,7 +664,6 @@
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
 
 const DEFAULT_BOOKS=[];
@@ -3193,29 +3192,32 @@ function generatePdf(){
   </div>
   </body></html>`;
 
-  // Render HTML into hidden div then convert to PDF
   closePdfModal();
-  showToast('⏳ Generando PDF… espera un momento 🌸');
-  const container=document.createElement('div');
-  container.style.cssText='position:fixed;left:-9999px;top:0;width:794px;background:#fff5f7;font-family:DM Sans,sans-serif;';
-  container.innerHTML=html;
-  document.body.appendChild(container);
-  const filename=`Hanami-Journal-${periodLabel.replace(/\s+/g,'-')}.pdf`;
-  html2pdf().set({
-    margin:[8,8,8,8],
-    filename:filename,
-    image:{type:'jpeg',quality:0.95},
-    html2canvas:{scale:2,useCORS:true,logging:false,backgroundColor:'#fff5f7'},
-    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
-    pagebreak:{mode:['avoid-all','css']},
-  }).from(container).save().then(()=>{
-    document.body.removeChild(container);
-    showToast('✅ PDF guardado en Descargas 🌸');
-  }).catch(e=>{
-    document.body.removeChild(container);
-    showToast('⚠️ Error al generar PDF');
-    console.error(e);
-  });
+  showToast('⏳ Preparando journal… 🌸');
+
+  // Use blob URL + iframe print — works on Android Chrome
+  const blob = new Blob([html], {type: 'text/html;charset=utf-8'});
+  const blobUrl = URL.createObjectURL(blob);
+
+  const iframe = document.createElement('iframe');
+  iframe.style.cssText = 'position:fixed;left:-9999px;top:0;width:0;height:0;border:none;';
+  iframe.src = blobUrl;
+  document.body.appendChild(iframe);
+
+  iframe.onload = () => {
+    try {
+      iframe.contentWindow.focus();
+      iframe.contentWindow.print();
+    } catch(e) {
+      // Fallback: open in new tab
+      window.open(blobUrl, '_blank');
+    }
+    setTimeout(() => {
+      URL.revokeObjectURL(blobUrl);
+      document.body.removeChild(iframe);
+    }, 60000);
+    showToast('🌸 Selecciona "Guardar como PDF" al imprimir');
+  };
 }
 
 const DEFAULT_TABS=[
