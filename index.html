@@ -664,6 +664,7 @@
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
 
 const DEFAULT_BOOKS=[];
@@ -1065,6 +1066,7 @@ function buildCardHTML(b,i){
         :`<div style="font-size:.68rem;color:var(--text3);">🔄 Ciclo activo · pausa en ${daysLeft}d</div>`;
     })()}
       ${sE?`<div class="emission-section"><div class="card-divider"></div><div class="section-title">Emisión</div><div class="emission-row">${emitBtns}</div>${st.emission==='hiatus'?`<div style="display:flex;align-items:center;gap:.4rem;margin-top:.4rem;flex-wrap:wrap;"><span style="font-size:.7rem;color:var(--text3);">⏰ Regresa el</span><input type="date" value="${st.hiatusReturn?new Date(st.hiatusReturn).toISOString().slice(0,10):''}" onchange="STATE[${b.id}].hiatusReturn=this.value?new Date(this.value).getTime():null;save();renderOneCard(${b.id})" style="font-size:.7rem;border:1px solid var(--border);border-radius:7px;padding:.15rem .45rem;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;">${st.hiatusReturn?`<span style="font-size:.68rem;color:var(--p4);">${new Date(st.hiatusReturn).toLocaleDateString('es-ES',{day:'numeric',month:'short',year:'numeric'})}</span>`:''}</div>`:''}</div>`:''}
+    ${scheduleHtml}
     <div class="card-expandable">
       ${chapHtml}
       ${extrasHtml}
@@ -1106,9 +1108,12 @@ function refreshDetailModal(){
   const dispText=scheduleDisplay(st);
   document.getElementById('detailTitle').textContent=b.title;
   document.getElementById('detailBody').innerHTML=`
-    ${st.cover
-        ?`<img src="${st.cover}" style="width:100%;max-height:220px;object-fit:cover;border-radius:11px;margin-bottom:1rem;cursor:pointer;" title="Toca para cambiar portada" onclick="triggerCoverUpload(${id},'manga',true)">`
-        :`<div style="width:100%;height:80px;display:flex;align-items:center;justify-content:center;background:var(--p1);border-radius:11px;font-size:1.2rem;gap:.5rem;color:var(--p4);cursor:pointer;margin-bottom:1rem;" onclick="triggerCoverUpload(${id},'manga',true)">🖼️ <span style="font-size:.8rem;">Toca para añadir portada</span></div>`}
+    <div style="position:relative;margin-bottom:1rem;">
+      <button onclick="closeDetailModal();openEditModal(${id});" style="position:absolute;top:.5rem;right:.5rem;z-index:10;display:flex;align-items:center;gap:.3rem;padding:.28rem .65rem;border-radius:20px;border:1.5px solid var(--p3);background:var(--card);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:600;cursor:pointer;box-shadow:0 2px 8px var(--shadow);">✏️ Editar</button>
+      ${st.cover
+        ?`<img src="${st.cover}" style="width:100%;max-height:220px;object-fit:cover;border-radius:11px;cursor:pointer;" title="Toca para cambiar portada" onclick="triggerCoverUpload(${id},'manga',true)">`
+        :`<div style="width:100%;height:80px;display:flex;align-items:center;justify-content:center;background:var(--p1);border-radius:11px;font-size:1.2rem;gap:.5rem;color:var(--p4);cursor:pointer;" onclick="triggerCoverUpload(${id},'manga',true)">🖼️ <span style="font-size:.8rem;">Toca para añadir portada</span></div>`}
+    </div>
     <div style="display:flex;flex-direction:column;gap:.85rem;font-size:.83rem;color:var(--text);">
 
       <div style="display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;">
@@ -1184,7 +1189,7 @@ function refreshDetailModal(){
 
       <div style="display:flex;gap:.5rem;margin-top:.25rem;">
         <button onclick="renderOneCard(${id});" style="flex:1;padding:.5rem;border-radius:11px;border:1.5px solid var(--p2);background:var(--p1);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;">✅ Guardar</button>
-        <button onclick="closeDetailModal();openEditModal(${id});" style="flex:1;padding:.5rem;border-radius:11px;border:1.5px solid var(--p3);background:var(--p2);color:var(--p5);font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;">✏️ Editar</button>
+
       </div>
     </div>`;
 }
@@ -2957,7 +2962,7 @@ function generatePdf(){
   };
 
   const wrapPage=(content, secId, extraStyle='')=>{
-    return `<div style="position:relative;page-break-after:always;padding:18px 20px 18px 44px;box-sizing:border-box;min-height:96vh;${extraStyle}">
+    return `<div style="position:relative;page-break-after:always;page-break-inside:avoid;padding:14px 16px 14px 38px;box-sizing:border-box;${extraStyle}">
       ${buildSideTabs(secId)}
       ${content}
     </div>`;
@@ -2970,7 +2975,7 @@ function generatePdf(){
     </div>${heartBorder}`;
 
   const coverPage=`
-  <div style="page-break-after:always;min-height:96vh;background:linear-gradient(160deg,#fff5f7 0%,#ffe4ec 50%,#ffc2d4 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;box-sizing:border-box;position:relative;">
+  <div style="page-break-after:always;background:linear-gradient(160deg,#fff5f7 0%,#ffe4ec 50%,#ffc2d4 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 30px;box-sizing:border-box;position:relative;">
     <div style="position:absolute;top:20px;left:0;right:0;text-align:center;font-size:13px;color:#ffb3c6;letter-spacing:6px;">✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿</div>
     <div style="border:3px solid #ff8fab;border-radius:24px;padding:40px 50px;background:rgba(255,255,255,.8);text-align:center;box-shadow:0 8px 32px rgba(255,143,171,.25);">
       <div style="font-size:36px;margin-bottom:10px;">🌸</div>
@@ -3008,19 +3013,19 @@ function generatePdf(){
     const col=TAB_COLORS.grid;
     const buildBlock=(items,stFn,title)=>{
       if(!items.length)return '';
-      const PER_PAGE=9;
+      const PER_PAGE=12;
       const pages=[];
       for(let i=0;i<items.length;i+=PER_PAGE)pages.push(items.slice(i,i+PER_PAGE));
       return pages.map((chunk,pi)=>{
         const cards=chunk.map(b=>{
           const st=stFn(b);
           const favMark=st.favorite?`<div style="position:absolute;top:3px;right:3px;background:#fef3c7;border-radius:50%;width:14px;height:14px;display:flex;align-items:center;justify-content:center;font-size:8px;">⭐</div>`:st.hated?`<div style="position:absolute;top:3px;right:3px;background:#fee2e2;border-radius:50%;width:14px;height:14px;display:flex;align-items:center;justify-content:center;font-size:8px;">💔</div>`:'';
-          const cover=st.cover?`<img src="${st.cover}" style="width:100%;height:85px;object-fit:cover;border-radius:7px 7px 0 0;display:block;">`:`<div style="width:100%;height:85px;border-radius:7px 7px 0 0;background:linear-gradient(135deg,#ffc2d4,#ffb3c6);display:flex;align-items:center;justify-content:center;font-size:26px;">📖</div>`;
+          const cover=st.cover?`<img src="${st.cover}" style="width:100%;height:110px;object-fit:contain;background:#fff0f4;border-radius:7px 7px 0 0;display:block;">`:`<div style="width:100%;height:110px;border-radius:7px 7px 0 0;background:linear-gradient(135deg,#ffc2d4,#ffb3c6);display:flex;align-items:center;justify-content:center;font-size:26px;">📖</div>`;
           const finish=st.finishDate?new Date(st.finishDate).toLocaleDateString('es-ES',{day:'2-digit',month:'short'}):'';
           return `<div style="background:white;border-radius:8px;border:1.5px solid #ffd0dc;overflow:hidden;break-inside:avoid;position:relative;">${cover}${favMark}<div style="padding:4px 5px;"><div style="font-size:8px;font-weight:700;color:#4a1e30;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:2px;">${b.title}</div>${st.author?`<div style="font-size:7px;color:#8a4a60;margin-bottom:1px;">✍️ ${st.author}</div>`:''}<div>${buildJournalRating(st)}</div>${finish?`<div style="font-size:6.5px;color:#b88090;">📅 ${finish}</div>`:''}</div></div>`;
         }).join('');
         const hdr=pi===0?`<div id="sec-grid" style="scroll-margin-top:20px;">${secHeader('📚',title,col)}</div>`:secHeader('📚',`${title} (cont.)`,col);
-        return wrapPage(`${hdr}<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:6px;">${cards}</div>`,'grid');
+        return wrapPage(`${hdr}<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:6px;">${cards}</div>`,'grid');
       }).join('');
     };
     return buildBlock(mangaItems,b=>STATE[b.id],'Manga')+buildBlock(bookItems,b=>BOOKS_STATE[b.id],'Libros');
@@ -3082,7 +3087,7 @@ function generatePdf(){
     const year=filterVal==='year'||filterVal==='month'?selYear:new Date().getFullYear();
     const months=filterVal==='month'?[selMonth]:Array.from({length:12},(_,i)=>i);
     const DN=['D','L','M','X','J','V','S'];
-    const PER_PAGE=filterVal==='month'?1:3;
+    const PER_PAGE=filterVal==='month'?1:4;
     const pages=[];
     for(let i=0;i<months.length;i+=PER_PAGE)pages.push(months.slice(i,i+PER_PAGE));
     return pages.map((chunk,pi)=>{
@@ -3180,7 +3185,7 @@ function generatePdf(){
   <title>Hanami Reads — ${periodLabel}</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
-*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:#fff5f7;color:#4a1e30;}a{color:inherit;}@media print{body{background:white;}@page{margin:0;size:A4;}}
+*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:#fff5f7;color:#4a1e30;}a{color:inherit;}.page{page-break-after:always;}@media print{body{background:white;-webkit-print-color-adjust:exact;print-color-adjust:exact;}@page{margin:8mm;size:A4;}}
 </style>
   </head><body>${body}
   <div style="padding:16px 44px;text-align:center;font-size:9px;color:#b88090;border-top:1px solid #ffd0dc;">
@@ -3188,11 +3193,29 @@ function generatePdf(){
   </div>
   </body></html>`;
 
-  const win=window.open('','_blank');
-  win.document.write(html);
-  win.document.close();
-  setTimeout(()=>win.print(),1000);
+  // Render HTML into hidden div then convert to PDF
   closePdfModal();
+  showToast('⏳ Generando PDF… espera un momento 🌸');
+  const container=document.createElement('div');
+  container.style.cssText='position:fixed;left:-9999px;top:0;width:794px;background:#fff5f7;font-family:DM Sans,sans-serif;';
+  container.innerHTML=html;
+  document.body.appendChild(container);
+  const filename=`Hanami-Journal-${periodLabel.replace(/\s+/g,'-')}.pdf`;
+  html2pdf().set({
+    margin:[8,8,8,8],
+    filename:filename,
+    image:{type:'jpeg',quality:0.95},
+    html2canvas:{scale:2,useCORS:true,logging:false,backgroundColor:'#fff5f7'},
+    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
+    pagebreak:{mode:['avoid-all','css']},
+  }).from(container).save().then(()=>{
+    document.body.removeChild(container);
+    showToast('✅ PDF guardado en Descargas 🌸');
+  }).catch(e=>{
+    document.body.removeChild(container);
+    showToast('⚠️ Error al generar PDF');
+    console.error(e);
+  });
 }
 
 const DEFAULT_TABS=[
