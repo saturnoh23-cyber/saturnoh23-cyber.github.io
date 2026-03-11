@@ -2810,11 +2810,12 @@ function getFieldPref(f){
 function togglePdfOpt(el){el.classList.toggle('active');}
 
 const PDF_SECTIONS=[
-  {id:'grid',   label:'📚 Cuadrícula de manga y libros', defaultOn:false},
-  {id:'review', label:'📝 Reseña individual',            defaultOn:true},
-  {id:'tracker',label:'📅 Tracker de lectura diaria',    defaultOn:false},
-  {id:'bingo',  label:'🎯 Bingo literario',              defaultOn:false},
-  {id:'stats',  label:'📊 Estadísticas',                 defaultOn:false},
+  {id:'grid',    label:'📚 Cuadrícula de manga y libros', defaultOn:false},
+  {id:'review',  label:'📝 Reseñas individuales',         defaultOn:true},
+  {id:'tracker', label:'📅 Tracker literario',            defaultOn:false},
+  {id:'bingo',   label:'🎯 Bingo literario',              defaultOn:false},
+  {id:'stats',   label:'📊 Estadísticas',                 defaultOn:false},
+  {id:'tbr',     label:'📋 Lista TBR',                    defaultOn:false},
 ];
 let _pdfSectionOrder=PDF_SECTIONS.map(s=>s.id);
 let _pdfSectionOn={grid:false,review:true,tracker:false,bingo:false,stats:false};
@@ -2943,11 +2944,11 @@ function generatePdf(){
 
   const TAB_COLORS={
     grid:'#ff8fab', review:'#c084fc', tracker:'#67e8f9',
-    bingo:'#fbbf24', stats:'#86efac'
+    bingo:'#fbbf24', stats:'#86efac', tbr:'#f9a8d4'
   };
   const TAB_LABELS={
     grid:'📚 Cuadrícula', review:'📝 Reseñas',
-    tracker:'📅 Tracker', bingo:'🎯 Bingo', stats:'📊 Stats'
+    tracker:'📅 Tracker', bingo:'🎯 Bingo', stats:'📊 Stats', tbr:'📋 TBR'
   };
 
   const buildSideTabs=(currentId)=>{
@@ -3034,46 +3035,44 @@ function generatePdf(){
     if(!incReview||(!mangaItems.length&&!bookItems.length))return '';
     const col=TAB_COLORS.review;
     const buildBlock=(items,stFn)=>{
-      return items.map((b,idx)=>{
-        const st=stFn(b);
-        const cover=st.cover?`<img src="${st.cover}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;display:block;">`:`<div style="width:100%;height:100%;border-radius:10px;background:linear-gradient(135deg,#ffc2d4,#ff8fab);display:flex;align-items:center;justify-content:center;font-size:38px;">📖</div>`;
-        const sL={read:'✅ Leído',reading:'✨ Leyendo',paused:'⏸ Pausado',unread:'📖 Sin leer'};
-        const sC={read:'#dcfce7',reading:'#fef9c3',paused:'#fee2e2',unread:'#f3f4f6'};
-        const sT={read:'#166534',reading:'#92400e',paused:'#991b1b',unread:'#374151'};
-        const finish=st.finishDate?new Date(st.finishDate).toLocaleDateString('es-ES',{day:'2-digit',month:'long',year:'numeric'}):'';
-        const syn=st.synopsis||st.sinopsis||'';
-        const favStamp=st.favorite?`<div style="display:inline-block;border:2.5px solid #d97706;color:#d97706;font-weight:800;font-size:10px;padding:3px 9px;border-radius:6px;letter-spacing:2px;transform:rotate(-3deg);font-family:monospace;">⭐ FAVORITO</div>`:st.hated?`<div style="display:inline-block;border:2.5px solid #dc2626;color:#dc2626;font-weight:800;font-size:10px;padding:3px 9px;border-radius:6px;letter-spacing:2px;transform:rotate(-3deg);font-family:monospace;">💔 NO ME GUSTÓ</div>`:'';
-        const anchorId=idx===0?'id="sec-review" style="scroll-margin-top:20px;"':'';
-        const inner=`
-          <div ${anchorId}>
-            <div style="text-align:center;margin-bottom:8px;font-family:'Playfair Display',serif;font-size:18px;color:#a0395a;font-weight:600;">Reseña</div>
-            <div style="text-align:center;margin-bottom:10px;"><span style="font-size:12px;color:#ff8fab;">✦ ─── ✦ ─── ✦</span></div>
-            <div style="display:flex;gap:14px;margin-bottom:10px;">
-              <div style="width:120px;min-width:120px;height:175px;flex-shrink:0;border:2px solid #ffd0dc;border-radius:10px;overflow:hidden;">${cover}</div>
-              <div style="flex:1;display:flex;flex-direction:column;gap:5px;">
-                <div style="background:#ffc2d4;border-radius:8px;padding:6px 10px;">
-                  <div style="font-size:7.5px;color:#a0395a;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:1px;">Nombre</div>
-                  <div style="font-size:11px;font-weight:700;color:#4a1e30;line-height:1.3;">${b.title}</div>
+      const sL={read:'✅ Leído',reading:'✨ Leyendo',paused:'⏸ Pausado',unread:'📖 Sin leer'};
+      const sC={read:'#dcfce7',reading:'#fef9c3',paused:'#fee2e2',unread:'#f3f4f6'};
+      const sT={read:'#166534',reading:'#92400e',paused:'#991b1b',unread:'#374151'};
+      const PER_PAGE=3;
+      const pages=[];
+      for(let i=0;i<items.length;i+=PER_PAGE)pages.push(items.slice(i,i+PER_PAGE));
+      return pages.map((chunk,pi)=>{
+        const cards=chunk.map((b,idx)=>{
+          const globalIdx=pi*PER_PAGE+idx;
+          const st=stFn(b);
+          const cover=st.cover?`<img src="${st.cover}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block;">`:`<div style="width:100%;height:100%;border-radius:8px;background:linear-gradient(135deg,#ffc2d4,#ff8fab);display:flex;align-items:center;justify-content:center;font-size:28px;">📖</div>`;
+          const finish=st.finishDate?new Date(st.finishDate).toLocaleDateString('es-ES',{day:'2-digit',month:'long',year:'numeric'}):'';
+          const syn=st.synopsis||st.sinopsis||'';
+          const favStamp=st.favorite?`<span style="border:1.5px solid #d97706;color:#d97706;font-weight:800;font-size:7.5px;padding:1px 5px;border-radius:4px;letter-spacing:1px;">⭐ FAV</span>`:st.hated?`<span style="border:1.5px solid #dc2626;color:#dc2626;font-weight:800;font-size:7.5px;padding:1px 5px;border-radius:4px;letter-spacing:1px;">💔 NO</span>`:'';
+          const anchorId=globalIdx===0?'id="sec-review" style="scroll-margin-top:20px;"':'';
+        const card=`
+          <div ${anchorId} style="background:white;border:1.5px solid #ffd0dc;border-radius:12px;padding:10px;margin-bottom:8px;break-inside:avoid;">
+            <div style="display:flex;gap:10px;">
+              <div style="width:80px;min-width:80px;height:115px;flex-shrink:0;border:1.5px solid #ffd0dc;border-radius:8px;overflow:hidden;">${cover}</div>
+              <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+                <div style="font-family:'Playfair Display',serif;font-size:12px;font-weight:700;color:#4a1e30;line-height:1.3;">${b.title}</div>
+                ${st.author?`<div style="font-size:8.5px;color:#a0395a;">✍️ ${st.author}</div>`:''}
+                ${st.genre?`<div style="font-size:8px;color:#8a4a60;">🏷️ ${st.genre}</div>`:''}
+                <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
+                  <span style="background:${sC[st.status]||'#f3f4f6'};color:${sT[st.status]||'#374151'};font-size:8px;padding:2px 7px;border-radius:20px;font-weight:600;">${sL[st.status]||''}</span>
+                  ${finish?`<span style="font-size:7.5px;color:#b88090;">📅 ${finish}</span>`:''}
+                  ${favStamp?favStamp:''}
                 </div>
-                ${st.author?`<div style="background:#ffe4ec;border-radius:8px;padding:5px 9px;font-size:9px;color:#a0395a;"><b>✍️ Autor:</b> ${st.author}</div>`:''}
-                ${st.genre?`<div style="background:#ffe4ec;border-radius:8px;padding:5px 9px;font-size:9px;color:#a0395a;"><b>🏷️ Género:</b> ${st.genre}</div>`:''}
-                <div style="background:#ffe4ec;border-radius:8px;padding:5px 9px;">
-                  <div style="font-size:7.5px;color:#a0395a;font-weight:700;text-transform:uppercase;margin-bottom:2px;">Estado</div>
-                  <span style="background:${sC[st.status]||'#f3f4f6'};color:${sT[st.status]||'#374151'};font-size:9px;padding:2px 7px;border-radius:20px;font-weight:600;">${sL[st.status]||''}</span>
-                </div>
-                <div style="background:#fff5f7;border-radius:8px;padding:6px 9px;border:1px solid #ffd0dc;">${buildJournalRating(st)}</div>
-                ${finish?`<div style="font-size:8px;color:#b88090;padding:2px 6px;">📅 ${finish}</div>`:''}
-                ${favStamp?`<div style="padding:2px 6px;">${favStamp}</div>`:''}
+                <div>${buildJournalRating(st)}</div>
               </div>
             </div>
-            ${heartBorder}
-            ${syn?`<div style="background:#fff5f7;border:2px dashed #ffc2d4;border-radius:10px;padding:10px 12px;margin-bottom:8px;"><div style="font-size:8px;color:#a0395a;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">💬 Reseña personal</div><div style="font-size:9.5px;color:#4a1e30;line-height:1.65;">${syn}</div></div>`:''}
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:4px;">
-              <div style="background:#fff5f7;border:1.5px solid #ffd0dc;border-radius:8px;height:62px;display:flex;align-items:center;justify-content:center;color:#f5c0ce;font-size:18px;">📷</div>
-              <div style="background:#fff5f7;border:1.5px solid #ffd0dc;border-radius:8px;height:62px;display:flex;align-items:center;justify-content:center;color:#f5c0ce;font-size:18px;">📷</div>
-            </div>
+            ${syn?`<div style="margin-top:8px;background:#fff5f7;border-left:3px solid #ff8fab;border-radius:0 8px 8px 0;padding:7px 10px;"><div style="font-size:7.5px;color:#a0395a;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">💬 Mi reseña</div><div style="font-size:8.5px;color:#4a1e30;line-height:1.6;">${syn}</div></div>`:''}
           </div>`;
-        return wrapPage(inner,'review');
+          return card;
+        }).join('');
+        const anchorPg=pi===0?'':'';
+        const hdr=pi===0?`<div id="sec-review" style="scroll-margin-top:20px;">${secHeader('📝','Mis Reseñas',TAB_COLORS.review)}</div>`:secHeader('📝','Reseñas (cont.)',TAB_COLORS.review);
+        return wrapPage(`${hdr}<div style="margin-top:8px;">${cards}</div>`,'review');
       }).join('');
     };
     return buildBlock(mangaItems,b=>STATE[b.id])+buildBlock(bookItems,b=>BOOKS_STATE[b.id]);
@@ -3086,34 +3085,31 @@ function generatePdf(){
     const year=filterVal==='year'||filterVal==='month'?selYear:new Date().getFullYear();
     const months=filterVal==='month'?[selMonth]:Array.from({length:12},(_,i)=>i);
     const DN=['D','L','M','X','J','V','S'];
-    const PER_PAGE=filterVal==='month'?1:4;
-    const pages=[];
-    for(let i=0;i<months.length;i+=PER_PAGE)pages.push(months.slice(i,i+PER_PAGE));
-    return pages.map((chunk,pi)=>{
-      const content=chunk.map((mi,ci)=>{
-        const mn=MES_NAMES[mi];
-        const firstDay=new Date(year,mi,1).getDay();
-        const daysInMonth=new Date(year,mi+1,0).getDate();
-        const monthDays=Array.from({length:daysInMonth},(_,d)=>{
-          const k=`${year}-${String(mi+1).padStart(2,'0')}-${String(d+1).padStart(2,'0')}`;
-          return {d:d+1,read:!!log[k]};
-        });
-        const readCount=monthDays.filter(x=>x.read).length;
-        let cal=`<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;">`;
-        DN.forEach(d=>{cal+=`<div style="font-size:7px;color:#b88090;text-align:center;font-weight:700;padding-bottom:2px;">${d}</div>`;});
-        for(let i=0;i<firstDay;i++)cal+=`<div></div>`;
-        monthDays.forEach(({d,read})=>{cal+=`<div style="height:22px;border-radius:4px;background:${read?'#ff8fab':'#fff5f7'};border:1.5px solid ${read?'#ffb3c6':'#ffd0dc'};display:flex;align-items:center;justify-content:center;font-size:8px;color:${read?'#fff':'#c0a0b0'};font-weight:${read?700:400};">${d}</div>`;});
-        cal+=`</div>`;
-        return `<div style="background:white;border:1.5px solid #ffd0dc;border-radius:12px;padding:12px;flex:1;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;">
-            <div style="font-family:'Playfair Display',serif;font-size:14px;color:#a0395a;font-weight:600;">${mn}</div>
-            <div style="font-size:9px;background:#fff5f7;border:1px solid #ffd0dc;border-radius:20px;padding:2px 9px;color:#e05f85;font-weight:600;">📅 ${readCount} días</div>
-          </div>${cal}</div>`;
-      }).join('');
-      const anchorAttr=pi===0?'id="sec-tracker" style="scroll-margin-top:20px;"':'';
-      const hdr=pi===0?`<div ${anchorAttr}>${secHeader('📅','Tracker de Lectura',col)}</div>`:secHeader('📅','Tracker (cont.)',col);
-      return wrapPage(`${hdr}<div style="display:flex;gap:10px;margin-top:8px;">${content}</div>`,'tracker');
-    }).join('');
+    // All months on ONE page using a 3-col grid (or 1 col for single month)
+    const buildMonth=(mi)=>{
+      const mn=MES_NAMES[mi];
+      const firstDay=new Date(year,mi,1).getDay();
+      const daysInMonth=new Date(year,mi+1,0).getDate();
+      const monthDays=Array.from({length:daysInMonth},(_,d)=>{
+        const k=`${year}-${String(mi+1).padStart(2,'0')}-${String(d+1).padStart(2,'0')}`;
+        return {d:d+1,read:!!log[k]};
+      });
+      const readCount=monthDays.filter(x=>x.read).length;
+      let cal=`<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;">`;
+      DN.forEach(d=>{cal+=`<div style="font-size:6px;color:#b88090;text-align:center;font-weight:700;padding-bottom:1px;">${d}</div>`;});
+      for(let i=0;i<firstDay;i++)cal+=`<div></div>`;
+      monthDays.forEach(({d,read})=>{cal+=`<div style="height:16px;border-radius:3px;background:${read?'#ff8fab':'#fff5f7'};border:1px solid ${read?'#ffb3c6':'#ffd0dc'};display:flex;align-items:center;justify-content:center;font-size:6.5px;color:${read?'#fff':'#c0a0b0'};font-weight:${read?700:400};">${d}</div>`;});
+      cal+=`</div>`;
+      return `<div style="background:white;border:1.5px solid #ffd0dc;border-radius:10px;padding:8px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
+          <div style="font-family:'Playfair Display',serif;font-size:11px;color:#a0395a;font-weight:600;">${mn}</div>
+          <div style="font-size:7px;background:#fff5f7;border:1px solid #ffd0dc;border-radius:20px;padding:1px 6px;color:#e05f85;font-weight:600;">${readCount}d</div>
+        </div>${cal}</div>`;
+    };
+    const cols=months.length===1?1:3;
+    const grid=months.map(mi=>buildMonth(mi)).join('');
+    const hdr=`<div id="sec-tracker" style="scroll-margin-top:20px;">${secHeader('📅','Tracker Literario',col)}</div>`;
+    return wrapPage(`${hdr}<div style="display:grid;grid-template-columns:repeat(${cols},1fr);gap:8px;margin-top:8px;">${grid}</div>`,'tracker');
   };
 
   const buildBingoSection=()=>{
@@ -3171,9 +3167,47 @@ function generatePdf(){
     return wrapPage(inner,'stats');
   };
 
+  const buildTbrSection=()=>{
+    const col='#f9a8d4';
+    const allManga=BOOKS.filter(b=>STATE[b.id]?.status==='unread');
+    const allBooks=BOOKS_LIB.filter(b=>BOOKS_STATE[b.id]?.status==='unread');
+    const allItems=[
+      ...allManga.map(b=>({title:b.title,author:STATE[b.id]?.author||'',type:'manga',priority:b.priority})),
+      ...allBooks.map(b=>({title:b.title,author:BOOKS_STATE[b.id]?.author||b.author||'',type:'book',priority:b.priority}))
+    ];
+    if(!allItems.length)return '';
+    const PER_PAGE=20;
+    const pages=[];
+    for(let i=0;i<allItems.length;i+=PER_PAGE)pages.push(allItems.slice(i,i+PER_PAGE));
+    return pages.map((chunk,pi)=>{
+      const rows=chunk.map((it,i)=>{
+        const typeIcon=it.type==='manga'?'📕':'📖';
+        const prio=it.priority?'⭐ ':' ';
+        const bg=i%2===0?'#fff5f7':'white';
+        return `<div style="display:grid;grid-template-columns:22px 1fr 90px 60px 60px;gap:6px;align-items:center;padding:5px 8px;background:${bg};border-radius:6px;border-bottom:1px solid #ffd0dc;">
+          <div style="font-size:9px;text-align:center;">${typeIcon}</div>
+          <div style="font-size:9.5px;font-weight:600;color:#4a1e30;line-height:1.3;">${prio}${it.title}</div>
+          <div style="font-size:8px;color:#8a4a60;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${it.author}</div>
+          <div style="border-bottom:1px solid #ffc2d4;height:14px;"></div>
+          <div style="border-bottom:1px solid #ffc2d4;height:14px;"></div>
+        </div>`;
+      }).join('');
+      const header=`<div style="display:grid;grid-template-columns:22px 1fr 90px 60px 60px;gap:6px;padding:5px 8px;background:#ffc2d4;border-radius:6px;margin-bottom:4px;">
+        <div></div>
+        <div style="font-size:8px;font-weight:700;color:#a0395a;text-transform:uppercase;">Título</div>
+        <div style="font-size:8px;font-weight:700;color:#a0395a;text-transform:uppercase;">Autor</div>
+        <div style="font-size:8px;font-weight:700;color:#a0395a;text-transform:uppercase;">Inicio</div>
+        <div style="font-size:8px;font-weight:700;color:#a0395a;text-transform:uppercase;">Fin</div>
+      </div>`;
+      const hdr=pi===0?`<div id="sec-tbr" style="scroll-margin-top:20px;">${secHeader('📋','Lista TBR',col)}</div>`:secHeader('📋','Lista TBR (cont.)',col);
+      return wrapPage(`${hdr}<div style="margin-top:8px;">${header}${rows}</div>`,'tbr');
+    }).join('');
+  };
+
   const sectionBuilders={
     grid:buildGridSection, review:buildReviewSection,
-    tracker:buildTrackerSection, bingo:buildBingoSection, stats:buildStatsSection
+    tracker:buildTrackerSection, bingo:buildBingoSection, stats:buildStatsSection,
+    tbr:buildTbrSection
   };
   let body=coverPage+indexPage;
   activeSections.forEach(id=>{
