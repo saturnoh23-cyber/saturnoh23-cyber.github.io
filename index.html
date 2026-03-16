@@ -1398,10 +1398,11 @@ function buildAbcCard(items){
     // Sin fechas: mostrar en el año actual
     return abcYear===yearNow;
   });
-  // Ordenar por fecha de inicio (más antigua primero) para que salga el primero cronológico
+  // Normalizar fecha a YYYY-MM-DD y ordenar cronológicamente (más antigua primero)
+  const _norm=d=>d?d.slice(0,10):null;
   const sorted=[...filtered].sort((a,b)=>{
-    const da=a.startDate||a.finishDate||'9999';
-    const db=b.startDate||b.finishDate||'9999';
+    const da=_norm(a.startDate)||_norm(a.finishDate)||'9999-99-99';
+    const db=_norm(b.startDate)||_norm(b.finishDate)||'9999-99-99';
     return da.localeCompare(db);
   });
   const map={};
