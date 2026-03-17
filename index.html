@@ -2835,12 +2835,36 @@ function _uploadLibDeco() {
   input.type = 'file'; input.accept = 'image/*';
   input.onchange = () => {
     const file = input.files[0]; if(!file) return;
-    _compressImage(file, data => {
-      try{localStorage.setItem('tbr-lib-deco', data);}catch{}
-      _libDecoImg = data;
-      renderLibreria();
-      showToast('🌸 Decoración guardada');
-    });
+    // Usar FileReader directo — no comprimir el adorno
+    const reader = new FileReader();
+    reader.onload = e => {
+      // Redimensionar a max 150px para que quepa bien
+      const img = new Image();
+      img.onload = () => {
+        const maxS = 150;
+        let w = img.width, h = img.height;
+        if(w > h && w > maxS){ h = Math.round(h*maxS/w); w = maxS; }
+        else if(h > maxS){ w = Math.round(w*maxS/h); h = maxS; }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        const data = canvas.toDataURL('image/png');
+        try{localStorage.setItem('tbr-lib-deco', data);}catch{}
+        _libDecoImg = data;
+        renderLibreria();
+        showToast('🌸 Decoración guardada');
+      };
+      img.onerror = () => {
+        // Si falla, usar el base64 directo
+        _libDecoImg = e.target.result;
+        try{localStorage.setItem('tbr-lib-deco', _libDecoImg);}catch{}
+        renderLibreria();
+        showToast('🌸 Decoración guardada');
+      };
+      img.src = e.target.result;
+    };
+    reader.onerror = () => showToast('❌ Error al cargar la imagen');
+    reader.readAsDataURL(file);
   };
   input.click();
 }
