@@ -114,8 +114,12 @@ function defaultEntry(){return{status:'unread',rating:0,cry:0,laugh:0,spicy:0,fa
 function loadState(){
   try{
     const s=JSON.parse(localStorage.getItem('tbr-manga-v5')||'{}');
+    const covers=_loadCovers();
     const out={};
-    BOOKS.forEach(b=>{out[b.id]=Object.assign(defaultEntry(),s[b.id]||{});});
+    BOOKS.forEach(b=>{
+      out[b.id]=Object.assign(defaultEntry(),s[b.id]||{});
+      if(covers['m'+b.id])out[b.id].cover=covers['m'+b.id];
+    });
     return out;
   }catch{const o={};BOOKS.forEach(b=>{o[b.id]=defaultEntry();});return o;}
 }
@@ -136,7 +140,122 @@ function toggleTheme(){
   const saved=localStorage.getItem('tbr-palette')||'rose';
   applyPalette(saved,null);
 }
-function save(){try{localStorage.setItem('tbr-manga-v5',JSON.stringify(STATE));}catch(e){showToast('⚠️ Sin espacio para guardar. Libera espacio en el navegador.');}}
+// ── Portadas en IndexedDB (sin límite de espacio) ──────────────────
+const _IDB_NAME='hanami-covers', _IDB_STORE='covers', _IDB_VER=1;
+let _idbReady=null;
+
+function _openIDB(){
+  if(_idbReady)return _idbReady;
+  _idbReady=new Promise((res,rej)=>{
+    const req=indexedDB.open(_IDB_NAME,_IDB_VER);
+    req.onupgradeneeded=e=>e.target.result.createObjectStore(_IDB_STORE);
+    req.onsuccess=e=>res(e.target.result);
+    req.onerror=()=>rej(req.error);
+  });
+  return _idbReady;
+}
+
+function _idbSet(key,val){
+  return _openIDB().then(db=>{
+    return new Promise((res,rej)=>{
+      const tx=db.transaction(_IDB_STORE,'readwrite');
+      tx.objectStore(_IDB_STORE).put(val,key);
+      tx.oncomplete=res; tx.onerror=()=>rej(tx.error);
+    });
+  }).catch(()=>{});
+}
+
+function _idbGet(key){
+  return _openIDB().then(db=>{
+    return new Promise((res,rej)=>{
+      const req=db.transaction(_IDB_STORE,'readonly').objectStore(_IDB_STORE).get(key);
+      req.onsuccess=()=>res(req.result||null);
+      req.onerror=()=>res(null);
+    });
+  }).catch(()=>null);
+}
+
+function _idbGetAll(){
+  return _openIDB().then(db=>{
+    return new Promise((res,rej)=>{
+      const store=db.transaction(_IDB_STORE,'readonly').objectStore(_IDB_STORE);
+      const out={}, req=store.openCursor();
+      req.onsuccess=e=>{
+        const cur=e.target.result;
+        if(cur){out[cur.key]=cur.value;cur.continue();}
+        else res(out);
+      };
+      req.onerror=()=>res({});
+    });
+  }).catch(()=>({}));
+}
+
+function _idbDelete(key){
+  return _openIDB().then(db=>{
+    return new Promise((res)=>{
+      const tx=db.transaction(_IDB_STORE,'readwrite');
+      tx.objectStore(_IDB_STORE).delete(key);
+      tx.oncomplete=res; tx.onerror=res;
+    });
+  }).catch(()=>{});
+}
+
+// Guardar portada individual en IndexedDB
+function _saveCover(prefix,id,dataUrl){
+  const key=prefix+id;
+  if(dataUrl) _idbSet(key,dataUrl);
+  else _idbDelete(key);
+}
+
+// Cargar todas las portadas e inyectarlas en STATE/BOOKS_STATE
+function _injectCovers(){
+  return _idbGetAll().then(covers=>{
+    Object.keys(covers).forEach(k=>{
+      if(k.startsWith('m')){const id=k.slice(1);if(STATE[id])STATE[id].cover=covers[k];}
+      else if(k.startsWith('b')){const id=k.slice(1);if(BOOKS_STATE[id])BOOKS_STATE[id].cover=covers[k];}
+    });
+    // Una vez inyectadas, renderizar
+    render(); renderBooks(); renderTodayBanner();
+  });
+}
+
+// Exportar todas las portadas (para respaldo)
+function _exportCovers(){ return _idbGetAll(); }
+
+// Importar portadas desde respaldo
+function _importCovers(covers){
+  return _openIDB().then(db=>{
+    return new Promise(res=>{
+      const tx=db.transaction(_IDB_STORE,'readwrite');
+      const store=tx.objectStore(_IDB_STORE);
+      Object.keys(covers).forEach(k=>store.put(covers[k],k));
+      tx.oncomplete=res; tx.onerror=res;
+    });
+  }).catch(()=>{});
+}
+
+// Compatibilidad: migrar portadas antiguas de localStorage a IndexedDB
+function _migrateOldCovers(){
+  try{
+    const old=JSON.parse(localStorage.getItem('tbr-covers')||'{}');
+    if(Object.keys(old).length>0){
+      _importCovers(old).then(()=>{
+        localStorage.removeItem('tbr-covers');
+        _injectCovers();
+      });
+    } else {
+      _injectCovers();
+    }
+  }catch{_injectCovers();}
+}
+
+function save(){
+  try{
+    const slim={};
+    Object.keys(STATE).forEach(id=>{const s={...STATE[id]};delete s.cover;slim[id]=s;});
+    localStorage.setItem('tbr-manga-v5',JSON.stringify(slim));
+  }catch(e){showToast('⚠️ Sin espacio para guardar. Libera espacio en el navegador.');}
+}
 
 // ── Debounce utility ──────────────────────────────────────────────
 
@@ -1021,7 +1140,7 @@ function confirmEdit(){
   STATE[id].url=document.getElementById('editUrl').value.trim();
   STATE[id].author=document.getElementById('editAuthor').value.trim();
   STATE[id].genre=document.getElementById('editGenre').value.trim();
-  STATE[id].cover=_editCoverData||'';
+  STATE[id].cover=_editCoverData||'';if(_editCoverData)_saveCover('m',id,_editCoverData);
   STATE[id].restActive=parseInt(document.getElementById('editRestActive').value)||0;
   STATE[id].restPause=parseInt(document.getElementById('editRestPause').value)||0;
   const rsVal=document.getElementById('editRestStart').value;
@@ -1112,14 +1231,16 @@ function confirmBulkImport(){
   showToast(`🌸 ${added} título${added!==1?'s':''} agregado${added!==1?'s':''} a ${bulkTarget==='manga'?'Manga':'Libros'}`);
 }
 function exportBackup(){
+  _exportCovers().then(covers=>{
   const data={
-    version:4,
+    version:5,
     exportedAt:new Date().toISOString(),
     // Datos principales
     books:BOOKS,
     state:STATE,
     booksLib:BOOKS_LIB,
     booksState:BOOKS_STATE,
+    covers:_loadCovers(),
     // Logs y extras
     readingLog:loadReadingLog(),
     bingos:loadBingos(),
@@ -1145,6 +1266,7 @@ function exportBackup(){
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');a.href=url;a.download=`tbr-respaldo-${new Date().toISOString().slice(0,10)}.json`;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(url);a.remove();},1000);
   showToast('💾 Respaldo completo guardado');
+  });
 }
 function importBackup(input){
   const file=input.files[0];if(!file)return;
@@ -1192,6 +1314,7 @@ function importBackup(input){
       if(data.bookView)localStorage.setItem('tbr-book-view',data.bookView);
       if(data.libDeco)localStorage.setItem('tbr-lib-deco',data.libDeco);
       else localStorage.removeItem('tbr-lib-deco');
+      if(data.covers)_importCovers(data.covers).then(()=>_injectCovers());
 
       loadSavedPalette();applyTabOrder();applyTabVisibility();
       renderTodayBanner();render();renderBooks();
@@ -1737,9 +1860,24 @@ function loadBooksLib(){try{return JSON.parse(localStorage.getItem('tbr-books-li
 function saveBooksLib(){try{localStorage.setItem('tbr-books-lib',JSON.stringify(BOOKS_LIB));}catch(e){showToast('⚠️ Sin espacio para guardar. Libera espacio en el navegador.');}}
 function defaultBookEntry(){return{status:'unread',rating:0,cry:0,laugh:0,spicy:0,favorite:false,hated:false,author:'',genre:'',saga:'',format:'fisico',pages:0,pagesRead:0,url:'',cover:'',synopsis:'',priority:false,finishDate:null,startDate:null,addedAt:null,releaseDate:null};}
 function loadBooksState(){
-  try{const s=JSON.parse(localStorage.getItem('tbr-books-state')||'{}');const out={};Object.keys(s).forEach(id=>{out[id]=Object.assign(defaultBookEntry(),s[id]);});return out;}catch{return{};}
+  try{
+    const s=JSON.parse(localStorage.getItem('tbr-books-state')||'{}');
+    const covers=_loadCovers();
+    const out={};
+    Object.keys(s).forEach(id=>{
+      out[id]=Object.assign(defaultBookEntry(),s[id]);
+      if(covers['b'+id])out[id].cover=covers['b'+id];
+    });
+    return out;
+  }catch{return{};}
 }
-function saveBooksState(){try{localStorage.setItem('tbr-books-state',JSON.stringify(BOOKS_STATE));}catch(e){showToast('⚠️ Sin espacio para guardar. Libera espacio en el navegador.');}}
+function saveBooksState(){
+  try{
+    const slim={};
+    Object.keys(BOOKS_STATE).forEach(id=>{const s={...BOOKS_STATE[id]};delete s.cover;slim[id]=s;});
+    localStorage.setItem('tbr-books-state',JSON.stringify(slim));
+  }catch(e){showToast('⚠️ Sin espacio para guardar. Libera espacio en el navegador.');}
+}
 let BOOKS_LIB=loadBooksLib();
 let BOOKS_STATE=loadBooksState();
 BOOKS_LIB.forEach(b=>{if(!BOOKS_STATE[b.id])BOOKS_STATE[b.id]=defaultBookEntry();});
@@ -1752,8 +1890,8 @@ function triggerCoverUpload(id,type,fromModal){
   input.onchange=()=>{
     const file=input.files[0];if(!file)return;
     _compressImage(file,data=>{
-      if(type==='manga'){STATE[id].cover=data;save();renderOneCard(id);if(fromModal)refreshDetailModal();}
-      else{BOOKS_STATE[id].cover=data;saveBooksState();renderBooks();if(fromModal)openBookDetailModal(id);}
+      if(type==='manga'){STATE[id].cover=data;_saveCover('m',id,data);save();renderOneCard(id);if(fromModal)refreshDetailModal();}
+      else{BOOKS_STATE[id].cover=data;_saveCover('b',id,data);saveBooksState();renderBooks();if(fromModal)openBookDetailModal(id);}
       showToast('🖼️ Portada actualizada');
     });
   };
@@ -2116,7 +2254,7 @@ function confirmEditBook(){
     else if(_newBStatus==='read'){if(!BOOKS_STATE[id].startDate)BOOKS_STATE[id].startDate=new Date().toISOString().slice(0,10);if(!BOOKS_STATE[id].finishDate)BOOKS_STATE[id].finishDate=new Date().toISOString().slice(0,10);BOOKS_STATE[id].pagesRead=BOOKS_STATE[id].pages||0;}
     else if(_newBStatus==='unread'){BOOKS_STATE[id].pagesRead=0;}
   }
-  saveBooksLib();saveBooksState();closeEditBookModal();renderBooks();renderTodayBanner();showToast(`✨ "${title}" actualizado`);
+  if(_editBookCoverData){const _bcId=Number(document.getElementById('editBookId').value);_saveCover('b',_bcId,_editBookCoverData);}saveBooksLib();saveBooksState();closeEditBookModal();renderBooks();renderTodayBanner();showToast(`✨ "${title}" actualizado`);
 }
 function deleteBookEntry(){
   const id=Number(document.getElementById('editBookId').value);const b=BOOKS_LIB.find(x=>x.id===id);
@@ -3244,10 +3382,13 @@ document.addEventListener('DOMContentLoaded',()=>{
   loadBookView();
   loadDiarioSectionToggles();
   loadRatingPrefsToggles();
+  // Cargar datos sin portadas primero (rápido)
   render();
   applyTabOrder();
   renderTodayBanner();
   document.getElementById('pdfFilter').addEventListener('change',togglePdfRows);
+  // Cargar portadas desde IndexedDB async (o migrar desde localStorage)
+  _migrateOldCovers();
 });
 
 if('serviceWorker' in navigator){
