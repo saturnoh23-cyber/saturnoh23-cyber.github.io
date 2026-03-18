@@ -591,95 +591,46 @@ function refreshDetailModal(){
   const st=STATE[id];
   const typeMap={manga:{icon:'📕',label:'Manga',cls:'type-manga'},manhwa:{icon:'📗',label:'Manhwa',cls:'type-manhwa'},novel:{icon:'📘',label:'Novela',cls:'type-novel'}};
   const ti=typeMap[st.type||'manhwa'];
+  const statusLabel={unread:'📖 Sin leer',reading:'✨ Leyendo',read:'✅ Leído',paused:'⏸ Pausado'};
+  const emissionLabel={ongoing:'🟠 En curso',finished:'✅ Finalizado',hiatus:'⏸ En hiatus',announced:'📢 Anunciado'};
+  const stars=[1,2,3,4,5].map(n=>`<span style="font-size:1.3rem;color:${n<=st.rating?'#f59e0b':'var(--border)'};">★</span>`).join('');
   const pct=st.chapTotal>0?Math.min(100,Math.round(st.chapCur/st.chapTotal*100)):0;
-  const statusBtns=STATUSES.map(s=>`<button class="status-btn ${s.cls}${st.status===s.key?' active':''}" onclick="setStatus(${id},'${s.key}');refreshDetailModal()">${s.label}</button>`).join('');
-  const emitBtns=EMISSIONS.map(e=>`<button class="emit-btn ${e.cls}${st.emission===e.key?' active':''}" onclick="setEmission(${id},'${e.key}');refreshDetailModal()">${e.icon} ${e.label}</button>`).join('');
-  const stars=[1,2,3,4,5].map(n=>`<span onclick="setRating(${id},${n});refreshDetailModal()" style="font-size:1.4rem;cursor:pointer;color:${n<=st.rating?'#f59e0b':'var(--border)'};">★</span>`).join('');
-  const dispText=scheduleDisplay(st);
+
+  // Filas de info
+  const rows=[
+    [ti.icon+' Tipo', `<span class="type-badge ${ti.cls}">${ti.label}</span>`],
+    ['🔖 Estado', statusLabel[st.status]||st.status],
+    st.emission?['📡 Emisión', emissionLabel[st.emission]||st.emission]:null,
+    st.author?['✍️ Autor', st.author]:null,
+    st.genre?['🏷️ Género', st.genre]:null,
+    (st.chapCur||st.chapTotal)?['📖 Capítulos', `${st.chapCur||0} / ${st.chapTotal||'?'} ${st.chapTotal>0?`(${pct}%)`:''}` ]:null,
+    (st.extraCur||st.extraTotal)?['📎 Extras', `${st.extraCur||0} / ${st.extraTotal||'?'}`]:null,
+    st.sinopsis?['📝 Sinopsis', `<em style="color:var(--text2);font-size:.8rem;">${st.sinopsis}</em>`]:null,
+    st.startDate?['📅 Inicio', new Date(st.startDate).toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'})]:null,
+    st.finishDate?['✅ Finalizado', new Date(st.finishDate).toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'})]:null,
+    st.rating?['⭐ Valoración', stars]:null,
+    b.priority?['🌟 Prioridad','Sí']:null,
+    st.url?['🔗 Enlace',`<a href="${st.url}" target="_blank" rel="noopener" style="color:var(--p4);font-size:.8rem;">Ir a leer →</a>`]:null,
+  ].filter(Boolean);
+
+  const tableRows=rows.map(([k,v])=>`<tr>
+    <td style="padding:.3rem .5rem .3rem 0;color:var(--text3);font-size:.73rem;white-space:nowrap;vertical-align:top;">${k}</td>
+    <td style="padding:.3rem 0 .3rem .3rem;color:var(--text);font-size:.8rem;">${v}</td>
+  </tr>`).join('');
+
   document.getElementById('detailTitle').textContent=b.title;
   document.getElementById('detailBody').innerHTML=`
     ${st.cover
-        ?`<img src="${st.cover}" style="width:100%;max-height:220px;object-fit:cover;border-radius:11px;margin-bottom:1rem;cursor:pointer;" title="Toca para cambiar portada" onclick="triggerCoverUpload(${id},'manga',true)">`
-        :`<div style="width:100%;height:80px;display:flex;align-items:center;justify-content:center;background:var(--p1);border-radius:11px;font-size:1.2rem;gap:.5rem;color:var(--p4);cursor:pointer;margin-bottom:1rem;" onclick="triggerCoverUpload(${id},'manga',true)">🖼️ <span style="font-size:.8rem;">Toca para añadir portada</span></div>`}
-    <div style="display:flex;flex-direction:column;gap:.85rem;font-size:.83rem;color:var(--text);">
-
-      <div style="display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;">
-        <span class="type-badge ${ti.cls}">${ti.icon} ${ti.label}</span>
-        ${b.priority?`<span class="priority-badge">⭐ Prioridad</span>`:''}
-        ${st.author?`<span style="font-size:.72rem;color:var(--text3);">✍️ ${st.author}</span>`:''}
-        ${st.genre?`<span class="genre-badge">🏷️ ${st.genre}</span>`:''}
-      </div>
-
-      <div>
-        <div style="font-size:.68rem;color:var(--text3);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.05em;">Estado</div>
-        <div class="status-row">${statusBtns}</div>
-      </div>
-
-      <div>
-        <div style="font-size:.68rem;color:var(--text3);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.05em;">Emisión</div>
-        <div class="emission-row">${emitBtns}</div>
-        ${st.emission==='hiatus'?`<div style="display:flex;align-items:center;gap:.4rem;margin-top:.5rem;flex-wrap:wrap;">
-          <span style="font-size:.75rem;color:var(--text3);">⏰ Regresa el</span>
-          <input type="date" value="${st.hiatusReturn?new Date(st.hiatusReturn).toISOString().slice(0,10):''}"
-            onchange="STATE[${id}].hiatusReturn=this.value?new Date(this.value).getTime():null;save();refreshDetailModal();"
-            style="font-size:.76rem;border:1.5px solid var(--border);border-radius:9px;padding:.25rem .55rem;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;">
-          ${st.hiatusReturn?`<span style="font-size:.72rem;color:var(--p4);font-weight:600;">${new Date(st.hiatusReturn).toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'})}</span>`:''}
-        </div>`:''}
-      </div>
-
-      <div>
-        <div style="font-size:.68rem;color:var(--text3);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.05em;">⭐ Puntuación</div>
-        <div>${stars}</div>
-      </div>
-
-      <div>
-        <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
-          <span style="font-size:.68rem;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;">📊 Capítulos</span>
-          <span style="font-size:.72rem;font-weight:600;">${pct}%</span>
-        </div>
-        <div style="height:8px;border-radius:20px;background:var(--progress-track);overflow:hidden;margin-bottom:.45rem;">
-          <div style="height:100%;border-radius:20px;background:linear-gradient(90deg,var(--p3),var(--p4));width:${pct}%"></div>
-        </div>
-        <div style="display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;">
-          <input class="chapter-inp" type="number" min="0" value="${st.chapCur}" onchange="setChap(${id},'chapCur',this.value);refreshDetailModal()" placeholder="Leídos" style="width:60px;">
-          <span>/</span>
-          <input class="chapter-inp" type="number" min="0" value="${st.chapTotal||''}" onchange="setChap(${id},'chapTotal',this.value);refreshDetailModal()" placeholder="Total" style="width:60px;">
-          <span style="font-size:.72rem;color:var(--text3);">caps.</span>
-          ${st.status==='reading'?`<button class="chap-plus" onclick="addChap(${id});refreshDetailModal()">+</button>`:''}
-        </div>
-      </div>
-
-      ${st.status==='read'?`<div>
-        <div style="font-size:.68rem;color:var(--text3);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.05em;">✅ Fecha de finalización</div>
-        <input type="date" value="${st.finishDate?new Date(st.finishDate).toISOString().slice(0,10):''}"
-          onchange="setFinishDate(${id},this.value)"
-          style="font-size:.78rem;border:1px solid var(--border);border-radius:9px;padding:.3rem .6rem;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;">
-      </div>`:''}
-
-      ${dispText&&st.status!=='read'&&st.emission!=='finished'?`<div style="font-size:.78rem;color:var(--p4);">📅 ${dispText}</div>`:''}
-
-      <div>
-        <div style="font-size:.68rem;color:var(--text3);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.05em;">💬 Sinopsis</div>
-        <textarea placeholder="Escribe la sinopsis…" onchange="STATE[${id}].sinopsis=this.value;save();"
-          style="width:100%;min-height:70px;padding:.45rem .6rem;border:1.5px solid var(--border);border-radius:9px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.78rem;resize:vertical;outline:none;box-sizing:border-box;font-style:italic;"
-          onfocus="this.style.borderColor='var(--p3)'" onblur="this.style.borderColor='var(--border)'">${st.sinopsis||''}</textarea>
-      </div>
-
-      <div>
-        <div style="font-size:.68rem;color:var(--text3);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.05em;">📝 Mi reseña</div>
-        <textarea placeholder="Escribe tu reseña…" onchange="STATE[${id}].synopsis=this.value;save();"
-          style="width:100%;min-height:70px;padding:.45rem .6rem;border:1.5px solid var(--border);border-radius:9px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.78rem;resize:vertical;outline:none;box-sizing:border-box;"
-          onfocus="this.style.borderColor='var(--p3)'" onblur="this.style.borderColor='var(--border)'">${st.synopsis||''}</textarea>
-      </div>
-
-      ${st.url?`<a href="${st.url}" target="_blank" rel="noopener" class="card-link" style="width:fit-content;">🔗 Ir a leer</a>`:''}
-
-      <div style="display:flex;gap:.5rem;margin-top:.25rem;">
-        <button onclick="renderOneCard(${id});" style="flex:1;padding:.5rem;border-radius:11px;border:1.5px solid var(--p2);background:var(--p1);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;">✅ Guardar</button>
-        <button onclick="closeDetailModal();openEditModal(${id});" style="flex:1;padding:.5rem;border-radius:11px;border:1.5px solid var(--p3);background:var(--p2);color:var(--p5);font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;">✏️ Editar</button>
-      </div>
+      ?`<img src="${st.cover}" style="width:100%;max-height:220px;object-fit:cover;border-radius:11px;margin-bottom:1rem;">`
+      :''}
+    ${b.priority?`<div style="margin-bottom:.6rem;"><span class="priority-badge">⭐ Prioridad</span></div>`:''}
+    <table style="width:100%;border-collapse:collapse;">${tableRows}</table>
+    <div style="display:flex;gap:.55rem;margin-top:1.1rem;">
+      <button onclick="closeDetailModal()" style="flex:1;padding:.5rem;border-radius:11px;border:1.5px solid var(--border);background:transparent;color:var(--text3);font-family:'DM Sans',sans-serif;font-size:.82rem;cursor:pointer;">Cerrar</button>
+      <button onclick="openEditModal(${id})" style="flex:1;padding:.5rem;border-radius:11px;border:none;background:linear-gradient(135deg,var(--p3),var(--p4));color:#fff;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;">✏️ Editar</button>
     </div>`;
 }
+
 function closeDetailModal(){document.getElementById('detailOverlay').classList.remove('open');_detailId=null;}
 function closeDetailOnOverlay(e){if(e.target===document.getElementById('detailOverlay'))closeDetailModal();}
 
@@ -2835,35 +2786,41 @@ function _uploadLibDeco() {
   input.type = 'file'; input.accept = 'image/*';
   input.onchange = () => {
     const file = input.files[0]; if(!file) return;
-    // Usar FileReader directo — no comprimir el adorno
     const reader = new FileReader();
     reader.onload = e => {
-      // Redimensionar a max 150px para que quepa bien
+      const raw = e.target.result;
+      // Redimensionar para que no sea enorme
       const img = new Image();
       img.onload = () => {
-        const maxS = 150;
+        const maxS = 120;
         let w = img.width, h = img.height;
-        if(w > h && w > maxS){ h = Math.round(h*maxS/w); w = maxS; }
-        else if(h > maxS){ w = Math.round(w*maxS/h); h = maxS; }
+        if(w > maxS || h > maxS){
+          if(w > h){ h = Math.round(h*maxS/w); w = maxS; }
+          else{ w = Math.round(w*maxS/h); h = maxS; }
+        }
         const canvas = document.createElement('canvas');
         canvas.width = w; canvas.height = h;
         canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        const data = canvas.toDataURL('image/png');
-        try{localStorage.setItem('tbr-lib-deco', data);}catch{}
+        const data = canvas.toDataURL('image/jpeg', 0.85);
+        // Guardar en memoria primero
         _libDecoImg = data;
+        // Intentar guardar en localStorage
+        try{
+          localStorage.setItem('tbr-lib-deco', data);
+        }catch(err){
+          showToast('⚠️ Imagen guardada solo en esta sesión (sin espacio)');
+        }
         renderLibreria();
-        showToast('🌸 Decoración guardada');
+        showToast('🌸 Decoración lista');
       };
       img.onerror = () => {
-        // Si falla, usar el base64 directo
-        _libDecoImg = e.target.result;
-        try{localStorage.setItem('tbr-lib-deco', _libDecoImg);}catch{}
+        _libDecoImg = raw;
+        try{localStorage.setItem('tbr-lib-deco', raw);}catch{}
         renderLibreria();
-        showToast('🌸 Decoración guardada');
+        showToast('🌸 Decoración lista');
       };
-      img.src = e.target.result;
+      img.src = raw;
     };
-    reader.onerror = () => showToast('❌ Error al cargar la imagen');
     reader.readAsDataURL(file);
   };
   input.click();
@@ -2968,8 +2925,9 @@ function renderLibreria() {
       <span style="font-size:.72rem;color:var(--text3);">🎀 Adorno empieza:</span>${startOptions}
     </div>
     <div style="display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;">
-      <button onclick="_uploadLibDeco()" style="padding:.25rem .65rem;border-radius:20px;border:1.5px solid var(--p3);background:var(--p1);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.72rem;cursor:pointer;">🖼️ Subir decoración</button>
-      ${_libDecoImg ? `<button onclick="_removeLibDeco()" style="padding:.25rem .65rem;border-radius:20px;border:1.5px solid var(--border);background:transparent;color:var(--text3);font-family:'DM Sans',sans-serif;font-size:.72rem;cursor:pointer;">✕ Quitar deco</button>` : ''}
+      <button onclick="_uploadLibDeco()" style="padding:.25rem .65rem;border-radius:20px;border:1.5px solid var(--p3);background:var(--p1);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.72rem;cursor:pointer;">${_libDecoImg ? '🔄 Cambiar decoración' : '🖼️ Subir decoración'}</button>
+      ${_libDecoImg ? `<img src="${_libDecoImg}" style="height:28px;width:auto;border-radius:4px;border:1.5px solid var(--border);vertical-align:middle;" title="Decoración actual">` : ''}
+      ${_libDecoImg ? `<button onclick="_removeLibDeco()" style="padding:.25rem .65rem;border-radius:20px;border:1.5px solid #fca5a5;background:transparent;color:#dc2626;font-family:'DM Sans',sans-serif;font-size:.72rem;cursor:pointer;">✕</button>` : ''}
     </div>
   </div>`;
 
