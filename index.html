@@ -189,7 +189,7 @@ function loadState(){
   }catch{const o={};BOOKS.forEach(b=>{o[b.id]=defaultEntry();});return o;}
 }
 let STATE=loadState();
-let filter='all',view='2',spinning=false;
+let filter='all',view='2',spinning=false,_mangaSort='default';
 let dark=localStorage.getItem('tbr-manga-dark')==='1';
 
 function applyTheme(){
@@ -413,6 +413,11 @@ function updateStats(){
 }
 
 function toggleFilterDrop(){document.getElementById('filterDropMenu').classList.toggle('open');}
+function setMangaSort(s){
+  _mangaSort=s;
+  document.querySelectorAll('.sort-btn').forEach(b=>b.classList.toggle('active',b.dataset.sort===s));
+  render();
+}
 function setFilterDrop(f,label,itemEl){
   filter=f;
   document.getElementById('filterLabel').textContent=label;
@@ -666,16 +671,39 @@ function render(){
     const st=STATE[b.id];
     let mf=true;
     if(filter==='all') mf=true;
-    else if(filter==='recent'){const a=b.addedAt?new Date(b.addedAt):null;mf=a&&a>=new Date(Date.now()-7*24*60*60*1000);}
+    else if(filter==='recent'){const a=b.addedAt?new Date(b.addedAt):null;mf=a&&a>=new Date(Date.now()-5*60*60*1000);}
     else if(filter.startsWith('emit-')) mf=st.emission===filter.replace('emit-','');
     else if(filter.startsWith('type-')) mf=(st.type||'manhwa')===filter.replace('type-','');
     else if(filter==='favorite') mf=!!st.favorite;
     else if(filter==='hated') mf=!!st.hated;
     else mf=st.status===filter;
-    return mf&&(!q||b.title.toLowerCase().includes(q));
+    const st2=STATE[b.id];
+    const matchQ=!q||b.title.toLowerCase().includes(q)||(st2.author||'').toLowerCase().includes(q)||(st2.genre||'').toLowerCase().includes(q);
+    return mf&&matchQ;
   });
   if(!filtered.length){grid.innerHTML=`<div class="empty"><div class="big">🌸</div>Ningún título coincide</div>`;return;}
-  grid.innerHTML=filtered.map((b,i)=>buildCardHTML(b,i)).join('');
+
+  // Ordenar
+  let sorted=[...filtered];
+  if(_mangaSort==='alpha') sorted.sort((a,b)=>a.title.localeCompare(b.title,'es'));
+  else if(_mangaSort==='alpha-desc') sorted.sort((a,b)=>b.title.localeCompare(a.title,'es'));
+  else if(_mangaSort==='stars') sorted.sort((a,b)=>(STATE[b.id].rating||0)-(STATE[a.id].rating||0));
+  else if(_mangaSort==='stars-asc') sorted.sort((a,b)=>(STATE[a.id].rating||0)-(STATE[b.id].rating||0));
+  else if(_mangaSort.startsWith('status-')){
+    const first=_mangaSort.replace('status-','');
+    sorted.sort((a,b)=>{
+      const sa=STATE[a.id].status, sb=STATE[b.id].status;
+      if(sa===first && sb!==first) return -1;
+      if(sb===first && sa!==first) return 1;
+      return 0;
+    });
+  }
+  else if(_mangaSort==='updated') sorted.sort((a,b)=>{const da=STATE[a.id].finishDate||STATE[a.id].startDate||'';const db=STATE[b.id].finishDate||STATE[b.id].startDate||'';return db.localeCompare(da);});
+  else if(_mangaSort==='chaps') sorted.sort((a,b)=>(STATE[b.id].chapCur||0)-(STATE[a.id].chapCur||0));
+  else if(_mangaSort==='random') sorted.sort(()=>Math.random()-.5);
+  // default: orden original (addedAt)
+
+  grid.innerHTML=sorted.map((b,i)=>buildCardHTML(b,i)).join('');
 }
 
 function renderOneCard(id){
@@ -2857,7 +2885,11 @@ function renderLibreria() {
     return;
   }
 
-  const PER_SHELF = 6;
+  // Calcular cuántos libros caben por estante según el ancho del lomo
+  // Ancho disponible ≈ 340px (móvil) − margen − espacio para adorno
+  const decoSpace = _libShowDeco ? (_libDecoCount * (_libBookW + 18)) : 0;
+  const shelfWidth = Math.min(window.innerWidth - 60, 620) - decoSpace - 16;
+  const PER_SHELF = Math.max(2, Math.floor(shelfWidth / (_libBookW + 6)));
   const SPINE_COLORS = ['#f9a8d4','#fda4af','#fcd34d','#86efac','#93c5fd','#c4b5fd','#fb923c','#6ee7b7','#f0abfc','#a5f3fc'];
   const coverPos = _libCoverPos || 'center'; // top / center / bottom
   let colorIdx = 0;
@@ -2983,6 +3015,9 @@ document.addEventListener('DOMContentLoaded',()=>{
   loadDiarioSectionToggles();
   loadRatingPrefsToggles();
   render();
+  // Sincronizar select de orden
+  const ss=document.getElementById('mangaSortSelect');
+  if(ss)ss.value=_mangaSort;
   applyTabOrder();
   renderTodayBanner();
   document.getElementById('pdfFilter').addEventListener('change',togglePdfRows);
@@ -3123,6 +3158,24 @@ document.addEventListener('click',e=>{
             <button class="view-btn" id="col3Btn" onclick="setView('3')" title="3 columnas">⋮⋮⋮</button>
             <button class="view-btn" id="colAutoBtn" onclick="setView('auto')" title="Automático">⊞</button>
             <button class="view-btn" id="listBtn" onclick="setView('list')" title="Lista">☰</button>
+          </div>
+          <div style="display:flex;gap:.3rem;align-items:center;flex-wrap:wrap;">
+            <span style="font-size:.68rem;color:var(--text3);">↕️</span>
+            <select id="mangaSortSelect" onchange="setMangaSort(this.value)"
+              style="padding:.28rem .5rem;border-radius:20px;border:1.5px solid var(--border);background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.72rem;outline:none;cursor:pointer;">
+              <option value="default">📋 Por defecto</option>
+              <option value="alpha">🔤 A → Z</option>
+              <option value="alpha-desc">🔤 Z → A</option>
+              <option value="stars">⭐ Más estrellas</option>
+              <option value="stars-asc">⭐ Menos estrellas</option>
+              <option value="status-reading">🔖 Leyendo primero</option>
+              <option value="status-unread">📖 Sin leer primero</option>
+              <option value="status-read">✅ Leídos primero</option>
+              <option value="status-paused">⏸ Pausados primero</option>
+              <option value="updated">📅 Más reciente</option>
+              <option value="chaps">📖 Más capítulos</option>
+              <option value="random">🎲 Aleatorio</option>
+            </select>
           </div>
           <button class="raffle-btn" onclick="openModal()">🎲 Sortéame uno</button>
           <button class="add-btn" onclick="openAddModal()">➕ Añadir</button>
