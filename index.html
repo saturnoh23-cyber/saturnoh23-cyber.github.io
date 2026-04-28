@@ -231,7 +231,7 @@ const EMISSIONS=[
 const WEEK_DAYS=['Lu','Ma','Mi','Ju','Vi','Sá','Do'];
 const MONTH_DATES=Array.from({length:31},(_,i)=>i+1);
 
-function defaultEntry(){return{status:'unread',rating:0,cry:0,laugh:0,spicy:0,favorite:false,hated:false,chapCur:0,chapTotal:0,extraCur:0,extraTotal:0,emission:'',freq:'week',updateDays:[],type:'manhwa',url:'',author:'',genre:'',synopsis:'',sinopsis:'',scheduleLocked:false,finishDate:null,hiatusReturn:null,restActive:0,restPause:0,restStart:null};}
+function defaultEntry(){return{status:'unread',rating:0,cry:0,laugh:0,spicy:0,favorite:false,hated:false,chapCur:0,chapTotal:0,extraCur:0,extraTotal:0,emission:'',freq:'week',updateDays:[],type:'manhwa',url:'',author:'',genre:'',synopsis:'',sinopsis:'',scheduleLocked:false,finishDate:null,hiatusReturn:null,restActive:0,restPause:0,restStart:null,chapRestEvery:0,chapRestSkip:0};}
 function loadState(){
   try{
     const s=JSON.parse(localStorage.getItem('tbr-manga-v5')||'{}');
@@ -407,6 +407,7 @@ function addChapFromToday(id){
   const max=st.chapTotal>0?st.chapTotal:Infinity;
   if(st.chapCur<max){
     st.chapCur++;
+    _autoStartDate(id);
     save();
     const el=document.getElementById(`chap-cur-${id}`);
     if(el){el.value=st.chapCur;el.classList.remove('chap-bump');void el.offsetWidth;el.classList.add('chap-bump');}
@@ -599,6 +600,17 @@ function buildCardHTML(b,i){
     ${sR?buildRatingBlock(b.id,st,true):''}
     <div style="padding:.2rem 0 .1rem;">${favBtns}</div>
     ${sSch&&isLocked&&!hideSchedule?`<div class="schedule-display" style="font-size:.72rem;color:var(--p4);">${dispText}</div>`:''}
+    ${(()=>{
+      if(st.chapRestEvery>0&&st.chapRestSkip>0&&st.chapCur>0){
+        const cycle=st.chapRestEvery+st.chapRestSkip;
+        const posInCycle=(st.chapCur-1)%cycle;
+        const isResting=posInCycle>=st.chapRestEvery;
+        const left=isResting?(cycle-posInCycle):(st.chapRestEvery-posInCycle);
+        if(isResting)return `<div style="font-size:.68rem;background:#fef3c7;color:#92400e;border-radius:6px;padding:.18rem .5rem;display:inline-block;">☕ Descanso · retoma en cap. ${st.chapCur+left}</div>`;
+        return `<div style="font-size:.68rem;color:var(--text3);">📖 Lee ${left} cap. más, luego ${st.chapRestSkip} de descanso</div>`;
+      }
+      return '';
+    })()}
     ${(()=>{
       if(!st.restActive||!st.restPause||!st.restStart)return '';
       const start=new Date(st.restStart);start.setHours(0,0,0,0);
@@ -861,18 +873,27 @@ function toggleDay(id,day){
   STATE[id].updateDays=arr;
   save();renderTodayBanner();renderOneCard(id);
 }
+function _autoStartDate(id){
+  const st=STATE[id];
+  if(!st||st.startDate)return;
+  if(st.chapCur>=2){
+    st.startDate=new Date().toISOString();
+    if(st.status==='unread')st.status='reading';
+  }
+}
 function setChap(id,field,val){
   if(!STATE[id])return;
   const n=parseInt(val)||0;
   STATE[id][field]=Math.max(0,n);
   if(field==='chapCur'&&STATE[id].chapTotal>0&&STATE[id].chapCur>STATE[id].chapTotal)STATE[id].chapCur=STATE[id].chapTotal;
+  _autoStartDate(id);
   save();renderOneCard(id);
 }
 function addChap(id){
   const st=STATE[id];if(!st)return;
   const max=st.chapTotal>0?st.chapTotal:Infinity;
   if(st.chapCur<max){
-    st.chapCur++;save();
+    st.chapCur++;_autoStartDate(id);save();
     const el=document.getElementById(`chap-cur-${id}`);
     if(el){el.value=st.chapCur;el.classList.remove('chap-bump');void el.offsetWidth;el.classList.add('chap-bump');}
     const pct=st.chapTotal>0?Math.min(100,Math.round(st.chapCur/st.chapTotal*100)):0;
@@ -1070,6 +1091,8 @@ function openEditModal(id){
   document.getElementById('editRestStart').value=st.restStart?new Date(st.restStart).toISOString().slice(0,10):'';
   // Campos adicionales
   const chapEl=document.getElementById('editChapTotal');if(chapEl)chapEl.value=st.chapTotal||'';
+  const crEvEl=document.getElementById('editChapRestEvery');if(crEvEl)crEvEl.value=st.chapRestEvery||0;
+  const crSkEl=document.getElementById('editChapRestSkip');if(crSkEl)crSkEl.value=st.chapRestSkip||0;
   const sinEl=document.getElementById('editSinopsis');if(sinEl)sinEl.value=st.sinopsis||'';
   const stEl=document.getElementById('editStatus');if(stEl)stEl.value=st.status||'unread';
   const emEl=document.getElementById('editEmission');if(emEl)emEl.value=st.emission||'';
@@ -1129,6 +1152,8 @@ function confirmEdit(){
   STATE[id].restStart=rsVal?new Date(rsVal).getTime():null;
   // Campos adicionales
   const ct=document.getElementById('editChapTotal');if(ct)STATE[id].chapTotal=parseInt(ct.value)||0;
+  const crEv=document.getElementById('editChapRestEvery');if(crEv)STATE[id].chapRestEvery=parseInt(crEv.value)||0;
+  const crSk=document.getElementById('editChapRestSkip');if(crSk)STATE[id].chapRestSkip=parseInt(crSk.value)||0;
   const sn=document.getElementById('editSinopsis');if(sn)STATE[id].sinopsis=sn.value.trim();
   const stEl=document.getElementById('editStatus');if(stEl)STATE[id].status=stEl.value;
   const em=document.getElementById('editEmission');if(em)STATE[id].emission=em.value;
@@ -1403,7 +1428,7 @@ function saveDiarioPrefs(p){localStorage.setItem('tbr-diario-prefs',JSON.stringi
 function getDiarioSectionPrefs(){try{return JSON.parse(localStorage.getItem('tbr-diario-sections')||'{}');}catch{return{};}}
 function saveDiarioSectionPrefs(){
   const prefs={};
-  ['tracker','reto','mejor','abc','shelf'].forEach(k=>{const el=document.getElementById(`dtog-${k}`);if(el)prefs[k]=el.checked;});
+  ['mensual','tracker','reto','mejor','abc','shelf'].forEach(k=>{const el=document.getElementById(`dtog-${k}`);if(el)prefs[k]=el.checked;});
   localStorage.setItem('tbr-diario-sections',JSON.stringify(prefs));
   const trackerCard=document.getElementById('diarioTrackerCard');
   if(trackerCard)trackerCard.style.display=prefs.tracker===false?'none':'';
@@ -1411,7 +1436,7 @@ function saveDiarioSectionPrefs(){
 }
 function loadDiarioSectionToggles(){
   const prefs=getDiarioSectionPrefs();
-  ['tracker','reto','mejor','abc','shelf'].forEach(k=>{
+  ['mensual','tracker','reto','mejor','abc','shelf'].forEach(k=>{
     const el=document.getElementById(`dtog-${k}`);
     if(el)el.checked=prefs[k]!==false;
   });
@@ -1433,7 +1458,7 @@ function getReadItems(){
     BOOKS.forEach(b=>{
       const s=STATE[b.id];
       if(s&&s.status==='read'){
-        items.push({id:'m'+b.id,title:b.title||'',cover:_getCover('m'+b.id)||'',finishDate:s.finishDate||null,type:'manga',author:s.author||''});
+        items.push({id:'m'+b.id,title:b.title||'',cover:_getCover('m'+b.id)||'',finishDate:s.finishDate||null,startDate:s.startDate||null,type:'manga',author:s.author||''});
       }
     });
   }
@@ -1441,7 +1466,7 @@ function getReadItems(){
     BOOKS_LIB.forEach(b=>{
       const st=BOOKS_STATE[b.id];
       if(st&&st.status==='read'){
-        items.push({id:'b'+b.id,title:b.title||'',cover:_getCover('b'+b.id)||'',finishDate:st.finishDate||null,type:'books',author:st.author||''});
+        items.push({id:'b'+b.id,title:b.title||'',cover:_getCover('b'+b.id)||'',finishDate:st.finishDate||null,startDate:st.addedAt||null,type:'books',author:st.author||''});
       }
     });
   }
@@ -1456,6 +1481,7 @@ function renderDiario(){
   const items=getReadItems();
   const year=new Date().getFullYear();
   el.innerHTML='';
+  if(sPrefs.mensual!==false) el.appendChild(buildMangaByMonthCard(items));
   if(sPrefs.reto!==false) el.appendChild(buildRetoCard(items,prefs,year));
   if(sPrefs.mejor!==false) el.appendChild(buildMejorMesCard(items,prefs,year));
   if(sPrefs.abc!==false) el.appendChild(buildAbcCard(items));
@@ -1506,13 +1532,29 @@ function buildMejorMesCard(items,prefs,year){
   div.className='diario-card';
   const best=prefs.bestMonth||{};
 
+  // Recopilar todos los items con startDate (cualquier estado)
+  const allItems=[];
+  if(_diarioType!=='books'){
+    BOOKS.forEach(b=>{
+      const s=STATE[b.id];if(!s)return;
+      const sd=s.startDate||null;
+      if(!sd)return;
+      allItems.push({title:b.title||'',cover:_getCover('m'+b.id)||'',startDate:sd});
+    });
+  }
+  if(_diarioType!=='manga'){
+    BOOKS_LIB.forEach(b=>{
+      const st=BOOKS_STATE[b.id];if(!st)return;
+      const sd=st.startDate||st.addedAt||null;
+      if(!sd)return;
+      allItems.push({title:b.title||'',cover:_getCover('b'+b.id)||'',startDate:sd});
+    });
+  }
+
   const cells=MES_NAMES.map((mn,mi)=>{
     const monthKey=`${year}-${String(mi+1).padStart(2,'0')}`;
     const saved=best[monthKey];
-    const monthItems=items.filter(x=>{
-      if(!x.finishDate)return false;
-      return x.finishDate.startsWith(monthKey);
-    });
+    const monthItems=allItems.filter(x=>x.startDate&&x.startDate.startsWith(monthKey));
     const coverHtml=saved?.cover
       ?`<img class="mes-cover" src="${saved.cover}" onerror="this.style.display='none'">`
       :`<div class="mes-cover-empty">${monthItems.length?'⭐':'📖'}</div>`;
@@ -1528,13 +1570,31 @@ function buildMejorMesCard(items,prefs,year){
   return div;
 }
 
+
 function openMejorMesModal(monthKey){
   const prefs=loadDiarioPrefs();
-  const items=getReadItems();
-  const monthItems=items.filter(x=>x.finishDate&&x.finishDate.startsWith(monthKey));
   const [y,m]=monthKey.split('-');
   const mn=MES_NAMES[parseInt(m)-1];
   const current=prefs.bestMonth?.[monthKey];
+
+  // Recopilar todos los iniciados ese mes (cualquier estado)
+  const monthItems=[];
+  if(_diarioType!=='books'){
+    BOOKS.forEach(b=>{
+      const s=STATE[b.id];if(!s)return;
+      const sd=s.startDate||null;
+      if(sd&&sd.startsWith(monthKey))
+        monthItems.push({title:b.title||'',cover:_getCover('m'+b.id)||''});
+    });
+  }
+  if(_diarioType!=='manga'){
+    BOOKS_LIB.forEach(b=>{
+      const st=BOOKS_STATE[b.id];if(!st)return;
+      const sd=st.startDate||st.addedAt||null;
+      if(sd&&sd.startsWith(monthKey))
+        monthItems.push({title:b.title||'',cover:_getCover('b'+b.id)||''});
+    });
+  }
 
   const opts=monthItems.length
     ?monthItems.map(it=>`<div onclick="saveMejorMes('${monthKey}','${encodeURIComponent(JSON.stringify({title:it.title,cover:it.cover}))}',this)"
@@ -1542,10 +1602,11 @@ function openMejorMesModal(monthKey){
         ${it.cover?`<img src="${it.cover}" style="width:32px;height:44px;object-fit:cover;border-radius:4px;">`:`<div style="width:32px;height:44px;background:var(--border);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.9rem;">📖</div>`}
         <span style="font-size:.8rem;color:var(--text);">${it.title}</span>
       </div>`).join('')
-    :`<p style="font-size:.78rem;color:var(--text3);text-align:center;padding:.85rem 0;">Sin lecturas terminadas en ${mn} ${y}</p>`;
+    :`<p style="font-size:.78rem;color:var(--text3);text-align:center;padding:.85rem 0;">Sin títulos iniciados en ${mn} ${y}</p>`;
 
   showSimpleModal(`⭐ Mejor de ${mn} ${y}`,`<div style="max-height:55vh;overflow-y:auto;">${opts}</div><button onclick="saveMejorMes('${monthKey}','',null)" style="width:100%;margin-top:.5rem;padding:.4rem;border-radius:10px;border:1.5px solid var(--border);background:transparent;color:var(--text3);font-family:'DM Sans',sans-serif;font-size:.78rem;cursor:pointer;">✖ Quitar selección</button>`);
 }
+
 
 function saveMejorMes(monthKey,encoded){
   const prefs=loadDiarioPrefs();
@@ -1563,21 +1624,43 @@ function buildAbcCard(items){
   const yearNow=new Date().getFullYear();
   const abcYear=_abcYear||yearNow;
 
-  const yearsInData=new Set(items.map(it=>it.finishDate?.slice(0,4)).filter(Boolean));
+  // Recopilar todos los items con startDate de cualquier estado
+  const allItems=[];
+  if(_diarioType!=='books'){
+    BOOKS.forEach(b=>{
+      const s=STATE[b.id];
+      if(!s)return;
+      const sd=s.startDate||null;
+      allItems.push({id:'m'+b.id,title:b.title||'',startDate:sd,type:'manga'});
+    });
+  }
+  if(_diarioType!=='manga'){
+    BOOKS_LIB.forEach(b=>{
+      const st=BOOKS_STATE[b.id];
+      if(!st)return;
+      // Para libros usamos addedAt como startDate si no hay startDate
+      const sd=st.startDate||st.addedAt||null;
+      allItems.push({id:'b'+b.id,title:b.title||'',startDate:sd,type:'books'});
+    });
+  }
+
+  const yearsInData=new Set(allItems.map(it=>it.startDate?.slice(0,4)).filter(Boolean));
   yearsInData.add(String(yearNow));
   const yearList=[...yearsInData].map(Number).sort((a,b)=>b-a);
   if(!yearList.includes(abcYear))yearList.push(abcYear);
   yearList.sort((a,b)=>b-a);
 
-  const filtered=items.filter(it=>{
-    if(!it.finishDate)return false;
-    return it.finishDate.startsWith(String(abcYear));
+  const filtered=allItems.filter(it=>{
+    if(!it.startDate)return false;
+    return it.startDate.startsWith(String(abcYear));
   });
+
   const map={};
   filtered.forEach(it=>{
     const first=it.title.replace(/^(El |La |Los |Las |Un |Una |The )/i,'').toUpperCase()[0];
-    if(first&&!map[first])map[first]=it.title;
+    if(first&&/[A-ZÑ]/.test(first)&&!map[first])map[first]=it.title;
   });
+  const ALPHABET='ABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.split('');
   const cells=ALPHABET.map(l=>`<div class="abc-cell">
     <span class="abc-letter">${l}</span>
     <span class="abc-value${map[l]?'':' abc-empty'}">${map[l]||'—'}</span>
@@ -1587,10 +1670,99 @@ function buildAbcCard(items){
   const yearSelect=`<select onchange="setAbcYear(parseInt(this.value))" style="padding:.25rem .4rem;border-radius:8px;border:1.5px solid var(--p2);background:var(--p1);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;outline:none;">${yearOptions}</select>`;
 
   div.innerHTML=`<div class="diario-card-title">🔤 Abecedario literario <span>${Object.keys(map).length}/${ALPHABET.length}</span></div>
-    <div style="display:flex;gap:.5rem;margin-bottom:.6rem;align-items:center;"><span style="font-size:.74rem;color:var(--text3);">📅 Año:</span>${yearSelect}</div>
+    <div style="display:flex;gap:.5rem;margin-bottom:.6rem;align-items:center;"><span style="font-size:.74rem;color:var(--text3);">📅 Empezados en:</span>${yearSelect}</div>
     <div class="abc-grid">${cells}</div>`;
   return div;
 }
+
+function buildMangaByMonthCard(items){
+  const div=document.createElement('div');
+  div.className='diario-card';
+  const now=new Date();
+  const MES_NAMES_FULL=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  const MES_NAMES_SHORT=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+
+  // Recopilar TODOS los items con startDate (cualquier estado)
+  const allItems=[];
+  if(_diarioType!=='books'){
+    BOOKS.forEach(b=>{
+      const s=STATE[b.id];if(!s)return;
+      const sd=s.startDate||null;
+      if(!sd)return;
+      allItems.push({id:'m'+b.id,title:b.title||'',cover:_getCover('m'+b.id)||'',startDate:sd,type:'manga',bookId:b.id});
+    });
+  }
+  if(_diarioType!=='manga'){
+    BOOKS_LIB.forEach(b=>{
+      const st=BOOKS_STATE[b.id];if(!st)return;
+      const sd=st.startDate||st.addedAt||null;
+      if(!sd)return;
+      allItems.push({id:'b'+b.id,title:b.title||'',cover:_getCover('b'+b.id)||'',startDate:sd,type:'books',bookId:b.id});
+    });
+  }
+
+  // Años disponibles
+  const yearsInData=new Set(allItems.map(it=>new Date(it.startDate).getFullYear()));
+  yearsInData.add(now.getFullYear());
+  const yearList=[...yearsInData].sort((a,b)=>b-a);
+
+  // Estado persistido: año y mes seleccionados
+  if(!window._mensualYear) window._mensualYear=now.getFullYear();
+  if(window._mensualMonth===undefined) window._mensualMonth=now.getMonth();
+  const selYear=window._mensualYear;
+  const selMonth=window._mensualMonth;
+
+  // Filtrar por año seleccionado y agrupar por mes
+  const byMonth=Array.from({length:12},()=>[]);
+  allItems.forEach(it=>{
+    const d=new Date(it.startDate);
+    if(d.getFullYear()!==selYear)return;
+    byMonth[d.getMonth()].push(it);
+  });
+
+  const totalYear=byMonth.reduce((a,m)=>a+m.length,0);
+
+  // Selector de año
+  const yearOpts=yearList.map(y=>`<option value="${y}"${y===selYear?' selected':''}>${y}</option>`).join('');
+  const yearSel=`<select onchange="window._mensualYear=parseInt(this.value);window._mensualMonth=0;renderDiario()" style="padding:.2rem .4rem;border-radius:8px;border:1.5px solid var(--p2);background:var(--p1);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.74rem;font-weight:600;cursor:pointer;outline:none;">${yearOpts}</select>`;
+
+  // Botones de mes (estilo pill)
+  const monthPills=MES_NAMES_SHORT.map((mn,mi)=>{
+    const cnt=byMonth[mi].length;
+    const isActive=mi===selMonth;
+    return `<button onclick="window._mensualMonth=${mi};renderDiario()" style="padding:.25rem .5rem;border-radius:20px;border:1.5px solid ${isActive?'var(--p3)':'var(--border)'};background:${isActive?'var(--p2)':'var(--card)'};color:${isActive?'var(--p4)':'var(--text3)'};font-family:'DM Sans',sans-serif;font-size:.65rem;font-weight:${isActive?'700':'400'};cursor:pointer;white-space:nowrap;position:relative;">${mn}${cnt?`<span style="position:absolute;top:-4px;right:-4px;background:var(--p3);color:#fff;border-radius:50%;width:14px;height:14px;font-size:.5rem;font-weight:700;display:flex;align-items:center;justify-content:center;line-height:1;">${cnt}</span>`:''}
+    </button>`;
+  }).join('');
+
+  // Portadas del mes seleccionado
+  const monthItems=byMonth[selMonth];
+  let coversHtml='';
+  if(!monthItems.length){
+    coversHtml=`<div style="text-align:center;padding:1.2rem;color:var(--text3);font-size:.8rem;font-style:italic;">Ningún título empezado en ${MES_NAMES_FULL[selMonth]} ${selYear}</div>`;
+  } else {
+    const cards=monthItems.map(it=>{
+      const clickFn=it.type==='manga'?`openDetailModal(${it.bookId})`:`openBookDetailModal(${it.bookId})`;
+      const coverEl=it.cover
+        ?`<img src="${it.cover}" style="width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:6px;border:1.5px solid var(--border);display:block;">`
+        :`<div style="width:100%;aspect-ratio:2/3;border-radius:6px;border:1.5px dashed var(--border);background:var(--p0);display:flex;align-items:center;justify-content:center;font-size:1.3rem;">${it.type==='manga'?'📚':'📖'}</div>`;
+      return `<div onclick="${clickFn}" style="cursor:pointer;display:flex;flex-direction:column;gap:.28rem;">
+        ${coverEl}
+        <span style="font-size:.58rem;color:var(--text2);text-align:center;line-height:1.2;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${it.title}</span>
+      </div>`;
+    }).join('');
+    coversHtml=`<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-top:.65rem;">${cards}</div>`;
+  }
+
+  div.innerHTML=`<div class="diario-card-title">📚 Iniciados por mes <span>${totalYear} en ${selYear}</span></div>
+    <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.6rem;">
+      <span style="font-size:.72rem;color:var(--text3);">📅</span>${yearSel}
+      <span style="font-size:.72rem;color:var(--text3);margin-left:.2rem;">${MES_NAMES_FULL[selMonth]}: <strong style="color:var(--p4);">${byMonth[selMonth].length}</strong></span>
+    </div>
+    <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.4rem;">${monthPills}</div>
+    ${coversHtml}`;
+  return div;
+}
+
 
 function getSpineColors(){
   const st=getComputedStyle(document.documentElement);
@@ -2317,6 +2489,7 @@ function renderReadingCalendar(){
       <div class="cal-names-row">${DN.map(n=>`<div class="cal-day-name">${n}</div>`).join('')}</div>
       <div class="cal-days-row">${emptyCells}${daysCells}</div>
     </div>
+    <div style="height:1px;background:var(--border);margin:.6rem 0 .45rem;border-radius:2px;"></div>
     <div class="cal-streak">📅 ${readDays} día${readDays!==1?'s':''} leídos · 🔥 Racha: ${streak} día${streak!==1?'s':''}</div>`;
 }
 function toggleReadDay(key){const log=loadReadingLog();if(log[key])delete log[key];else log[key]=true;saveReadingLog(log);renderReadingCalendar();}
@@ -3426,7 +3599,7 @@ document.addEventListener('click',e=>{
         </div>
       </div>
 
-      <div style="display:flex;flex-direction:column;gap:.85rem;" id="diarioContent"></div>
+      <div style="display:flex;flex-direction:column;gap:.85rem;margin-top:.85rem;" id="diarioContent"></div>
     </div>
   </div>
 
@@ -3522,6 +3695,7 @@ document.addEventListener('click',e=>{
         <h3 class="stat-section-title">📝 Secciones del Diario</h3>
         <p style="font-size:.76rem;color:var(--text3);margin-bottom:.75rem;">Elige qué secciones se muestran en tu diario</p>
         <div style="display:flex;flex-direction:column;gap:.45rem;">
+          <label class="toggle-row"><input type="checkbox" id="dtog-mensual" checked onchange="saveDiarioSectionPrefs()"> 📊 Leídos por mes</label>
           <label class="toggle-row"><input type="checkbox" id="dtog-tracker" checked onchange="saveDiarioSectionPrefs()"> 📅 Tracker de Lectura Diaria</label>
           <label class="toggle-row"><input type="checkbox" id="dtog-reto" checked onchange="saveDiarioSectionPrefs()"> 🎯 Reto de lectura</label>
           <label class="toggle-row"><input type="checkbox" id="dtog-mejor" checked onchange="saveDiarioSectionPrefs()"> ⭐ Mejor del mes</label>
@@ -3766,6 +3940,20 @@ document.addEventListener('click',e=>{
     <div class="add-field">
       <label>📖 Capítulos totales <span style="font-size:.7rem;color:var(--text3);">(0 = desconocido)</span></label>
       <input type="number" id="editChapTotal" min="0" placeholder="0" style="width:100%;padding:.5rem .8rem;border:1.5px solid var(--border);border-radius:11px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;">
+    </div>
+    <div class="add-field" style="border-top:1px solid var(--border);padding-top:.75rem;">
+      <label>☕ Micro-descanso por capítulos <span style="font-size:.7rem;color:var(--text3);">(ej: cada 3 caps, descansa 1)</span></label>
+      <p style="font-size:.72rem;color:var(--text3);margin:.15rem 0 .55rem;">Deja en 0 para desactivar.</p>
+      <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;">
+        <span style="font-size:.8rem;color:var(--text2);">Cada</span>
+        <input type="number" id="editChapRestEvery" min="0" max="200" value="0"
+          style="width:52px;padding:.3rem .45rem;border:1.5px solid var(--border);border-radius:8px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.82rem;text-align:center;outline:none;">
+        <span style="font-size:.8rem;color:var(--text2);">caps. leídos, descansa</span>
+        <input type="number" id="editChapRestSkip" min="0" max="50" value="0"
+          style="width:52px;padding:.3rem .45rem;border:1.5px solid var(--border);border-radius:8px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.82rem;text-align:center;outline:none;">
+        <span style="font-size:.8rem;color:var(--text2);">cap(s).</span>
+      </div>
+    </div>
     </div>
     <div class="add-field">
       <label>📝 Sinopsis personal <span style="font-size:.7rem;color:var(--text3);">(tu descripción)</span></label>
