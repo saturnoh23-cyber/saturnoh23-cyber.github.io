@@ -1283,6 +1283,76 @@ function exportBackup(){
   showToast(`💾 Respaldo guardado · ${total} portada${total!==1?'s':''} incluida${total!==1?'s':''}`);
 }
 
+
+function parseAnimeListXML(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const parser=new DOMParser();
+      const xml=parser.parseFromString(e.target.result,'text/xml');
+      const animes=xml.querySelectorAll('anime');
+      if(!animes.length){
+        document.getElementById('animeListPreview').innerHTML=
+          '<p style="color:#dc2626;font-size:.8rem;">❌ No se encontraron entradas. ¿Es el XML correcto de MyAnimeList?</p>';
+        return;
+      }
+      const statusMap={'1':'reading','2':'read','3':'paused','4':'paused','6':'unread'};
+      window._xmlParsed=[];
+      animes.forEach(a=>{
+        const title=a.querySelector('series_title')?.textContent||'';
+        const status=statusMap[a.querySelector('my_status')?.textContent||'6']||'unread';
+        const chapCur=parseInt(a.querySelector('my_watched_episodes')?.textContent||0)||0;
+        const chapTotal=parseInt(a.querySelector('series_episodes')?.textContent||0)||0;
+        const score=parseInt(a.querySelector('my_score')?.textContent||0)||0;
+        const rating=score>0?Math.round(score/2):0;
+        if(title)window._xmlParsed.push({title,status,chapCur,chapTotal,rating});
+      });
+      const existing=new Set(BOOKS.map(b=>b.title.toLowerCase().trim()));
+      const dupes=window._xmlParsed.filter(x=>existing.has(x.title.toLowerCase().trim())).length;
+      const newOnes=window._xmlParsed.length-dupes;
+      const counts={unread:0,reading:0,read:0,paused:0};
+      window._xmlParsed.forEach(x=>{if(counts[x.status]!==undefined)counts[x.status]++;});
+      document.getElementById('animeListPreview').innerHTML=`
+        <div style="background:var(--p1);border:1.5px solid var(--p2);border-radius:10px;padding:.75rem;margin-top:.4rem;">
+          <div style="font-size:.82rem;font-weight:600;color:var(--p4);margin-bottom:.4rem;">📊 ${window._xmlParsed.length} entradas en el XML</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.25rem;margin-bottom:.35rem;">
+            <span style="font-size:.74rem;color:var(--text2);">📖 TBR: <strong>${counts.unread}</strong></span>
+            <span style="font-size:.74rem;color:var(--text2);">✨ Leyendo: <strong>${counts.reading}</strong></span>
+            <span style="font-size:.74rem;color:var(--text2);">✅ Leídos: <strong>${counts.read}</strong></span>
+            <span style="font-size:.74rem;color:var(--text2);">⏸ Pausados: <strong>${counts.paused}</strong></span>
+          </div>
+          ${dupes>0?`<div style="font-size:.71rem;color:#d97706;margin-bottom:.2rem;">⚠️ ${dupes} ya existe${dupes===1?'':'n'} (se omitirán)</div>`:''}
+          <div style="font-size:.71rem;color:var(--text3);">✨ ${newOnes} nuevo${newOnes!==1?'s':''} por importar</div>
+        </div>`;
+      document.getElementById('animeListConfirmBtn').style.display='block';
+    }catch(err){
+      console.error(err);
+      document.getElementById('animeListPreview').innerHTML=
+        '<p style="color:#dc2626;font-size:.8rem;">❌ Error al leer el archivo.</p>';
+    }
+  };
+  reader.readAsText(file);
+}
+
+function confirmAnimeListImport(){
+  const parsed=window._xmlParsed||[];if(!parsed.length)return;
+  const existing=new Set(BOOKS.map(b=>b.title.toLowerCase().trim()));
+  let added=0;
+  parsed.forEach(item=>{
+    if(existing.has(item.title.toLowerCase().trim()))return;
+    const newId=Date.now()+Math.floor(Math.random()*99999)+added;
+    BOOKS.push({id:newId,title:item.title,addedAt:new Date().toISOString()});
+    STATE[newId]=Object.assign(defaultEntry(),{status:item.status,chapCur:item.chapCur,chapTotal:item.chapTotal,rating:item.rating,type:'manga'});
+    added++;
+  });
+  saveBooks();save();renderTodayBanner();render();
+  document.getElementById('animeListPreview').innerHTML=
+    `<div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:.6rem .8rem;font-size:.8rem;color:#166534;margin-top:.5rem;">✅ ${added} título${added!==1?'s':''} importado${added!==1?'s':''}.</div>`;
+  document.getElementById('animeListConfirmBtn').style.display='none';
+  showToast(`🌸 ${added} título${added!==1?'s':''} importado${added!==1?'s':''} desde XML`);
+  window._xmlParsed=[];
+}
 function fetchMALList(){
   const username=document.getElementById('malUsername').value.trim();
   if(!username){showToast('✏️ Escribe tu nombre de usuario de MAL');return;}
@@ -3949,19 +4019,41 @@ document.addEventListener('click',e=>{
       </div>
       <div style="background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:1.3rem;">
         <h3 style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--p4);margin-bottom:.35rem;">📺 Importar desde MyAnimeList</h3>
-        <p style="font-size:.8rem;color:var(--text3);margin-bottom:.85rem;">Escribe tu nombre de usuario de MyAnimeList y se importará tu lista automáticamente.</p>
-        <div style="display:flex;gap:.5rem;margin-bottom:.5rem;">
-          <input type="text" id="malUsername" placeholder="Tu usuario de MAL…"
-            style="flex:1;padding:.5rem .8rem;border:1.5px solid var(--border);border-radius:11px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;"
-            onfocus="this.style.borderColor='var(--p3)'" onblur="this.style.borderColor='var(--border)'"
-            onkeydown="if(event.key==='Enter')fetchMALList()">
-          <button onclick="fetchMALList()" id="malFetchBtn"
-            style="padding:.5rem 1rem;border-radius:11px;border:none;background:linear-gradient(135deg,var(--p3),var(--p4));color:#fff;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;white-space:nowrap;">
-            🔍 Buscar
-          </button>
+        <p style="font-size:.8rem;color:var(--text3);margin-bottom:.85rem;">Dos formas de importar tu lista de MyAnimeList.</p>
+
+        <!-- Opción 1: Por nombre de usuario -->
+        <div style="background:var(--p0);border-radius:12px;padding:.85rem;margin-bottom:.75rem;border:1.5px solid var(--border);">
+          <div style="font-size:.8rem;font-weight:600;color:var(--p4);margin-bottom:.5rem;">🔍 Opción 1 — Por nombre de usuario</div>
+          <p style="font-size:.74rem;color:var(--text3);margin-bottom:.6rem;">Tu lista debe ser <strong>pública</strong> en MAL. Usa la API de Jikan.</p>
+          <div style="display:flex;gap:.5rem;">
+            <input type="text" id="malUsername" placeholder="Tu usuario de MAL…"
+              style="flex:1;padding:.45rem .75rem;border:1.5px solid var(--border);border-radius:10px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none;"
+              onfocus="this.style.borderColor='var(--p3)'" onblur="this.style.borderColor='var(--border)'"
+              onkeydown="if(event.key==='Enter')fetchMALList()">
+            <button onclick="fetchMALList()" id="malFetchBtn"
+              style="padding:.45rem .9rem;border-radius:10px;border:none;background:linear-gradient(135deg,var(--p3),var(--p4));color:#fff;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;cursor:pointer;white-space:nowrap;">
+              🔍 Buscar
+            </button>
+          </div>
+          <div id="malStatus" style="font-size:.74rem;color:var(--text3);min-height:1rem;margin-top:.35rem;"></div>
+          <div id="malPreview"></div>
         </div>
-        <div id="malStatus" style="font-size:.76rem;color:var(--text3);min-height:1rem;margin-bottom:.3rem;"></div>
-        <div id="malPreview"></div>
+
+        <!-- Opción 2: Subir XML -->
+        <div style="background:var(--p0);border-radius:12px;padding:.85rem;border:1.5px solid var(--border);">
+          <div style="font-size:.8rem;font-weight:600;color:var(--p4);margin-bottom:.5rem;">📁 Opción 2 — Subir archivo XML</div>
+          <div style="font-size:.73rem;color:var(--text3);line-height:1.65;margin-bottom:.6rem;">
+            1. Ve a <em>myanimelist.net/panel.php?go=export</em><br>
+            2. Click en <em>"Export My Anime List"</em><br>
+            3. Descomprime el .gz y sube el .xml aquí
+          </div>
+          <label style="display:flex;align-items:center;justify-content:center;gap:.4rem;width:100%;padding:.5rem;border-radius:10px;border:1.5px dashed var(--p2);background:var(--card);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;box-sizing:border-box;">
+            📁 Seleccionar archivo .xml
+            <input type="file" id="animeListFile" accept=".xml" style="display:none" onchange="parseAnimeListXML(this)">
+          </label>
+          <div id="animeListPreview" style="margin-top:.5rem;"></div>
+          <button id="animeListConfirmBtn" onclick="confirmAnimeListImport()" style="display:none;width:100%;margin-top:.5rem;padding:.5rem;border-radius:10px;border:none;background:linear-gradient(135deg,var(--p3),var(--p4));color:#fff;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;">✨ Importar desde XML</button>
+        </div>
       </div>
       <div style="background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:1.3rem;">
         <h3 style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--p4);margin-bottom:.35rem;">📋 Importar lista en masa</h3>
