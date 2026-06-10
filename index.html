@@ -22,11 +22,7 @@
 <style>
 
 :root{--p0:#fff5f7;--p1:#ffe4ec;--p2:#ffc2d4;--p3:#ff8fab;--p4:#e05f85;--p5:#a0395a;--text:#4a1e30;--text2:#8a4a60;--text3:#b88090;--card:#ffffff;--bg:#fff5f7;--border:#f5d0db;--shadow:rgba(255,194,212,0.3);--toolbar-bg:#ffffffee;--input-bg:#ffffff;--modal-bg:#ffffff;--progress-track:#fde8ed;}[data-theme="dark"]{--p0:#1a0d12;--p1:#2d1520;--p2:#5a2a3a;--p3:#c06080;--p4:#e07090;--p5:#f0a0b8;--text:#f5d0db;--text2:#d4909f;--text3:#906070;--card:#261218;--bg:#1a0d12;--border:#3d1f28;--shadow:rgba(0,0,0,0.4);--toolbar-bg:#1a0d12ee;--input-bg:#261218;--modal-bg:#261218;--progress-track:#3d1f28;}*{margin:0;padding:0;box-sizing:border-box;}html{-webkit-text-size-adjust:100%;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s;-webkit-tap-highlight-color:transparent;overscroll-behavior:none;}body::before{content:'';position:absolute;top:0;left:0;right:0;height:300px;background:linear-gradient(180deg,var(--p1) 0%,transparent 100%);pointer-events:none;z-index:0;transition:background .3s;}.wrap{max-width:1400px;margin:0 auto;padding:1.2rem 1rem 5rem;position:relative;z-index:1;overflow-x:hidden;}header{text-align:center;margin-bottom:1rem;padding:0;background:var(--p1);border-radius:18px;border:1.5px solid var(--border);box-shadow:0 4px 16px var(--shadow);animation:fadeUp .4s ease both;overflow:hidden;}.header-sticky{position:sticky;top:0;z-index:100;background:var(--p1);border-bottom:1px solid var(--border);padding:.65rem 1rem;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}.header-body{padding:.5rem 1rem .85rem;}#mangaHeaderBody[style*="none"]{padding:0;}header h1{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;color:var(--text);margin:0;}header .sub{font-size:.7rem;color:var(--text3);font-style:italic;}.header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;}.header-center{display:flex;flex-direction:column;align-items:center;gap:.1rem;}.theme-toggle{width:34px;height:34px;border-radius:50%;flex-shrink:0;border:1.5px solid var(--border);background:var(--card);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:transform .2s;}.theme-toggle:hover{transform:rotate(20deg) scale(1.1);}.kofi-btn{display:flex;align-items:center;gap:.3rem;padding:.3rem .65rem;border-radius:40px;border:1.5px solid var(--border);background:var(--card);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:500;cursor:pointer;text-decoration:none;flex-shrink:0;transition:border-color .2s,color .2s;}.kofi-btn:hover{border-color:var(--p3);color:var(--p4);}.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:.32rem;flex-shrink:0;}.hdr-today-btn{display:flex;align-items:center;gap:.35rem;padding:.3rem .65rem;border-radius:40px;border:1.5px solid var(--p2);background:var(--p1);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:500;cursor:pointer;transition:background .15s,border-color .15s;white-space:nowrap;flex-shrink:0;}.hdr-today-btn:hover{background:var(--p2);}.hdr-today-btn.has-updates{background:var(--p3);border-color:var(--p4);color:#fff;}.hdr-today-btn.has-updates .today-badge{background:rgba(255,255,255,.9);color:var(--p4);}.today-badge{background:#fff;color:var(--p4);border-radius:20px;font-size:.65rem;font-weight:700;padding:.02rem .38rem;min-width:18px;text-align:center;}.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:.75rem 0 .7rem;}.books-hdr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:.75rem 0 .7rem;}.stat-pill{background:var(--p0);border:1.5px solid var(--border);border-radius:14px;padding:.7rem .5rem .6rem;font-size:.7rem;color:var(--text2);display:flex;flex-direction:column;align-items:center;gap:.2rem;cursor:pointer;user-select:none;transition:border-color .15s,background .15s;min-width:0;}
-.stat-pill-divider{grid-column:1/-1;height:1px;background:var(--border);margin:.1rem 0;}.stat-pill:hover{border-color:var(--p3);background:var(--p1);color:var(--p4);}.stat-pill-num{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:600;line-height:1;color:var(--text);}.stat-pill-label{font-size:.56rem;font-weight:700;color:var(--text3);letter-spacing:.07em;text-transform:uppercase;text-align:center;}.stat-pill-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}.header-switcher{display:flex;gap:.4rem;justify-content:center;margin-top:.65rem;background:var(--p0);border-radius:40px;padding:.28rem;border:1.5px solid var(--border);width:fit-content;margin-left:auto;margin-right:auto;}.switcher-btn{padding:.38rem 1.2rem;border-radius:40px;border:none;background:transparent;color:var(--text3);font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;transition:background .2s,color .2s,box-shadow .2s;white-space:nowrap;}.switcher-btn.active{background:var(--card);color:var(--p4);box-shadow:0 2px 8px var(--shadow);}.books-hdr-box{background:var(--p0);border:1.5px solid var(--border);border-radius:14px;padding:.7rem .4rem .6rem;display:flex;flex-direction:column;align-items:center;gap:.2rem;cursor:pointer;transition:border-color .15s,background .15s;user-select:none;}.books-hdr-box:hover{border-color:var(--p3);background:var(--p1);}.books-hdr-num{font-family:'Playfair Display',serif;font-size:1.65rem;font-weight:600;line-height:1;}.books-hdr-label{font-size:.58rem;font-weight:700;color:var(--text3);letter-spacing:.07em;text-transform:uppercase;}.books-hdr-actions{display:flex;gap:.4rem;justify-content:center;flex-wrap:wrap;margin-top:.2rem;}.books-hdr-btn{padding:.42rem 1rem;border-radius:40px;border:1.5px solid var(--border);background:var(--card);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;cursor:pointer;transition:background .15s,border-color .15s,color .15s;white-space:nowrap;}.books-hdr-btn:hover{border-color:var(--p3);color:var(--p4);}.today-panel{display:none;background:var(--p1);border:1.5px solid var(--p2);border-radius:14px;padding:.9rem 1.1rem;margin-bottom:1rem;}.today-panel.show{display:block;animation:fadeUp .3s ease both;}.today-panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem;}.today-panel-title{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--p4);}.today-panel-date{font-size:.72rem;color:var(--text3);font-style:italic;}.today-panel-close{background:none;border:none;cursor:pointer;font-size:.95rem;color:var(--text3);padding:.1rem .3rem;border-radius:6px;}.today-empty{font-size:.8rem;color:var(--text3);font-style:italic;}.today-item{display:flex;align-items:center;gap:.5rem;font-size:.82rem;color:var(--text);padding:.28rem 0;border-bottom:1px solid var(--border);}.today-item:last-child{border-bottom:none;}.today-item.pending{opacity:.72;}.today-dot{width:7px;height:7px;border-radius:50%;background:var(--p3);flex-shrink:0;}.today-dot.pending{background:#f59e0b;}.today-chap-info{display:flex;flex-direction:column;flex:1;min-width:0;}.today-chap-num{font-size:.7rem;color:var(--text3);margin-top:.1rem;}.today-pending-tag{font-size:.62rem;color:#f59e0b;font-weight:600;}.today-chap-btn{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--p2);background:var(--p1);color:var(--p4);font-size:1rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s;line-height:1;}.today-chap-btn:hover{background:var(--p2);}.today-section-label{font-size:.7rem;font-weight:600;color:var(--text3);padding:.4rem 0 .2rem;text-transform:uppercase;letter-spacing:.04em;}.alert-overlay{position:fixed;inset:0;background:rgba(74,30,48,.55);z-index:300;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}.alert-overlay.open{opacity:1;pointer-events:all;}.alert-modal{background:var(--modal-bg);border-radius:22px;padding:1.6rem 1.8rem;width:min(420px,92vw);box-shadow:0 20px 60px rgba(0,0,0,.3);border:2px solid var(--p2);transform:scale(.92);transition:transform .3s;}.alert-overlay.open .alert-modal{transform:scale(1);}.alert-modal h2{font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--p4);margin-bottom:.2rem;display:flex;align-items:center;gap:.4rem;}.alert-sub{font-size:.76rem;color:var(--text3);margin-bottom:1rem;font-style:italic;}.alert-item{display:flex;align-items:center;gap:.6rem;padding:.6rem .75rem;background:var(--p1);border:1px solid var(--p2);border-radius:11px;margin-bottom:.4rem;}.alert-item:last-of-type{margin-bottom:1rem;}.alert-icon{font-size:1.2rem;flex-shrink:0;}.alert-info{flex:1;}.alert-title{font-family:'Playfair Display',serif;font-size:.88rem;font-weight:600;color:var(--text);}.alert-meta{font-size:.68rem;color:var(--text3);margin-top:.08rem;}.alert-close{width:100%;padding:.55rem;border-radius:40px;border:none;background:linear-gradient(135deg,var(--p3),var(--p4));color:white;font-family:'DM Sans',sans-serif;font-size:.83rem;font-weight:500;cursor:pointer;}.main-tabs{display:flex;align-items:center;gap:.25rem;margin-bottom:1rem;border-bottom:2px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}.main-tabs::-webkit-scrollbar{display:none;}.main-tab{padding:.45rem .8rem;border-radius:10px 10px 0 0;border:1.5px solid transparent;background:none;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;color:var(--text2);cursor:pointer;transition:color .15s,background .15s;margin-bottom:-2px;white-space:nowrap;flex-shrink:0;}.main-tab:hover{color:var(--p4);background:var(--p1);}.main-tab.active{background:var(--card);border-color:var(--border);border-bottom-color:var(--card);color:var(--p4);font-weight:600;}.tab-section{display:none;}.tab-section.active{display:block;}.bingo-grid{display:grid;gap:.35rem;margin-bottom:1rem;}.bingo-cell{border-radius:10px;border:1.5px solid var(--border);background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:.45rem .35rem;cursor:pointer;transition:background .15s,border-color .15s,transform .1s;position:relative;text-align:center;font-size:.7rem;color:var(--text2);line-height:1.3;min-height:52px;word-break:break-word;}.bingo-cell:active{transform:scale(.97);}.bingo-cell.marked{background:var(--p2);border-color:var(--p3);color:var(--p5);}.bingo-cell.marked::after{content:'✓';position:absolute;top:3px;right:5px;font-size:.6rem;color:var(--p4);font-weight:700;}.bingo-cell.editing{cursor:default;background:var(--p0);border-color:var(--p3);border-style:dashed;}.bingo-cell.editing:active{transform:none;}.bingo-cell-text{font-size:.68rem;line-height:1.3;padding:.1rem;pointer-events:none;}.bingo-edit-input{width:100%;border:none;background:transparent;text-align:center;font-family:'DM Sans',sans-serif;font-size:.68rem;color:var(--text);resize:none;outline:none;cursor:text;padding:.1rem;line-height:1.3;min-height:40px;overflow:hidden;}.bingo-edit-mode-bar{display:flex;align-items:center;gap:.4rem;padding:.4rem .6rem;background:var(--p1);border:1.5px dashed var(--p3);border-radius:10px;margin-bottom:.6rem;font-size:.74rem;color:var(--p4);}.bingo-board-card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:.85rem;margin-bottom:.85rem;}.bingo-board-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.65rem;flex-wrap:wrap;gap:.35rem;}.bingo-board-title{font-family:'Playfair Display',serif;font-size:1rem;color:var(--p4);font-weight:600;}.bingo-board-actions{display:flex;gap:.35rem;}.bingo-action-btn{padding:.28rem .6rem;border-radius:8px;border:1.5px solid var(--border);background:var(--p1);color:var(--p4);font-size:.72rem;cursor:pointer;font-family:'DM Sans',sans-serif;}.bingo-action-btn:hover{border-color:var(--p3);}.bingo-action-btn.active-edit{background:var(--p3);border-color:var(--p4);color:#fff;}.bingo-progress{font-size:.72rem;color:var(--text3);margin-bottom:.5rem;}.bingo-win-banner{background:var(--p2);border:1.5px solid var(--p3);border-radius:10px;padding:.45rem .75rem;text-align:center;font-size:.82rem;color:var(--p5);font-weight:600;margin-bottom:.5rem;animation:bump .3s ease;}.bingo-tab-pill{padding:.28rem .65rem;border-radius:20px;border:1.5px solid var(--border);background:var(--card);color:var(--text2);font-size:.74rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s,border-color .15s;}.bingo-tab-pill.active{background:var(--p2);border-color:var(--p3);color:var(--p5);font-weight:600;}.diario-card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:.85rem;}.diario-card-title{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--p4);font-weight:600;margin-bottom:.65rem;display:flex;align-items:center;gap:.4rem;}.diario-card-title span{font-size:.8rem;color:var(--text3);font-family:'DM Sans',sans-serif;font-weight:400;margin-left:auto;}.abc-grid{display:grid;grid-template-columns:1fr 1fr;gap:.28rem;}.abc-cell{display:flex;align-items:center;gap:.35rem;background:var(--p1);border-radius:7px;padding:.28rem .45rem;min-height:28px;overflow:hidden;}.abc-letter{font-size:.72rem;font-weight:700;color:var(--p4);min-width:13px;flex-shrink:0;}.abc-value{font-size:.64rem;color:var(--text2);line-height:1.2;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.abc-empty{color:var(--text3);}.shelf-unit{background:#f5e6d0;border-radius:12px;padding:.65rem .65rem 0;border:1.5px solid #d4a96a;overflow:visible;}.shelf-row{display:flex;align-items:flex-end;flex-wrap:wrap;gap:2px;border-bottom:12px solid #8B5E3C;box-shadow:0 4px 0 #6b4423;margin-bottom:10px;min-height:72px;padding-bottom:2px;}.shelf-spine{width:20px;border-radius:3px 3px 0 0;display:flex;align-items:center;justify-content:center;overflow:hidden;border-left:1.5px solid rgba(255,255,255,.3);border-right:1px solid rgba(0,0,0,.15);border-top:1px solid rgba(255,255,255,.25);flex-shrink:0;}.shelf-spine-text{writing-mode:vertical-rl;transform:rotate(180deg);font-size:.42rem;color:#fff;font-weight:600;line-height:1;padding:.08rem .05rem;text-shadow:0 1px 2px rgba(0,0,0,.6);width:18px;text-align:center;display:-webkit-box;-webkit-line-clamp:8;-webkit-box-orient:vertical;overflow:hidden;}.mes-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;}.mes-cell{display:flex;flex-direction:column;align-items:center;gap:.3rem;}.mes-label{font-size:.62rem;color:var(--text3);text-align:center;}.mes-cover{width:100%;aspect-ratio:2/3;border-radius:6px;object-fit:cover;border:1.5px solid var(--border);}.mes-cover-empty{width:100%;aspect-ratio:2/3;border-radius:6px;border:1.5px dashed var(--border);background:var(--p0);display:flex;align-items:center;justify-content:center;font-size:1.1rem;}.mes-title{font-size:.58rem;color:var(--text2);text-align:center;line-height:1.2;max-height:2.4em;overflow:hidden;}.reto-bar-wrap{background:var(--p0);border-radius:10px;padding:.85rem;display:flex;flex-direction:column;gap:.75rem;}.reto-bar-row{display:flex;align-items:center;gap:.7rem;}.reto-bar-label{font-size:.74rem;color:var(--text2);min-width:56px;}.reto-bar-track{flex:1;height:10px;background:var(--progress-track);border-radius:10px;overflow:hidden;}.reto-bar-fill{height:100%;background:var(--p3);border-radius:10px;transition:width .4s ease;}.reto-bar-num{font-size:.7rem;color:var(--p4);font-weight:600;min-width:32px;text-align:right;}.reto-edit-btn{font-size:.72rem;padding:.2rem .55rem;border-radius:8px;border:1.5px solid var(--border);background:var(--p1);color:var(--p4);cursor:pointer;font-family:'DM Sans',sans-serif;}.reto-input-row{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}.reto-input{width:72px;padding:.3rem .5rem;border:1.5px solid var(--border);border-radius:8px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.8rem;text-align:center;}.fav-btn{background:none;border:none;cursor:pointer;font-size:1.05rem;padding:.1rem .15rem;transition:transform .15s;line-height:1;vertical-align:middle;}.fav-btn:active{transform:scale(1.35);}.fav-badge{font-size:.65rem;padding:.1rem .32rem;border-radius:20px;font-weight:700;display:inline-flex;align-items:center;gap:.18rem;}.fav-badge.fav{background:#fef3c7;color:#d97706;}.fav-badge.hate{background:#fee2e2;color:#dc2626;}.emo-row{display:flex;flex-direction:column;gap:.38rem;margin-top:.15rem;}.emo-line{display:flex;align-items:center;gap:.35rem;}.emo-icon{font-size:1rem;line-height:1;width:22px;text-align:center;}.emo-star{font-size:.95rem;cursor:pointer;opacity:.25;transition:opacity .12s,transform .12s;line-height:1;user-select:none;}.emo-star.lit{opacity:1;}.emo-star:active{transform:scale(1.25);}.emo-label-txt{font-size:.65rem;color:var(--text3);min-width:20px;}.rmt-wrap{display:flex;gap:.35rem;margin-bottom:.5rem;}.rmt-btn{flex:1;padding:.28rem .3rem;border-radius:8px;border:1.5px solid var(--border);background:var(--card);color:var(--text3);font-family:'DM Sans',sans-serif;font-size:.68rem;cursor:pointer;transition:all .15s;text-align:center;}.rmt-btn.active{background:var(--p2);border-color:var(--p3);color:var(--p5);font-weight:600;}.book-progress-track{height:5px;background:var(--progress-track);border-radius:10px;overflow:hidden;margin-bottom:.28rem;}.book-progress-fill{height:100%;background:linear-gradient(90deg,var(--p3),var(--p4));border-radius:10px;transition:width .3s ease;}.book-progress-row{display:flex;align-items:center;gap:.4rem;}.book-progress-input{width:60px;padding:.2rem .4rem;border:1.5px solid var(--border);border-radius:7px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.7rem;text-align:center;}.book-progress-label{font-size:.68rem;color:var(--text3);}.book-progress-pct{font-size:.68rem;color:var(--p4);font-weight:600;min-width:32px;text-align:right;}.toolbar{position:sticky;top:.4rem;z-index:50;background:var(--toolbar-bg);border:1px solid var(--border);border-radius:14px;padding:.65rem .85rem;margin-bottom:1rem;box-shadow:0 2px 12px var(--shadow);}.toolbar-top{display:flex;align-items:center;gap:.45rem;width:100%;}.toolbar-body{display:flex;gap:.45rem;flex-wrap:wrap;align-items:center;width:100%;max-height:400px;overflow:visible;transition:max-height .3s ease,opacity .25s ease,margin .25s ease;opacity:1;margin-top:.5rem;}.toolbar-body.collapsed{max-height:0;opacity:0;pointer-events:none;margin-top:0;overflow:hidden;}.toolbar-toggle{background:none;border:1.5px solid var(--border);border-radius:40px;padding:.28rem .6rem;font-size:.75rem;cursor:pointer;color:var(--text3);transition:color .15s,border-color .15s;white-space:nowrap;flex-shrink:0;}.toolbar-toggle:hover{color:var(--p4);border-color:var(--p3);}.search-wrap{flex:1;min-width:140px;position:relative;}.search-wrap input{width:100%;padding:.45rem .85rem .45rem 2rem;border:1.5px solid var(--border);border-radius:40px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.8rem;outline:none;transition:border-color .2s;}.search-wrap input::placeholder{color:var(--text3);}.search-wrap input:focus{border-color:var(--p3);}.search-icon{position:absolute;left:.65rem;top:50%;transform:translateY(-50%);font-size:.82rem;pointer-events:none;}.filter-dropdown-wrap{position:relative;display:inline-block;}.filter-dropdown-btn{display:flex;align-items:center;gap:.35rem;padding:.38rem .85rem;border-radius:40px;border:1.5px solid var(--border);background:var(--card);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:.78rem;cursor:pointer;white-space:nowrap;transition:border-color .15s,background .15s;}.filter-dropdown-btn.has-filter{background:linear-gradient(135deg,var(--p3),var(--p4));color:#fff;border-color:transparent;}.filter-dropdown-menu{position:absolute;top:calc(100% + .35rem);left:0;z-index:200;background:var(--card);border:1.5px solid var(--border);border-radius:13px;box-shadow:0 8px 24px var(--shadow);padding:.35rem;min-width:175px;display:none;flex-direction:column;gap:.08rem;}.filter-dropdown-menu.open{display:flex;}.filter-dropdown-item{padding:.35rem .65rem;border-radius:8px;font-size:.78rem;color:var(--text2);cursor:pointer;transition:background .12s,color .12s;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:.35rem;}.filter-dropdown-item:hover{background:var(--p1);color:var(--p4);}.filter-dropdown-item.active{background:var(--p1);color:var(--p4);font-weight:600;}.filter-dropdown-divider{height:1px;background:var(--border);margin:.18rem 0;}.view-btns{display:flex;gap:.25rem;}.view-btn{width:30px;height:30px;border-radius:8px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:border-color .15s,background .15s;}.view-btn:hover{border-color:var(--p3);}.view-btn.active{background:var(--p2);border-color:var(--p2);}.raffle-btn{padding:.42rem .9rem;border-radius:40px;border:none;background:linear-gradient(135deg,var(--p3),var(--p4));color:#fff;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;cursor:pointer;white-space:nowrap;transition:opacity .15s;}.raffle-btn:hover{opacity:.88;}.add-btn{padding:.42rem .9rem;border-radius:40px;border:1.5px solid var(--p2);background:var(--card);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:.28rem;transition:background .15s;}.add-btn:hover{background:var(--p1);}.filter-btn{padding:.35rem .75rem;border-radius:40px;border:1.5px solid var(--border);background:var(--card);font-family:'DM Sans',sans-serif;font-size:.74rem;color:var(--text2);cursor:pointer;transition:border-color .15s,background .15s,color .15s;white-space:nowrap;}.filter-btn:hover{border-color:var(--p3);color:var(--p4);}.filter-btn.active{background:linear-gradient(135deg,var(--p3),var(--p4));border-color:transparent;color:#fff;}.filter-row{display:flex;gap:.3rem;flex-wrap:wrap;}.filter-group{display:flex;align-items:center;gap:.3rem;flex-wrap:wrap;}.filter-sep{width:1px;height:16px;background:var(--border);flex-shrink:0;}#bookGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem;min-width:0;}#bookGrid.list-view{grid-template-columns:1fr;gap:.4rem;}#bookGrid.cols-1{grid-template-columns:1fr;}#bookGrid.cols-2{grid-template-columns:repeat(2,1fr);}#bookGrid.cols-3{grid-template-columns:repeat(3,1fr);}#bookGrid.cols-auto{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));}#bookGrid2{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem;min-width:0;}#bookGrid2.list-view{grid-template-columns:1fr;gap:.4rem;}#bookGrid2.cols-1{grid-template-columns:1fr;}#bookGrid2.cols-2{grid-template-columns:repeat(2,1fr);}#bookGrid2.cols-3{grid-template-columns:repeat(3,1fr);}#bookGrid2.cols-auto{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));}@media(min-width:600px){#bookGrid,#bookGrid2{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));}#bookGrid.cols-2,#bookGrid2.cols-2{grid-template-columns:repeat(2,1fr);}#bookGrid.cols-3,#bookGrid2.cols-3{grid-template-columns:repeat(3,1fr);}}.book-card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:.8rem;display:flex;flex-direction:column;gap:.45rem;position:relative;min-width:0;overflow:hidden;animation:fadeUp .3s ease both;transition:background .3s,border-color .2s,box-shadow .2s;}@media(hover:hover){.book-card:hover{box-shadow:0 6px 20px var(--shadow);border-color:var(--p2);}.book-card:hover .card-actions{opacity:1;}}@media(hover:none){.card-actions{opacity:1!important;}}.book-card.updates-today{border-color:var(--p3);box-shadow:0 0 0 2px var(--p2);}#bookGrid.cols-1 .book-card{padding:.9rem 1rem;}#bookGrid.cols-1 .card-cover,#bookGrid.cols-1 .cover-placeholder{height:180px;}#bookGrid.cols-2 .card-cover,#bookGrid.cols-2 .cover-placeholder{height:135px;}#bookGrid.cols-3 .book-card{padding:.45rem .5rem;gap:.28rem;border-radius:11px;}#bookGrid.cols-3 .card-cover,#bookGrid.cols-3 .cover-placeholder{height:100px;border-radius:7px;}#bookGrid.cols-3 .cover-placeholder p{font-size:.58rem;}#bookGrid.cols-3 .card-title{font-size:.7rem;line-height:1.22;}#bookGrid.cols-3 .card-num{font-size:.58rem;}#bookGrid.cols-3 .status-btn{font-size:.54rem;padding:.12rem .3rem;}#bookGrid.cols-3 .chapter-inp{width:36px;font-size:.66rem;padding:.18rem .24rem;}
-.chap-minus:hover{background:var(--p2);}
-.chap-plus-full{height:32px;flex:1;border-radius:8px;border:1.5px solid var(--p2);background:var(--p1);color:var(--p4);font-size:.72rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;user-select:none;gap:.2rem;}
-.chap-plus-full:hover{background:var(--p2);}
-.chap-plus{width:19px;height:19px;font-size:.7rem;}#bookGrid.cols-3 .genre-badge,#bookGrid.cols-3 .type-badge{font-size:.53rem;padding:.07rem .28rem;}#bookGrid.cols-3 .priority-badge{font-size:.54rem;padding:.08rem .28rem;}#bookGrid2.cols-3 .book-card{padding:.45rem .5rem;gap:.22rem;border-radius:11px;}#bookGrid2.cols-3 .card-cover,#bookGrid2.cols-3 .cover-placeholder{height:105px;border-radius:7px;}#bookGrid2.cols-3 .cover-placeholder p{font-size:.56rem;}#bookGrid2.cols-3 .card-title{font-size:.68rem;line-height:1.2;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer;transition:all .2s;}#bookGrid2.cols-3 .card-title.expanded{display:block;overflow:visible;-webkit-line-clamp:unset;}#bookGrid2.cols-2 .card-title{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer;transition:all .2s;}#bookGrid2.cols-2 .card-title.expanded{display:block;overflow:visible;-webkit-line-clamp:unset;}#bookGrid2.cols-1 .book-card{padding:.9rem 1rem;}#bookGrid2.cols-1 .card-cover,#bookGrid2.cols-1 .cover-placeholder{height:180px;}.today-tag{position:absolute;top:.6rem;right:.6rem;background:linear-gradient(135deg,var(--p3),var(--p4));color:white;font-size:.58rem;font-weight:600;padding:.15rem .5rem;border-radius:20px;letter-spacing:.03em;}.card-actions{position:absolute;bottom:.6rem;right:.6rem;display:flex;gap:.25rem;opacity:0;transition:opacity .18s;}.delete-btn{width:26px;height:26px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text3);font-size:.72rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s;}.delete-btn:hover{background:#fee2e2;border-color:#fca5a5;color:#dc2626;}.card-top{display:flex;align-items:flex-start;gap:.45rem;min-width:0;}.card-top>div{min-width:0;flex:1;}.card-num{font-family:'Playfair Display',serif;font-size:.68rem;font-style:italic;color:var(--text3);min-width:1.3rem;flex-shrink:0;}.card-title{font-family:'Playfair Display',serif;font-size:.92rem;font-weight:600;color:var(--text);line-height:1.28;flex:1;word-break:break-word;min-width:0;}.card-divider{height:1px;background:var(--border);opacity:.5;}.card-link{display:inline-flex;align-items:center;gap:.25rem;font-size:.66rem;color:var(--p4);text-decoration:none;border:1px solid var(--p2);border-radius:20px;padding:.13rem .5rem;background:var(--p1);transition:background .15s;margin-top:.1rem;width:fit-content;}.card-link:hover{background:var(--p2);}.priority-badge{font-size:.62rem;background:linear-gradient(135deg,var(--p3)22,var(--p2)44);border:1px solid var(--p2);color:var(--p4);padding:.1rem .4rem;border-radius:20px;white-space:nowrap;display:inline-flex;align-items:center;gap:.12rem;}.type-badge{font-size:.58rem;padding:.08rem .4rem;border-radius:20px;border:1px solid;white-space:nowrap;display:inline-flex;align-items:center;gap:.12rem;width:fit-content;}.type-manga{background:#fff0f9;color:#c026a0;border-color:#f0abdc;}.type-manhwa{background:#fff5f0;color:#c05000;border-color:#f5c0a0;}.type-novel{background:#f0f4ff;color:#3050c0;border-color:#b0c0f0;}[data-theme="dark"] .type-manga{background:#2a0520;color:#e060c0;border-color:#802060;}[data-theme="dark"] .type-manhwa{background:#2a1500;color:#e07020;border-color:#804010;}[data-theme="dark"] .type-novel{background:#0a1030;color:#6080e0;border-color:#304080;}.genre-badge{font-size:.58rem;padding:.08rem .4rem;border-radius:20px;border:1px solid #ddd6fe;background:#f5f3ff;color:#7c3aed;white-space:nowrap;}[data-theme="dark"] .genre-badge{background:#2d1b69;color:#c4b5fd;border-color:#4c1d95;}.status-row{display:flex;gap:.22rem;flex-wrap:wrap;}.status-btn{padding:.18rem .45rem;border-radius:20px;border:1px solid transparent;font-size:.64rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .12s;opacity:.4;}.status-btn:hover{opacity:.75;}.status-btn.active{opacity:1;font-weight:500;}.s-unread{background:#f0f0f5;color:#888;border-color:#ddd;}.s-unread.active{background:#ede9fe;color:#7c3aed;border-color:#c4b5fd;}.s-reading{background:#fef9ee;color:#92400e;border-color:#fde68a;}.s-reading.active{background:#fffbeb;color:#d97706;border-color:#fcd34d;}.s-read{background:#f0fdf4;color:#166534;border-color:#bbf7d0;}.s-read.active{background:#dcfce7;color:#15803d;border-color:#86efac;}.s-paused{background:#eff6ff;color:#1e40af;border-color:#bfdbfe;}.s-paused.active{background:#dbeafe;color:#1d4ed8;border-color:#93c5fd;}[data-theme="dark"] .s-unread{background:#2a2a3a;color:#aaa;border-color:#444;}[data-theme="dark"] .s-unread.active{background:#3d3560;color:#c4a0ff;border-color:#7c5fd0;}[data-theme="dark"] .s-reading{background:#2a200a;color:#c09020;border-color:#806010;}[data-theme="dark"] .s-reading.active{background:#3a2d0a;color:#f0c040;border-color:#c09030;}[data-theme="dark"] .s-read{background:#0a2010;color:#50a060;border-color:#205030;}[data-theme="dark"] .s-read.active{background:#0d2d12;color:#70d080;border-color:#40a050;}[data-theme="dark"] .s-paused{background:#0a1530;color:#5070c0;border-color:#203060;}[data-theme="dark"] .s-paused.active{background:#0d1f45;color:#80a0e8;border-color:#3050a0;}.section-title{font-size:.62rem;color:var(--text3);margin-bottom:.25rem;}.emission-row{display:flex;gap:.2rem;flex-wrap:wrap;}.emit-btn{padding:.16rem .44rem;border-radius:20px;border:1px solid transparent;font-size:.62rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .12s;opacity:.4;}.emit-btn:hover{opacity:.75;}.emit-btn.active{opacity:1;font-weight:500;}.e-ongoing{background:#fff7ed;color:#c2410c;border-color:#fed7aa;}.e-ongoing.active{background:#ffedd5;color:#ea580c;border-color:#fb923c;}.e-finished{background:#f0fdf4;color:#15803d;border-color:#bbf7d0;}.e-finished.active{background:#dcfce7;color:#16a34a;border-color:#86efac;}.e-hiatus{background:#faf5ff;color:#7e22ce;border-color:#e9d5ff;}.e-hiatus.active{background:#f3e8ff;color:#9333ea;border-color:#d8b4fe;}.e-announced{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe;}.e-announced.active{background:#dbeafe;color:#2563eb;border-color:#93c5fd;}[data-theme="dark"] .e-ongoing{background:#2a1500;color:#f08030;border-color:#703010;}[data-theme="dark"] .e-ongoing.active{background:#3a2000;color:#ff9940;border-color:#a04820;}[data-theme="dark"] .e-finished{background:#0a2010;color:#50a060;border-color:#205030;}[data-theme="dark"] .e-finished.active{background:#0d2d12;color:#70d080;border-color:#40a050;}[data-theme="dark"] .e-hiatus{background:#1a0a2a;color:#c080f0;border-color:#502070;}[data-theme="dark"] .e-hiatus.active{background:#220d38;color:#d090ff;border-color:#7030a0;}[data-theme="dark"] .e-announced{background:#0a1530;color:#5070c0;border-color:#203060;}[data-theme="dark"] .e-announced.active{background:#0d1f45;color:#80a0e8;border-color:#3050a0;}.freq-toggle{display:flex;border:1px solid var(--border);border-radius:7px;overflow:hidden;width:fit-content;}.freq-btn{padding:.16rem .5rem;font-size:.63rem;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;background:transparent;color:var(--text3);transition:background .12s,color .12s;white-space:nowrap;}.freq-btn.active{background:var(--p2);color:var(--text);}.days-grid{display:flex;gap:.2rem;flex-wrap:wrap;margin-top:.28rem;}.day-chip{width:28px;height:24px;border-radius:7px;border:1px solid var(--border);background:var(--input-bg);color:var(--text3);font-size:.62rem;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .12s,background .12s,color .12s;user-select:none;}.day-chip.active{background:linear-gradient(135deg,var(--p2),var(--p3));border-color:transparent;color:#fff;}.day-chip.today-date{border-color:var(--p3);color:var(--p4);}.date-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:.16rem;margin-top:.28rem;}.date-chip{height:22px;border-radius:5px;border:1px solid var(--border);background:var(--input-bg);color:var(--text3);font-size:.6rem;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .12s,background .12s,color .12s;user-select:none;}.date-chip.active{background:linear-gradient(135deg,var(--p3),var(--p4));border-color:transparent;color:#fff;font-weight:600;}.date-chip.today-date{border-color:var(--p3);color:var(--p4);}.schedule-display{font-size:.66rem;color:var(--p4);font-weight:500;margin-top:.28rem;line-height:1.4;}.schedule-locked{background:var(--p1);border:1px solid var(--p2);border-radius:9px;padding:.45rem .7rem;display:flex;align-items:center;justify-content:space-between;gap:.45rem;}.schedule-locked-text{font-size:.72rem;color:var(--text2);font-weight:500;}.schedule-edit-btn{padding:.16rem .5rem;border-radius:20px;border:1.5px solid var(--p2);background:var(--card);color:var(--p4);font-size:.62rem;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;flex-shrink:0;}.schedule-save-btn{padding:.16rem .5rem;border-radius:20px;border:none;background:linear-gradient(135deg,var(--p3),var(--p4));color:white;font-size:.62rem;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;flex-shrink:0;}.chapter-label{font-size:.62rem;color:var(--text3);margin-bottom:.28rem;display:flex;justify-content:space-between;}.chapter-label span{color:var(--p4);font-weight:500;}.progress-bar-wrap{height:5px;background:var(--progress-track);border-radius:10px;overflow:hidden;margin-bottom:.3rem;}.progress-bar-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--p3),var(--p4));transition:width .35s ease;}.chapter-inputs{display:flex;align-items:center;gap:.35rem;}.chapter-inp{width:48px;padding:.25rem .35rem;border:1px solid var(--border);border-radius:7px;background:var(--input-bg);color:var(--text);font-size:.72rem;font-family:'DM Sans',sans-serif;text-align:center;outline:none;transition:border-color .15s;}.chapter-inp:focus{border-color:var(--p3);}.chapter-sep,.chapter-of{font-size:.66rem;color:var(--text3);}.chap-plus{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--p2);background:var(--p1);color:var(--p4);font-size:.95rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;flex-shrink:0;user-select:none;line-height:1;}.chap-plus:hover{background:var(--p2);}.chap-bump{animation:bump .22s ease;}@keyframes bump{0%{transform:scale(1)}50%{transform:scale(1.28)}100%{transform:scale(1)}}.extras-section{margin-top:.45rem;}.extras-label{font-size:.62rem;color:var(--text3);margin-bottom:.25rem;display:flex;justify-content:space-between;}.extras-label span{color:#a060d0;font-weight:500;}.extras-bar-wrap{height:4px;background:var(--progress-track);border-radius:10px;overflow:hidden;margin-bottom:.28rem;}.extras-bar-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,#c090e0,#9050c0);transition:width .35s ease;}.stars-label{font-size:.62rem;color:var(--text3);margin-bottom:.18rem;}.stars-row{display:flex;gap:.08rem;}.star{font-size:1rem;cursor:pointer;transition:transform .12s,opacity .12s;filter:grayscale(1);opacity:.22;user-select:none;}.star.lit{filter:none;opacity:1;}.star:hover{transform:scale(1.22);filter:none;opacity:1;}.card-cover{width:100%;height:155px;border-radius:9px;object-fit:cover;background:var(--p1);border:1.5px solid var(--border);display:block;cursor:pointer;transition:opacity .3s;}.card-cover[loading]{opacity:0;}.card-cover.loaded{opacity:1;}.cover-placeholder{width:100%;height:155px;border-radius:9px;background:linear-gradient(135deg,var(--p1),var(--p0));border:2px dashed var(--p2);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:border-color .15s,background .15s;gap:.28rem;}.cover-placeholder:hover{background:var(--p1);border-color:var(--p3);}.cover-placeholder span{font-size:1.3rem;}.cover-placeholder p{font-size:.6rem;color:var(--text3);text-align:center;padding:0 .35rem;}.book-card.list-mode .card-cover,.book-card.list-mode .cover-placeholder{width:48px;height:68px;flex-shrink:0;border-radius:6px;}.book-card.list-mode .cover-placeholder span{font-size:.85rem;}.book-card.list-mode .cover-placeholder p{display:none;}.book-card.list-mode{flex-direction:row;align-items:flex-start;flex-wrap:wrap;gap:.5rem;padding:.7rem .9rem;}.book-card.list-mode .card-top{flex:1;min-width:150px;}.overlay{position:fixed;inset:0;background:rgba(74,30,48,.5);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}.overlay.open{opacity:1;pointer-events:all;}.modal{background:var(--modal-bg);border-radius:22px;padding:1.8rem 2rem 1.6rem;width:min(420px,92vw);text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);border:2px solid var(--border);transform:scale(.9);transition:transform .25s;}.overlay.open .modal{transform:scale(1);}.modal h2{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:.2rem;}.modal .msub{font-size:.78rem;color:var(--text3);margin-bottom:1.2rem;}.roulette-ring{width:200px;height:200px;border-radius:50%;border:4px solid var(--p2);margin:0 auto 1.2rem;position:relative;overflow:hidden;box-shadow:0 0 0 7px var(--p1),0 6px 28px var(--shadow);}.roulette-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--p1),var(--p0));padding:.8rem;}.roulette-title{font-family:'Playfair Display',serif;font-size:.85rem;font-weight:600;color:var(--text);text-align:center;line-height:1.3;}.roulette-ring::after{content:'▼';position:absolute;top:5px;left:50%;transform:translateX(-50%);color:var(--p4);font-size:.95rem;z-index:10;}.spin-btn{padding:.55rem 1.7rem;border-radius:40px;border:none;background:linear-gradient(135deg,var(--p3),var(--p4));color:#fff;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;box-shadow:0 4px 14px var(--shadow);transition:opacity .15s;margin-bottom:.8rem;}.spin-btn:hover{opacity:.88;}.spin-btn:disabled{opacity:.4;cursor:not-allowed;}.result-box{background:var(--p1);border:1.5px solid var(--p2);border-radius:13px;padding:.8rem 1rem;margin-bottom:.8rem;min-height:46px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:.9rem;color:var(--text);font-style:italic;}.result-box.pop{animation:pop .38s ease;}@keyframes pop{0%{transform:scale(.9);opacity:.4}60%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}.close-btn{padding:.38rem 1rem;border-radius:40px;border:1.5px solid var(--border);background:transparent;font-size:.76rem;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;}.add-overlay{position:fixed;inset:0;background:rgba(74,30,48,.5);z-index:250;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}.add-overlay.open{opacity:1;pointer-events:all;}.add-modal{background:var(--modal-bg);border-radius:22px;padding:1.6rem 1.8rem 1.5rem;width:min(420px,92vw);box-shadow:0 20px 60px rgba(0,0,0,.3);border:2px solid var(--border);transform:scale(.9);transition:transform .25s;}.add-overlay.open .add-modal{transform:scale(1);}.add-modal h2{font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--text);margin-bottom:1.1rem;display:flex;align-items:center;gap:.4rem;}.add-field{margin-bottom:.85rem;}.add-field label{display:block;font-size:.7rem;color:var(--text3);margin-bottom:.28rem;letter-spacing:.02em;}.add-field input,.add-field select,.add-field textarea{width:100%;padding:.5rem .8rem;border:1.5px solid var(--border);border-radius:11px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;transition:border-color .2s;appearance:none;}.add-field input:focus,.add-field select:focus,.add-field textarea:focus{border-color:var(--p3);}.add-field input::placeholder,.add-field textarea::placeholder{color:var(--text3);}.add-field textarea{resize:vertical;min-height:58px;}.add-priority-row{display:flex;align-items:center;gap:.55rem;margin-bottom:1.1rem;}.add-priority-row label{font-size:.8rem;color:var(--text2);cursor:pointer;user-select:none;}.add-priority-row input[type=checkbox]{width:15px;height:15px;accent-color:var(--p4);cursor:pointer;}.add-error{font-size:.73rem;color:var(--p4);margin-top:.18rem;display:none;}.add-error.show{display:block;}.add-actions{display:flex;gap:.55rem;margin-top:1.1rem;}.add-confirm{flex:1;padding:.55rem;border-radius:40px;border:none;background:linear-gradient(135deg,var(--p3),var(--p4));color:white;font-family:'DM Sans',sans-serif;font-size:.83rem;font-weight:500;cursor:pointer;}.add-cancel{padding:.55rem 1.1rem;border-radius:40px;border:1.5px solid var(--border);background:transparent;color:var(--text2);font-family:'DM Sans',sans-serif;font-size:.83rem;cursor:pointer;}.add-more-btn{width:100%;padding:.45rem;border-radius:11px;border:1.5px dashed var(--p2);background:transparent;color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.8rem;cursor:pointer;margin-bottom:.85rem;transition:background .15s;}.add-more-btn:hover{background:var(--p1);}.entry-row{background:var(--p0);border:1.5px solid var(--border);border-radius:13px;padding:.85rem .95rem;margin-bottom:.65rem;position:relative;}.entry-row-num{font-size:.66rem;color:var(--text3);font-style:italic;margin-bottom:.5rem;}.entry-remove{position:absolute;top:.6rem;right:.6rem;width:20px;height:20px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text3);font-size:.68rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}.entry-grid{display:grid;grid-template-columns:1fr 1fr;gap:.45rem;}.stat-card-section{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:1.1rem 1rem;}.stat-section-title{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--p4);margin-bottom:.55rem;}.stat-bar-row{display:flex;align-items:center;gap:.55rem;margin-bottom:.4rem;}.stat-bar-label{font-size:.76rem;color:var(--text2);min-width:78px;flex-shrink:0;}.stat-bar-track{flex:1;height:9px;border-radius:20px;background:var(--progress-track);overflow:hidden;}.stat-bar-fill{height:100%;border-radius:20px;transition:width .5s ease;}.stat-bar-count{font-size:.72rem;color:var(--text3);min-width:24px;text-align:right;}.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.55rem;}.cal-month-label{font-size:.88rem;font-weight:600;color:var(--text);font-family:'Playfair Display',serif;}.cal-nav{background:none;border:1.5px solid var(--border);border-radius:50%;width:26px;height:26px;cursor:pointer;color:var(--p4);font-size:.82rem;display:flex;align-items:center;justify-content:center;}.cal-grid{display:flex;flex-direction:column;gap:4px;width:100%;}.cal-names-row{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;width:100%;}.cal-days-row{display:grid;grid-template-columns:repeat(7,1fr);grid-auto-rows:38px;gap:4px;width:100%;}.cal-day-name{font-size:.6rem;color:var(--text3);text-align:center;padding:.18rem 0;font-weight:600;}.cal-day{height:38px;border-radius:7px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;font-size:.7rem;color:var(--text2);display:flex;align-items:center;justify-content:center;transition:border-color .12s,background .12s;user-select:none;min-width:0;}.cal-day.read{background:var(--p3);border-color:var(--p3);color:#fff;font-weight:700;}.cal-day.today{box-shadow:0 0 0 2.5px var(--p4);}.cal-day.empty{background:transparent;border:none;cursor:default;pointer-events:none;}.cal-streak{font-size:.76rem;color:var(--p4);font-weight:600;margin-top:.45rem;}.pdf-toggle{padding:.5rem .95rem;border-radius:11px;border:2px solid var(--border);background:var(--card);color:var(--text2);font-size:.8rem;cursor:pointer;transition:border-color .15s,background .15s,color .15s;user-select:none;}.pdf-toggle.active{border-color:var(--p4);background:var(--p1);color:var(--p4);font-weight:600;}.palette-btn{padding:.42rem .85rem;border-radius:40px;border:2.5px solid var(--c,var(--border));background:var(--card);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.78rem;cursor:pointer;transition:background .15s,color .15s;}.palette-btn.active{background:var(--c,var(--p3));color:#fff;border-color:var(--c,var(--p3));}.toggle-row{display:flex;align-items:center;gap:.55rem;padding:.3rem .45rem;border-radius:9px;font-size:.8rem;color:var(--text2);cursor:pointer;transition:background .12s;}.toggle-row:hover{background:var(--p1);}.toggle-row input[type=checkbox]{accent-color:var(--p4);width:15px;height:15px;cursor:pointer;}.book-card.book-mode{}.format-fisico{font-size:.58rem;padding:.08rem .4rem;border-radius:20px;background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;white-space:nowrap;}.format-digital{font-size:.58rem;padding:.08rem .4rem;border-radius:20px;background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe;white-space:nowrap;}[data-theme="dark"] .format-fisico{background:#052e16;color:#86efac;border-color:#14532d;}[data-theme="dark"] .format-digital{background:#0c1a3a;color:#93c5fd;border-color:#1e3a8a;}.book-meta{font-size:.7rem;color:var(--text3);display:flex;flex-direction:column;gap:.13rem;margin-top:.22rem;}.bulk-target-btn{padding:.38rem 1.1rem;border-radius:40px;border:1.5px solid var(--border);background:var(--card);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;cursor:pointer;transition:background .15s,border-color .15s,color .15s;}.bulk-target-btn.active{background:var(--p1);border-color:var(--p3);color:var(--p4);font-weight:600;}.empty{text-align:center;padding:2.5rem 1rem;color:var(--text3);font-style:italic;font-family:'Playfair Display',serif;}.empty .big{font-size:2.2rem;margin-bottom:.45rem;}.confetti{position:fixed;pointer-events:none;z-index:400;border-radius:50%;animation:confettiFall 1.3s ease-in forwards;}@keyframes confettiFall{0%{transform:translateY(0) rotate(0);opacity:1;}100%{transform:translateY(320px) rotate(720deg);opacity:0;}}@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}.cover-input{display:none;}.synopsis-section p{font-size:.76rem;color:var(--text2);font-style:italic;line-height:1.5;}
+.stat-pill-divider{grid-column:1/-1;height:1px;background:var(--border);margin:.1rem 0;}.stat-pill:hover{border-color:var(--p3);background:var(--p1);color:var(--p4);}.stat-pill-num{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:600;line-height:1;color:var(--text);}.stat-pill-label{font-size:.56rem;font-weight:700;color:var(--text3);letter-spacing:.07em;text-transform:uppercase;text-align:center;}.stat-pill-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}.header-switcher{display:flex;gap:.4rem;justify-content:center;margin-top:.65rem;background:var(--p0);border-radius:40px;padding:.28rem;border:1.5px solid var(--border);width:fit-content;margin-left:auto;margin-right:auto;}.switcher-btn{padding:.38rem 1.2rem;border-radius:40px;border:none;background:transparent;color:var(--text3);font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;transition:background .2s,color .2s,box-shadow .2s;white-space:nowrap;}.switcher-btn.active{background:var(--card);color:var(--p4);box-shadow:0 2px 8px var(--shadow);}.books-hdr-box{background:var(--p0);border:1.5px solid var(--border);border-radius:14px;padding:.7rem .4rem .6rem;display:flex;flex-direction:column;align-items:center;gap:.2rem;cursor:pointer;transition:border-color .15s,background .15s;user-select:none;}.books-hdr-box:hover{border-color:var(--p3);background:var(--p1);}.books-hdr-num{font-family:'Playfair Display',serif;font-size:1.65rem;font-weight:600;line-height:1;}.books-hdr-label{font-size:.58rem;font-weight:700;color:var(--text3);letter-spacing:.07em;text-transform:uppercase;}.books-hdr-actions{display:flex;gap:.4rem;justify-content:center;flex-wrap:wrap;margin-top:.2rem;}.books-hdr-btn{padding:.42rem 1rem;border-radius:40px;border:1.5px solid var(--border);background:var(--card);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;cursor:pointer;transition:background .15s,border-color .15s,color .15s;white-space:nowrap;}.books-hdr-btn:hover{border-color:var(--p3);color:var(--p4);}.today-panel{display:none;background:var(--p1);border:1.5px solid var(--p2);border-radius:14px;padding:.9rem 1.1rem;margin-bottom:1rem;}.today-panel.show{display:block;animation:fadeUp .3s ease both;}.today-panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem;}.today-panel-title{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--p4);}.today-panel-date{font-size:.72rem;color:var(--text3);font-style:italic;}.today-panel-close{background:none;border:none;cursor:pointer;font-size:.95rem;color:var(--text3);padding:.1rem .3rem;border-radius:6px;}.today-empty{font-size:.8rem;color:var(--text3);font-style:italic;}.today-item{display:flex;align-items:center;gap:.5rem;font-size:.82rem;color:var(--text);padding:.28rem 0;border-bottom:1px solid var(--border);}.today-item:last-child{border-bottom:none;}.today-item.pending{opacity:.72;}.today-dot{width:7px;height:7px;border-radius:50%;background:var(--p3);flex-shrink:0;}.today-dot.pending{background:#f59e0b;}.today-chap-info{display:flex;flex-direction:column;flex:1;min-width:0;}.today-chap-num{font-size:.7rem;color:var(--text3);margin-top:.1rem;}.today-pending-tag{font-size:.62rem;color:#f59e0b;font-weight:600;}.today-chap-btn{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--p2);background:var(--p1);color:var(--p4);font-size:1rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s;line-height:1;}.today-chap-btn:hover{background:var(--p2);}.today-section-label{font-size:.7rem;font-weight:600;color:var(--text3);padding:.4rem 0 .2rem;text-transform:uppercase;letter-spacing:.04em;}.alert-overlay{position:fixed;inset:0;background:rgba(74,30,48,.55);z-index:300;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}.alert-overlay.open{opacity:1;pointer-events:all;}.alert-modal{background:var(--modal-bg);border-radius:22px;padding:1.6rem 1.8rem;width:min(420px,92vw);box-shadow:0 20px 60px rgba(0,0,0,.3);border:2px solid var(--p2);transform:scale(.92);transition:transform .3s;}.alert-overlay.open .alert-modal{transform:scale(1);}.alert-modal h2{font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--p4);margin-bottom:.2rem;display:flex;align-items:center;gap:.4rem;}.alert-sub{font-size:.76rem;color:var(--text3);margin-bottom:1rem;font-style:italic;}.alert-item{display:flex;align-items:center;gap:.6rem;padding:.6rem .75rem;background:var(--p1);border:1px solid var(--p2);border-radius:11px;margin-bottom:.4rem;}.alert-item:last-of-type{margin-bottom:1rem;}.alert-icon{font-size:1.2rem;flex-shrink:0;}.alert-info{flex:1;}.alert-title{font-family:'Playfair Display',serif;font-size:.88rem;font-weight:600;color:var(--text);}.alert-meta{font-size:.68rem;color:var(--text3);margin-top:.08rem;}.alert-close{width:100%;padding:.55rem;border-radius:40px;border:none;background:linear-gradient(135deg,var(--p3),var(--p4));color:white;font-family:'DM Sans',sans-serif;font-size:.83rem;font-weight:500;cursor:pointer;}.main-tabs{display:flex;align-items:center;gap:.25rem;margin-bottom:1rem;border-bottom:2px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}.main-tabs::-webkit-scrollbar{display:none;}.main-tab{padding:.45rem .8rem;border-radius:10px 10px 0 0;border:1.5px solid transparent;background:none;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;color:var(--text2);cursor:pointer;transition:color .15s,background .15s;margin-bottom:-2px;white-space:nowrap;flex-shrink:0;}.main-tab:hover{color:var(--p4);background:var(--p1);}.main-tab.active{background:var(--card);border-color:var(--border);border-bottom-color:var(--card);color:var(--p4);font-weight:600;}.tab-section{display:none;}.tab-section.active{display:block;}.bingo-grid{display:grid;gap:.35rem;margin-bottom:1rem;}.bingo-cell{border-radius:10px;border:1.5px solid var(--border);background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:.45rem .35rem;cursor:pointer;transition:background .15s,border-color .15s,transform .1s;position:relative;text-align:center;font-size:.7rem;color:var(--text2);line-height:1.3;min-height:52px;word-break:break-word;}.bingo-cell:active{transform:scale(.97);}.bingo-cell.marked{background:var(--p2);border-color:var(--p3);color:var(--p5);}.bingo-cell.marked::after{content:'✓';position:absolute;top:3px;right:5px;font-size:.6rem;color:var(--p4);font-weight:700;}.bingo-cell.editing{cursor:default;background:var(--p0);border-color:var(--p3);border-style:dashed;}.bingo-cell.editing:active{transform:none;}.bingo-cell-text{font-size:.68rem;line-height:1.3;padding:.1rem;pointer-events:none;}.bingo-edit-input{width:100%;border:none;background:transparent;text-align:center;font-family:'DM Sans',sans-serif;font-size:.68rem;color:var(--text);resize:none;outline:none;cursor:text;padding:.1rem;line-height:1.3;min-height:40px;overflow:hidden;}.bingo-edit-mode-bar{display:flex;align-items:center;gap:.4rem;padding:.4rem .6rem;background:var(--p1);border:1.5px dashed var(--p3);border-radius:10px;margin-bottom:.6rem;font-size:.74rem;color:var(--p4);}.bingo-board-card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:.85rem;margin-bottom:.85rem;}.bingo-board-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.65rem;flex-wrap:wrap;gap:.35rem;}.bingo-board-title{font-family:'Playfair Display',serif;font-size:1rem;color:var(--p4);font-weight:600;}.bingo-board-actions{display:flex;gap:.35rem;}.bingo-action-btn{padding:.28rem .6rem;border-radius:8px;border:1.5px solid var(--border);background:var(--p1);color:var(--p4);font-size:.72rem;cursor:pointer;font-family:'DM Sans',sans-serif;}.bingo-action-btn:hover{border-color:var(--p3);}.bingo-action-btn.active-edit{background:var(--p3);border-color:var(--p4);color:#fff;}.bingo-progress{font-size:.72rem;color:var(--text3);margin-bottom:.5rem;}.bingo-win-banner{background:var(--p2);border:1.5px solid var(--p3);border-radius:10px;padding:.45rem .75rem;text-align:center;font-size:.82rem;color:var(--p5);font-weight:600;margin-bottom:.5rem;animation:bump .3s ease;}.bingo-tab-pill{padding:.28rem .65rem;border-radius:20px;border:1.5px solid var(--border);background:var(--card);color:var(--text2);font-size:.74rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s,border-color .15s;}.bingo-tab-pill.active{background:var(--p2);border-color:var(--p3);color:var(--p5);font-weight:600;}.diario-card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:.85rem;}.diario-card-title{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--p4);font-weight:600;margin-bottom:.65rem;display:flex;align-items:center;gap:.4rem;}.diario-card-title span{font-size:.8rem;color:var(--text3);font-family:'DM Sans',sans-serif;font-weight:400;margin-left:auto;}.abc-grid{display:grid;grid-template-columns:1fr 1fr;gap:.28rem;}.abc-cell{display:flex;align-items:center;gap:.35rem;background:var(--p1);border-radius:7px;padding:.28rem .45rem;min-height:28px;overflow:hidden;}.abc-letter{font-size:.72rem;font-weight:700;color:var(--p4);min-width:13px;flex-shrink:0;}.abc-value{font-size:.64rem;color:var(--text2);line-height:1.2;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.abc-empty{color:var(--text3);}.shelf-unit{background:#f5e6d0;border-radius:12px;padding:.65rem .65rem 0;border:1.5px solid #d4a96a;overflow:visible;}.shelf-row{display:flex;align-items:flex-end;flex-wrap:wrap;gap:2px;border-bottom:12px solid #8B5E3C;box-shadow:0 4px 0 #6b4423;margin-bottom:10px;min-height:72px;padding-bottom:2px;}.shelf-spine{width:20px;border-radius:3px 3px 0 0;display:flex;align-items:center;justify-content:center;overflow:hidden;border-left:1.5px solid rgba(255,255,255,.3);border-right:1px solid rgba(0,0,0,.15);border-top:1px solid rgba(255,255,255,.25);flex-shrink:0;}.shelf-spine-text{writing-mode:vertical-rl;transform:rotate(180deg);font-size:.42rem;color:#fff;font-weight:600;line-height:1;padding:.08rem .05rem;text-shadow:0 1px 2px rgba(0,0,0,.6);width:18px;text-align:center;display:-webkit-box;-webkit-line-clamp:8;-webkit-box-orient:vertical;overflow:hidden;}.mes-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;}.mes-cell{display:flex;flex-direction:column;align-items:center;gap:.3rem;}.mes-label{font-size:.62rem;color:var(--text3);text-align:center;}.mes-cover{width:100%;aspect-ratio:2/3;border-radius:6px;object-fit:cover;border:1.5px solid var(--border);}.mes-cover-empty{width:100%;aspect-ratio:2/3;border-radius:6px;border:1.5px dashed var(--border);background:var(--p0);display:flex;align-items:center;justify-content:center;font-size:1.1rem;}.mes-title{font-size:.58rem;color:var(--text2);text-align:center;line-height:1.2;max-height:2.4em;overflow:hidden;}.reto-bar-wrap{background:var(--p0);border-radius:10px;padding:.85rem;display:flex;flex-direction:column;gap:.75rem;}.reto-bar-row{display:flex;align-items:center;gap:.7rem;}.reto-bar-label{font-size:.74rem;color:var(--text2);min-width:56px;}.reto-bar-track{flex:1;height:10px;background:var(--progress-track);border-radius:10px;overflow:hidden;}.reto-bar-fill{height:100%;background:var(--p3);border-radius:10px;transition:width .4s ease;}.reto-bar-num{font-size:.7rem;color:var(--p4);font-weight:600;min-width:32px;text-align:right;}.reto-edit-btn{font-size:.72rem;padding:.2rem .55rem;border-radius:8px;border:1.5px solid var(--border);background:var(--p1);color:var(--p4);cursor:pointer;font-family:'DM Sans',sans-serif;}.reto-input-row{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}.reto-input{width:72px;padding:.3rem .5rem;border:1.5px solid var(--border);border-radius:8px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.8rem;text-align:center;}.fav-btn{background:none;border:none;cursor:pointer;font-size:1.05rem;padding:.1rem .15rem;transition:transform .15s;line-height:1;vertical-align:middle;}.fav-btn:active{transform:scale(1.35);}.fav-badge{font-size:.65rem;padding:.1rem .32rem;border-radius:20px;font-weight:700;display:inline-flex;align-items:center;gap:.18rem;}.fav-badge.fav{background:#fef3c7;color:#d97706;}.fav-badge.hate{background:#fee2e2;color:#dc2626;}.emo-row{display:flex;flex-direction:column;gap:.38rem;margin-top:.15rem;}.emo-line{display:flex;align-items:center;gap:.35rem;}.emo-icon{font-size:1rem;line-height:1;width:22px;text-align:center;}.emo-star{font-size:.95rem;cursor:pointer;opacity:.25;transition:opacity .12s,transform .12s;line-height:1;user-select:none;}.emo-star.lit{opacity:1;}.emo-star:active{transform:scale(1.25);}.emo-label-txt{font-size:.65rem;color:var(--text3);min-width:20px;}.rmt-wrap{display:flex;gap:.35rem;margin-bottom:.5rem;}.rmt-btn{flex:1;padding:.28rem .3rem;border-radius:8px;border:1.5px solid var(--border);background:var(--card);color:var(--text3);font-family:'DM Sans',sans-serif;font-size:.68rem;cursor:pointer;transition:all .15s;text-align:center;}.rmt-btn.active{background:var(--p2);border-color:var(--p3);color:var(--p5);font-weight:600;}.book-progress-track{height:5px;background:var(--progress-track);border-radius:10px;overflow:hidden;margin-bottom:.28rem;}.book-progress-fill{height:100%;background:linear-gradient(90deg,var(--p3),var(--p4));border-radius:10px;transition:width .3s ease;}.book-progress-row{display:flex;align-items:center;gap:.4rem;}.book-progress-input{width:60px;padding:.2rem .4rem;border:1.5px solid var(--border);border-radius:7px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.7rem;text-align:center;}.book-progress-label{font-size:.68rem;color:var(--text3);}.book-progress-pct{font-size:.68rem;color:var(--p4);font-weight:600;min-width:32px;text-align:right;}.toolbar{position:sticky;top:.4rem;z-index:50;background:var(--toolbar-bg);border:1px solid var(--border);border-radius:14px;padding:.65rem .85rem;margin-bottom:1rem;box-shadow:0 2px 12px var(--shadow);}.toolbar-top{display:flex;align-items:center;gap:.45rem;width:100%;}.toolbar-body{display:flex;gap:.45rem;flex-wrap:wrap;align-items:center;width:100%;max-height:400px;overflow:visible;transition:max-height .3s ease,opacity .25s ease,margin .25s ease;opacity:1;margin-top:.5rem;}.toolbar-body.collapsed{max-height:0;opacity:0;pointer-events:none;margin-top:0;overflow:hidden;}.toolbar-toggle{background:none;border:1.5px solid var(--border);border-radius:40px;padding:.28rem .6rem;font-size:.75rem;cursor:pointer;color:var(--text3);transition:color .15s,border-color .15s;white-space:nowrap;flex-shrink:0;}.toolbar-toggle:hover{color:var(--p4);border-color:var(--p3);}.search-wrap{flex:1;min-width:140px;position:relative;}.search-wrap input{width:100%;padding:.45rem .85rem .45rem 2rem;border:1.5px solid var(--border);border-radius:40px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.8rem;outline:none;transition:border-color .2s;}.search-wrap input::placeholder{color:var(--text3);}.search-wrap input:focus{border-color:var(--p3);}.search-icon{position:absolute;left:.65rem;top:50%;transform:translateY(-50%);font-size:.82rem;pointer-events:none;}.filter-dropdown-wrap{position:relative;display:inline-block;}.filter-dropdown-btn{display:flex;align-items:center;gap:.35rem;padding:.38rem .85rem;border-radius:40px;border:1.5px solid var(--border);background:var(--card);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:.78rem;cursor:pointer;white-space:nowrap;transition:border-color .15s,background .15s;}.filter-dropdown-btn.has-filter{background:linear-gradient(135deg,var(--p3),var(--p4));color:#fff;border-color:transparent;}.filter-dropdown-menu{position:absolute;top:calc(100% + .35rem);left:0;z-index:200;background:var(--card);border:1.5px solid var(--border);border-radius:13px;box-shadow:0 8px 24px var(--shadow);padding:.35rem;min-width:175px;display:none;flex-direction:column;gap:.08rem;}.filter-dropdown-menu.open{display:flex;}.filter-dropdown-item{padding:.35rem .65rem;border-radius:8px;font-size:.78rem;color:var(--text2);cursor:pointer;transition:background .12s,color .12s;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:.35rem;}.filter-dropdown-item:hover{background:var(--p1);color:var(--p4);}.filter-dropdown-item.active{background:var(--p1);color:var(--p4);font-weight:600;}.filter-dropdown-divider{height:1px;background:var(--border);margin:.18rem 0;}.view-btns{display:flex;gap:.25rem;}.view-btn{width:30px;height:30px;border-radius:8px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:border-color .15s,background .15s;}.view-btn:hover{border-color:var(--p3);}.view-btn.active{background:var(--p2);border-color:var(--p2);}.raffle-btn{padding:.42rem .9rem;border-radius:40px;border:none;background:linear-gradient(135deg,var(--p3),var(--p4));color:#fff;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;cursor:pointer;white-space:nowrap;transition:opacity .15s;}.raffle-btn:hover{opacity:.88;}.add-btn{padding:.42rem .9rem;border-radius:40px;border:1.5px solid var(--p2);background:var(--card);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:.28rem;transition:background .15s;}.add-btn:hover{background:var(--p1);}.filter-btn{padding:.35rem .75rem;border-radius:40px;border:1.5px solid var(--border);background:var(--card);font-family:'DM Sans',sans-serif;font-size:.74rem;color:var(--text2);cursor:pointer;transition:border-color .15s,background .15s,color .15s;white-space:nowrap;}.filter-btn:hover{border-color:var(--p3);color:var(--p4);}.filter-btn.active{background:linear-gradient(135deg,var(--p3),var(--p4));border-color:transparent;color:#fff;}.filter-row{display:flex;gap:.3rem;flex-wrap:wrap;}.filter-group{display:flex;align-items:center;gap:.3rem;flex-wrap:wrap;}.filter-sep{width:1px;height:16px;background:var(--border);flex-shrink:0;}#bookGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem;min-width:0;}#bookGrid.list-view{grid-template-columns:1fr;gap:.4rem;}#bookGrid.cols-1{grid-template-columns:1fr;}#bookGrid.cols-2{grid-template-columns:repeat(2,1fr);}#bookGrid.cols-3{grid-template-columns:repeat(3,1fr);}#bookGrid.cols-auto{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));}#bookGrid2{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem;min-width:0;}#bookGrid2.list-view{grid-template-columns:1fr;gap:.4rem;}#bookGrid2.cols-1{grid-template-columns:1fr;}#bookGrid2.cols-2{grid-template-columns:repeat(2,1fr);}#bookGrid2.cols-3{grid-template-columns:repeat(3,1fr);}#bookGrid2.cols-auto{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));}@media(min-width:600px){#bookGrid,#bookGrid2{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));}#bookGrid.cols-2,#bookGrid2.cols-2{grid-template-columns:repeat(2,1fr);}#bookGrid.cols-3,#bookGrid2.cols-3{grid-template-columns:repeat(3,1fr);}}.book-card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:.8rem;display:flex;flex-direction:column;gap:.45rem;position:relative;min-width:0;overflow:hidden;animation:fadeUp .3s ease both;transition:background .3s,border-color .2s,box-shadow .2s;}@media(hover:hover){.book-card:hover{box-shadow:0 6px 20px var(--shadow);border-color:var(--p2);}.book-card:hover .card-actions{opacity:1;}}@media(hover:none){.card-actions{opacity:1!important;}}.book-card.updates-today{border-color:var(--p3);box-shadow:0 0 0 2px var(--p2);}#bookGrid.cols-1 .book-card{padding:.9rem 1rem;}#bookGrid.cols-1 .card-cover,#bookGrid.cols-1 .cover-placeholder{height:180px;}#bookGrid.cols-2 .card-cover,#bookGrid.cols-2 .cover-placeholder{height:135px;}#bookGrid.cols-3 .book-card{padding:.45rem .5rem;gap:.28rem;border-radius:11px;}#bookGrid.cols-3 .card-cover,#bookGrid.cols-3 .cover-placeholder{height:100px;border-radius:7px;}#bookGrid.cols-3 .cover-placeholder p{font-size:.58rem;}#bookGrid.cols-3 .card-title{font-size:.7rem;line-height:1.22;}#bookGrid.cols-3 .card-num{font-size:.58rem;}#bookGrid.cols-3 .status-btn{font-size:.54rem;padding:.12rem .3rem;}#bookGrid.cols-3 .chapter-inp{width:36px;font-size:.66rem;padding:.18rem .24rem;}#bookGrid.cols-3 .chap-plus{width:19px;height:19px;font-size:.7rem;}#bookGrid.cols-3 .genre-badge,#bookGrid.cols-3 .type-badge{font-size:.53rem;padding:.07rem .28rem;}#bookGrid.cols-3 .priority-badge{font-size:.54rem;padding:.08rem .28rem;}#bookGrid2.cols-3 .book-card{padding:.45rem .5rem;gap:.22rem;border-radius:11px;}#bookGrid2.cols-3 .card-cover,#bookGrid2.cols-3 .cover-placeholder{height:105px;border-radius:7px;}#bookGrid2.cols-3 .cover-placeholder p{font-size:.56rem;}#bookGrid2.cols-3 .card-title{font-size:.68rem;line-height:1.2;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer;transition:all .2s;}#bookGrid2.cols-3 .card-title.expanded{display:block;overflow:visible;-webkit-line-clamp:unset;}#bookGrid2.cols-2 .card-title{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer;transition:all .2s;}#bookGrid2.cols-2 .card-title.expanded{display:block;overflow:visible;-webkit-line-clamp:unset;}#bookGrid2.cols-1 .book-card{padding:.9rem 1rem;}#bookGrid2.cols-1 .card-cover,#bookGrid2.cols-1 .cover-placeholder{height:180px;}.today-tag{position:absolute;top:.6rem;right:.6rem;background:linear-gradient(135deg,var(--p3),var(--p4));color:white;font-size:.58rem;font-weight:600;padding:.15rem .5rem;border-radius:20px;letter-spacing:.03em;}.card-actions{position:absolute;bottom:.6rem;right:.6rem;display:flex;gap:.25rem;opacity:0;transition:opacity .18s;}.delete-btn{width:26px;height:26px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text3);font-size:.72rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s;}.delete-btn:hover{background:#fee2e2;border-color:#fca5a5;color:#dc2626;}.card-top{display:flex;align-items:flex-start;gap:.45rem;min-width:0;}.card-top>div{min-width:0;flex:1;}.card-num{font-family:'Playfair Display',serif;font-size:.68rem;font-style:italic;color:var(--text3);min-width:1.3rem;flex-shrink:0;}.card-title{font-family:'Playfair Display',serif;font-size:.92rem;font-weight:600;color:var(--text);line-height:1.28;flex:1;word-break:break-word;min-width:0;}.card-divider{height:1px;background:var(--border);opacity:.5;}.card-link{display:inline-flex;align-items:center;gap:.25rem;font-size:.66rem;color:var(--p4);text-decoration:none;border:1px solid var(--p2);border-radius:20px;padding:.13rem .5rem;background:var(--p1);transition:background .15s;margin-top:.1rem;width:fit-content;}.card-link:hover{background:var(--p2);}.priority-badge{font-size:.62rem;background:linear-gradient(135deg,var(--p3)22,var(--p2)44);border:1px solid var(--p2);color:var(--p4);padding:.1rem .4rem;border-radius:20px;white-space:nowrap;display:inline-flex;align-items:center;gap:.12rem;}.type-badge{font-size:.58rem;padding:.08rem .4rem;border-radius:20px;border:1px solid;white-space:nowrap;display:inline-flex;align-items:center;gap:.12rem;width:fit-content;}.type-manga{background:#fff0f9;color:#c026a0;border-color:#f0abdc;}.type-manhwa{background:#fff5f0;color:#c05000;border-color:#f5c0a0;}.type-novel{background:#f0f4ff;color:#3050c0;border-color:#b0c0f0;}[data-theme="dark"] .type-manga{background:#2a0520;color:#e060c0;border-color:#802060;}[data-theme="dark"] .type-manhwa{background:#2a1500;color:#e07020;border-color:#804010;}[data-theme="dark"] .type-novel{background:#0a1030;color:#6080e0;border-color:#304080;}.genre-badge{font-size:.58rem;padding:.08rem .4rem;border-radius:20px;border:1px solid #ddd6fe;background:#f5f3ff;color:#7c3aed;white-space:nowrap;}[data-theme="dark"] .genre-badge{background:#2d1b69;color:#c4b5fd;border-color:#4c1d95;}.status-row{display:flex;gap:.22rem;flex-wrap:wrap;}.status-btn{padding:.18rem .45rem;border-radius:20px;border:1px solid transparent;font-size:.64rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .12s;opacity:.4;}.status-btn:hover{opacity:.75;}.status-btn.active{opacity:1;font-weight:500;}.s-unread{background:#f0f0f5;color:#888;border-color:#ddd;}.s-unread.active{background:#ede9fe;color:#7c3aed;border-color:#c4b5fd;}.s-reading{background:#fef9ee;color:#92400e;border-color:#fde68a;}.s-reading.active{background:#fffbeb;color:#d97706;border-color:#fcd34d;}.s-read{background:#f0fdf4;color:#166534;border-color:#bbf7d0;}.s-read.active{background:#dcfce7;color:#15803d;border-color:#86efac;}.s-paused{background:#eff6ff;color:#1e40af;border-color:#bfdbfe;}.s-paused.active{background:#dbeafe;color:#1d4ed8;border-color:#93c5fd;}[data-theme="dark"] .s-unread{background:#2a2a3a;color:#aaa;border-color:#444;}[data-theme="dark"] .s-unread.active{background:#3d3560;color:#c4a0ff;border-color:#7c5fd0;}[data-theme="dark"] .s-reading{background:#2a200a;color:#c09020;border-color:#806010;}[data-theme="dark"] .s-reading.active{background:#3a2d0a;color:#f0c040;border-color:#c09030;}[data-theme="dark"] .s-read{background:#0a2010;color:#50a060;border-color:#205030;}[data-theme="dark"] .s-read.active{background:#0d2d12;color:#70d080;border-color:#40a050;}[data-theme="dark"] .s-paused{background:#0a1530;color:#5070c0;border-color:#203060;}[data-theme="dark"] .s-paused.active{background:#0d1f45;color:#80a0e8;border-color:#3050a0;}.section-title{font-size:.62rem;color:var(--text3);margin-bottom:.25rem;}.emission-row{display:flex;gap:.2rem;flex-wrap:wrap;}.emit-btn{padding:.16rem .44rem;border-radius:20px;border:1px solid transparent;font-size:.62rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .12s;opacity:.4;}.emit-btn:hover{opacity:.75;}.emit-btn.active{opacity:1;font-weight:500;}.e-ongoing{background:#fff7ed;color:#c2410c;border-color:#fed7aa;}.e-ongoing.active{background:#ffedd5;color:#ea580c;border-color:#fb923c;}.e-finished{background:#f0fdf4;color:#15803d;border-color:#bbf7d0;}.e-finished.active{background:#dcfce7;color:#16a34a;border-color:#86efac;}.e-hiatus{background:#faf5ff;color:#7e22ce;border-color:#e9d5ff;}.e-hiatus.active{background:#f3e8ff;color:#9333ea;border-color:#d8b4fe;}.e-announced{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe;}.e-announced.active{background:#dbeafe;color:#2563eb;border-color:#93c5fd;}[data-theme="dark"] .e-ongoing{background:#2a1500;color:#f08030;border-color:#703010;}[data-theme="dark"] .e-ongoing.active{background:#3a2000;color:#ff9940;border-color:#a04820;}[data-theme="dark"] .e-finished{background:#0a2010;color:#50a060;border-color:#205030;}[data-theme="dark"] .e-finished.active{background:#0d2d12;color:#70d080;border-color:#40a050;}[data-theme="dark"] .e-hiatus{background:#1a0a2a;color:#c080f0;border-color:#502070;}[data-theme="dark"] .e-hiatus.active{background:#220d38;color:#d090ff;border-color:#7030a0;}[data-theme="dark"] .e-announced{background:#0a1530;color:#5070c0;border-color:#203060;}[data-theme="dark"] .e-announced.active{background:#0d1f45;color:#80a0e8;border-color:#3050a0;}.freq-toggle{display:flex;border:1px solid var(--border);border-radius:7px;overflow:hidden;width:fit-content;}.freq-btn{padding:.16rem .5rem;font-size:.63rem;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;background:transparent;color:var(--text3);transition:background .12s,color .12s;white-space:nowrap;}.freq-btn.active{background:var(--p2);color:var(--text);}.days-grid{display:flex;gap:.2rem;flex-wrap:wrap;margin-top:.28rem;}.day-chip{width:28px;height:24px;border-radius:7px;border:1px solid var(--border);background:var(--input-bg);color:var(--text3);font-size:.62rem;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .12s,background .12s,color .12s;user-select:none;}.day-chip.active{background:linear-gradient(135deg,var(--p2),var(--p3));border-color:transparent;color:#fff;}.day-chip.today-date{border-color:var(--p3);color:var(--p4);}.date-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:.16rem;margin-top:.28rem;}.date-chip{height:22px;border-radius:5px;border:1px solid var(--border);background:var(--input-bg);color:var(--text3);font-size:.6rem;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .12s,background .12s,color .12s;user-select:none;}.date-chip.active{background:linear-gradient(135deg,var(--p3),var(--p4));border-color:transparent;color:#fff;font-weight:600;}.date-chip.today-date{border-color:var(--p3);color:var(--p4);}.schedule-display{font-size:.66rem;color:var(--p4);font-weight:500;margin-top:.28rem;line-height:1.4;}.schedule-locked{background:var(--p1);border:1px solid var(--p2);border-radius:9px;padding:.45rem .7rem;display:flex;align-items:center;justify-content:space-between;gap:.45rem;}.schedule-locked-text{font-size:.72rem;color:var(--text2);font-weight:500;}.schedule-edit-btn{padding:.16rem .5rem;border-radius:20px;border:1.5px solid var(--p2);background:var(--card);color:var(--p4);font-size:.62rem;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;flex-shrink:0;}.schedule-save-btn{padding:.16rem .5rem;border-radius:20px;border:none;background:linear-gradient(135deg,var(--p3),var(--p4));color:white;font-size:.62rem;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;flex-shrink:0;}.chapter-label{font-size:.62rem;color:var(--text3);margin-bottom:.28rem;display:flex;justify-content:space-between;}.chapter-label span{color:var(--p4);font-weight:500;}.progress-bar-wrap{height:5px;background:var(--progress-track);border-radius:10px;overflow:hidden;margin-bottom:.3rem;}.progress-bar-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--p3),var(--p4));transition:width .35s ease;}.chapter-inputs{display:flex;align-items:center;gap:.35rem;}.chapter-inp{width:48px;padding:.25rem .35rem;border:1px solid var(--border);border-radius:7px;background:var(--input-bg);color:var(--text);font-size:.72rem;font-family:'DM Sans',sans-serif;text-align:center;outline:none;transition:border-color .15s;}.chapter-inp:focus{border-color:var(--p3);}.chapter-sep,.chapter-of{font-size:.66rem;color:var(--text3);}.chap-plus{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--p2);background:var(--p1);color:var(--p4);font-size:.95rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;flex-shrink:0;user-select:none;line-height:1;}.chap-plus:hover{background:var(--p2);}.chap-bump{animation:bump .22s ease;}@keyframes bump{0%{transform:scale(1)}50%{transform:scale(1.28)}100%{transform:scale(1)}}.extras-section{margin-top:.45rem;}.extras-label{font-size:.62rem;color:var(--text3);margin-bottom:.25rem;display:flex;justify-content:space-between;}.extras-label span{color:#a060d0;font-weight:500;}.extras-bar-wrap{height:4px;background:var(--progress-track);border-radius:10px;overflow:hidden;margin-bottom:.28rem;}.extras-bar-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,#c090e0,#9050c0);transition:width .35s ease;}.stars-label{font-size:.62rem;color:var(--text3);margin-bottom:.18rem;}.stars-row{display:flex;gap:.08rem;}.star{font-size:1rem;cursor:pointer;transition:transform .12s,opacity .12s;filter:grayscale(1);opacity:.22;user-select:none;}.star.lit{filter:none;opacity:1;}.star:hover{transform:scale(1.22);filter:none;opacity:1;}.card-cover{width:100%;height:155px;border-radius:9px;object-fit:cover;background:var(--p1);border:1.5px solid var(--border);display:block;cursor:pointer;transition:opacity .3s;}.card-cover[loading]{opacity:0;}.card-cover.loaded{opacity:1;}.cover-placeholder{width:100%;height:155px;border-radius:9px;background:linear-gradient(135deg,var(--p1),var(--p0));border:2px dashed var(--p2);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:border-color .15s,background .15s;gap:.28rem;}.cover-placeholder:hover{background:var(--p1);border-color:var(--p3);}.cover-placeholder span{font-size:1.3rem;}.cover-placeholder p{font-size:.6rem;color:var(--text3);text-align:center;padding:0 .35rem;}.book-card.list-mode .card-cover,.book-card.list-mode .cover-placeholder{width:48px;height:68px;flex-shrink:0;border-radius:6px;}.book-card.list-mode .cover-placeholder span{font-size:.85rem;}.book-card.list-mode .cover-placeholder p{display:none;}.book-card.list-mode{flex-direction:row;align-items:flex-start;flex-wrap:wrap;gap:.5rem;padding:.7rem .9rem;}.book-card.list-mode .card-top{flex:1;min-width:150px;}.overlay{position:fixed;inset:0;background:rgba(74,30,48,.5);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}.overlay.open{opacity:1;pointer-events:all;}.modal{background:var(--modal-bg);border-radius:22px;padding:1.8rem 2rem 1.6rem;width:min(420px,92vw);text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);border:2px solid var(--border);transform:scale(.9);transition:transform .25s;}.overlay.open .modal{transform:scale(1);}.modal h2{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:.2rem;}.modal .msub{font-size:.78rem;color:var(--text3);margin-bottom:1.2rem;}.roulette-ring{width:200px;height:200px;border-radius:50%;border:4px solid var(--p2);margin:0 auto 1.2rem;position:relative;overflow:hidden;box-shadow:0 0 0 7px var(--p1),0 6px 28px var(--shadow);}.roulette-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--p1),var(--p0));padding:.8rem;}.roulette-title{font-family:'Playfair Display',serif;font-size:.85rem;font-weight:600;color:var(--text);text-align:center;line-height:1.3;}.roulette-ring::after{content:'▼';position:absolute;top:5px;left:50%;transform:translateX(-50%);color:var(--p4);font-size:.95rem;z-index:10;}.spin-btn{padding:.55rem 1.7rem;border-radius:40px;border:none;background:linear-gradient(135deg,var(--p3),var(--p4));color:#fff;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;box-shadow:0 4px 14px var(--shadow);transition:opacity .15s;margin-bottom:.8rem;}.spin-btn:hover{opacity:.88;}.spin-btn:disabled{opacity:.4;cursor:not-allowed;}.result-box{background:var(--p1);border:1.5px solid var(--p2);border-radius:13px;padding:.8rem 1rem;margin-bottom:.8rem;min-height:46px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:.9rem;color:var(--text);font-style:italic;}.result-box.pop{animation:pop .38s ease;}@keyframes pop{0%{transform:scale(.9);opacity:.4}60%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}.close-btn{padding:.38rem 1rem;border-radius:40px;border:1.5px solid var(--border);background:transparent;font-size:.76rem;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;}.add-overlay{position:fixed;inset:0;background:rgba(74,30,48,.5);z-index:250;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}.add-overlay.open{opacity:1;pointer-events:all;}.add-modal{background:var(--modal-bg);border-radius:22px;padding:1.6rem 1.8rem 1.5rem;width:min(420px,92vw);box-shadow:0 20px 60px rgba(0,0,0,.3);border:2px solid var(--border);transform:scale(.9);transition:transform .25s;}.add-overlay.open .add-modal{transform:scale(1);}.add-modal h2{font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--text);margin-bottom:1.1rem;display:flex;align-items:center;gap:.4rem;}.add-field{margin-bottom:.85rem;}.add-field label{display:block;font-size:.7rem;color:var(--text3);margin-bottom:.28rem;letter-spacing:.02em;}.add-field input,.add-field select,.add-field textarea{width:100%;padding:.5rem .8rem;border:1.5px solid var(--border);border-radius:11px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;transition:border-color .2s;appearance:none;}.add-field input:focus,.add-field select:focus,.add-field textarea:focus{border-color:var(--p3);}.add-field input::placeholder,.add-field textarea::placeholder{color:var(--text3);}.add-field textarea{resize:vertical;min-height:58px;}.add-priority-row{display:flex;align-items:center;gap:.55rem;margin-bottom:1.1rem;}.add-priority-row label{font-size:.8rem;color:var(--text2);cursor:pointer;user-select:none;}.add-priority-row input[type=checkbox]{width:15px;height:15px;accent-color:var(--p4);cursor:pointer;}.add-error{font-size:.73rem;color:var(--p4);margin-top:.18rem;display:none;}.add-error.show{display:block;}.add-actions{display:flex;gap:.55rem;margin-top:1.1rem;}.add-confirm{flex:1;padding:.55rem;border-radius:40px;border:none;background:linear-gradient(135deg,var(--p3),var(--p4));color:white;font-family:'DM Sans',sans-serif;font-size:.83rem;font-weight:500;cursor:pointer;}.add-cancel{padding:.55rem 1.1rem;border-radius:40px;border:1.5px solid var(--border);background:transparent;color:var(--text2);font-family:'DM Sans',sans-serif;font-size:.83rem;cursor:pointer;}.add-more-btn{width:100%;padding:.45rem;border-radius:11px;border:1.5px dashed var(--p2);background:transparent;color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.8rem;cursor:pointer;margin-bottom:.85rem;transition:background .15s;}.add-more-btn:hover{background:var(--p1);}.entry-row{background:var(--p0);border:1.5px solid var(--border);border-radius:13px;padding:.85rem .95rem;margin-bottom:.65rem;position:relative;}.entry-row-num{font-size:.66rem;color:var(--text3);font-style:italic;margin-bottom:.5rem;}.entry-remove{position:absolute;top:.6rem;right:.6rem;width:20px;height:20px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text3);font-size:.68rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}.entry-grid{display:grid;grid-template-columns:1fr 1fr;gap:.45rem;}.stat-card-section{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:1.1rem 1rem;}.stat-section-title{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--p4);margin-bottom:.55rem;}.stat-bar-row{display:flex;align-items:center;gap:.55rem;margin-bottom:.4rem;}.stat-bar-label{font-size:.76rem;color:var(--text2);min-width:78px;flex-shrink:0;}.stat-bar-track{flex:1;height:9px;border-radius:20px;background:var(--progress-track);overflow:hidden;}.stat-bar-fill{height:100%;border-radius:20px;transition:width .5s ease;}.stat-bar-count{font-size:.72rem;color:var(--text3);min-width:24px;text-align:right;}.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.55rem;}.cal-month-label{font-size:.88rem;font-weight:600;color:var(--text);font-family:'Playfair Display',serif;}.cal-nav{background:none;border:1.5px solid var(--border);border-radius:50%;width:26px;height:26px;cursor:pointer;color:var(--p4);font-size:.82rem;display:flex;align-items:center;justify-content:center;}.cal-grid{display:flex;flex-direction:column;gap:4px;width:100%;}.cal-names-row{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;width:100%;}.cal-days-row{display:grid;grid-template-columns:repeat(7,1fr);grid-auto-rows:38px;gap:4px;width:100%;}.cal-day-name{font-size:.6rem;color:var(--text3);text-align:center;padding:.18rem 0;font-weight:600;}.cal-day{height:38px;border-radius:7px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;font-size:.7rem;color:var(--text2);display:flex;align-items:center;justify-content:center;transition:border-color .12s,background .12s;user-select:none;min-width:0;}.cal-day.read{background:var(--p3);border-color:var(--p3);color:#fff;font-weight:700;}.cal-day.today{box-shadow:0 0 0 2.5px var(--p4);}.cal-day.empty{background:transparent;border:none;cursor:default;pointer-events:none;}.cal-streak{font-size:.76rem;color:var(--p4);font-weight:600;margin-top:.45rem;}.pdf-toggle{padding:.5rem .95rem;border-radius:11px;border:2px solid var(--border);background:var(--card);color:var(--text2);font-size:.8rem;cursor:pointer;transition:border-color .15s,background .15s,color .15s;user-select:none;}.pdf-toggle.active{border-color:var(--p4);background:var(--p1);color:var(--p4);font-weight:600;}.palette-btn{padding:.42rem .85rem;border-radius:40px;border:2.5px solid var(--c,var(--border));background:var(--card);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.78rem;cursor:pointer;transition:background .15s,color .15s;}.palette-btn.active{background:var(--c,var(--p3));color:#fff;border-color:var(--c,var(--p3));}.toggle-row{display:flex;align-items:center;gap:.55rem;padding:.3rem .45rem;border-radius:9px;font-size:.8rem;color:var(--text2);cursor:pointer;transition:background .12s;}.toggle-row:hover{background:var(--p1);}.toggle-row input[type=checkbox]{accent-color:var(--p4);width:15px;height:15px;cursor:pointer;}.book-card.book-mode{}.format-fisico{font-size:.58rem;padding:.08rem .4rem;border-radius:20px;background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;white-space:nowrap;}.format-digital{font-size:.58rem;padding:.08rem .4rem;border-radius:20px;background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe;white-space:nowrap;}[data-theme="dark"] .format-fisico{background:#052e16;color:#86efac;border-color:#14532d;}[data-theme="dark"] .format-digital{background:#0c1a3a;color:#93c5fd;border-color:#1e3a8a;}.book-meta{font-size:.7rem;color:var(--text3);display:flex;flex-direction:column;gap:.13rem;margin-top:.22rem;}.bulk-target-btn{padding:.38rem 1.1rem;border-radius:40px;border:1.5px solid var(--border);background:var(--card);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;cursor:pointer;transition:background .15s,border-color .15s,color .15s;}.bulk-target-btn.active{background:var(--p1);border-color:var(--p3);color:var(--p4);font-weight:600;}.empty{text-align:center;padding:2.5rem 1rem;color:var(--text3);font-style:italic;font-family:'Playfair Display',serif;}.empty .big{font-size:2.2rem;margin-bottom:.45rem;}.confetti{position:fixed;pointer-events:none;z-index:400;border-radius:50%;animation:confettiFall 1.3s ease-in forwards;}@keyframes confettiFall{0%{transform:translateY(0) rotate(0);opacity:1;}100%{transform:translateY(320px) rotate(720deg);opacity:0;}}@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}.cover-input{display:none;}.synopsis-section p{font-size:.76rem;color:var(--text2);font-style:italic;line-height:1.5;}
 .edit-page{position:fixed;inset:0;z-index:600;background:var(--bg);display:none;flex-direction:column;overflow:hidden;}
 .edit-page.open{display:flex;}
 .edit-page-inner{display:flex;flex-direction:column;height:100%;overflow:hidden;}
@@ -141,6 +137,10 @@
 .lib-deco-spot{cursor:pointer;transition:transform .15s;}
 .lib-deco-spot:hover{transform:scale(1.1);}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const _SB = supabase.createClient('https://cggmkitgegrnaaohlpux.supabase.co', 'sb_publishable_-SsxibXkuADv7IL3buU_CA_ddlKJxPA');
+</script>
 <script>
 var currentTab='manga';
 function switchTab(tab){
@@ -161,58 +161,6 @@ function switcherGo(tab){switchTab(tab);}
 </script>
 
 <script>
-
-
-// ══ Portadas en IndexedDB ══════════════════════════════════════════
-// Cache en memoria (acceso síncrono para renders)
-const _CC = {};
-
-let _idb = null;
-function _openIDB(){
-  if(_idb) return Promise.resolve(_idb);
-  return new Promise((res,rej)=>{
-    const r = indexedDB.open('hanami-v1',1);
-    r.onupgradeneeded = e => e.target.result.createObjectStore('covers');
-    r.onsuccess = e => { _idb=e.target.result; res(_idb); };
-    r.onerror = ()=>rej(r.error);
-  });
-}
-function _idbSet(k,v){ _openIDB().then(db=>{const tx=db.transaction('covers','readwrite');tx.objectStore('covers').put(v,k);}).catch(()=>{}); }
-function _idbDel(k){ _openIDB().then(db=>{const tx=db.transaction('covers','readwrite');tx.objectStore('covers').delete(k);}).catch(()=>{}); }
-function _idbGetAll(){ return _openIDB().then(db=>new Promise(res=>{const out={},r=db.transaction('covers','readonly').objectStore('covers').openCursor();r.onsuccess=e=>{const c=e.target.result;if(c){out[c.key]=c.value;c.continue();}else res(out);};r.onerror=()=>res({});})).catch(()=>({})); }
-
-function _setCover(k,v){
-  if(v){ _CC[k]=v; _idbSet(k,v); }
-  else { delete _CC[k]; _idbDel(k); }
-}
-function _getCover(k){ return _CC[k]||null; }
-
-function _loadCoversFromIDB(){
-  // Migrar covers antiguas de localStorage si existen
-  try{
-    Object.keys(localStorage).forEach(k=>{
-      if(k.startsWith('tbr-cover-')){
-        const shortK=k.replace('tbr-cover-','');
-        if(!_CC[shortK]){const v=localStorage.getItem(k);if(v){_CC[shortK]=v;_idbSet(shortK,v);}}
-        localStorage.removeItem(k);
-      }
-    });
-    const old=JSON.parse(localStorage.getItem('tbr-covers')||'{}');
-    Object.keys(old).forEach(k=>{if(!_CC[k]){_CC[k]=old[k];_idbSet(k,old[k]);}});
-    if(Object.keys(old).length)localStorage.removeItem('tbr-covers');
-  }catch{}
-  // Cargar de IDB al cache
-  return _idbGetAll().then(all=>{
-    Object.keys(all).forEach(k=>{ _CC[k]=all[k]; });
-    render(); renderBooks();
-  });
-}
-// ═══════════════════════════════════════════════════════════════════
-
-// Debounce para búsqueda
-let _drTimer=null,_drbTimer=null;
-function _debouncedRender(){clearTimeout(_drTimer);_drTimer=setTimeout(render,180);}
-function _debouncedRenderBooks(){clearTimeout(_drbTimer);_drbTimer=setTimeout(renderBooks,180);}
 
 const DEFAULT_BOOKS=[];
 
@@ -235,7 +183,7 @@ const EMISSIONS=[
 const WEEK_DAYS=['Lu','Ma','Mi','Ju','Vi','Sá','Do'];
 const MONTH_DATES=Array.from({length:31},(_,i)=>i+1);
 
-function defaultEntry(){return{status:'unread',rating:0,cry:0,laugh:0,spicy:0,favorite:false,hated:false,chapCur:0,chapTotal:0,extraCur:0,extraTotal:0,emission:'',freq:'week',updateDays:[],type:'manhwa',url:'',author:'',genre:'',synopsis:'',sinopsis:'',scheduleLocked:false,finishDate:null,hiatusReturn:null,restActive:0,restPause:0,restStart:null,chapRestEvery:0,chapRestSkip:0};}
+function defaultEntry(){return{status:'unread',rating:0,cry:0,laugh:0,spicy:0,favorite:false,hated:false,chapCur:0,chapTotal:0,extraCur:0,extraTotal:0,emission:'',freq:'week',updateDays:[],type:'manhwa',url:'',cover:'',author:'',genre:'',synopsis:'',sinopsis:'',scheduleLocked:false,finishDate:null,hiatusReturn:null,restActive:0,restPause:0,restStart:null};}
 function loadState(){
   try{
     const s=JSON.parse(localStorage.getItem('tbr-manga-v5')||'{}');
@@ -261,9 +209,150 @@ function toggleTheme(){
   const saved=localStorage.getItem('tbr-palette')||'rose';
   applyPalette(saved,null);
 }
+
+// ══════════════════════════════════════════════════════════════
+// SISTEMA DE PORTADAS - IndexedDB + cache en memoria
+// ══════════════════════════════════════════════════════════════
+
+const _covers = {}; // cache en memoria: { 'm123': 'data:...', 'b456': 'data:...' }
+let _idb = null;
+
+function _openDB() {
+  if (_idb) return Promise.resolve(_idb);
+  return new Promise((res, rej) => {
+    const r = indexedDB.open('hanami-covers-v1', 1);
+    r.onupgradeneeded = e => e.target.result.createObjectStore('c');
+    r.onsuccess = e => { _idb = e.target.result; res(_idb); };
+    r.onerror = () => rej(r.error);
+  });
+}
+
+function _dbSet(k, v) {
+  _openDB().then(db => {
+    const tx = db.transaction('c', 'readwrite');
+    if (v) tx.objectStore('c').put(v, k);
+    else tx.objectStore('c').delete(k);
+  }).catch(() => {});
+}
+
+function _dbGetAll() {
+  return _openDB().then(db => new Promise(res => {
+    const out = {};
+    const req = db.transaction('c', 'readonly').objectStore('c').openCursor();
+    req.onsuccess = e => {
+      const cur = e.target.result;
+      if (cur) { out[cur.key] = cur.value; cur.continue(); }
+      else res(out);
+    };
+    req.onerror = () => res({});
+  })).catch(() => ({}));
+}
+
+// Guardar una portada en cache + IDB
+function saveCover(prefix, id, dataUrl) {
+  const k = prefix + String(id);
+  if (dataUrl) {
+    _covers[k] = dataUrl;
+    _dbSet(k, dataUrl);
+  } else {
+    delete _covers[k];
+    _dbSet(k, null);
+  }
+}
+
+// Inyectar covers del cache en STATE y BOOKS_STATE
+function _injectCovers() {
+  Object.keys(STATE).forEach(id => {
+    const c = _covers['m' + id];
+    if (c) STATE[id].cover = c;
+    else if (!c) STATE[id].cover = '';
+  });
+  Object.keys(BOOKS_STATE).forEach(id => {
+    const c = _covers['b' + id];
+    if (c) BOOKS_STATE[id].cover = c;
+    else if (!c) BOOKS_STATE[id].cover = '';
+  });
+}
+
+// Inicializar: cargar todas las portadas de IDB al cache
+// Retorna Promise - ESPERAR antes de renderizar
+function _initCovers() {
+  // Migrar portadas antiguas de localStorage
+  try {
+    const old = JSON.parse(localStorage.getItem('tbr-covers') || '{}');
+    Object.keys(old).forEach(k => {
+      if (!_covers[k]) _covers[k] = old[k];
+    });
+    if (Object.keys(old).length) {
+      localStorage.removeItem('tbr-covers');
+    }
+  } catch {}
+
+  try {
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith('tbr-cover-')) {
+        const shortK = k.replace('tbr-cover-', '');
+        if (!_covers[shortK]) _covers[shortK] = localStorage.getItem(k);
+        localStorage.removeItem(k);
+      }
+    }
+  } catch {}
+
+  return _dbGetAll().then(all => {
+    Object.keys(all).forEach(k => { _covers[k] = all[k]; });
+    // Guardar migraciones en IDB
+    Object.keys(_covers).forEach(k => {
+      if (!all[k]) _dbSet(k, _covers[k]);
+    });
+    _injectCovers();
+  });
+}
+
+// Exportar portadas para respaldo
+function _exportCovers() {
+  return _dbGetAll();
+}
+
+// Importar portadas desde respaldo
+function _importCovers(covers) {
+  Object.keys(covers).forEach(k => {
+    _covers[k] = covers[k];
+    _dbSet(k, covers[k]);
+  });
+  _injectCovers();
+}
+
+// Parsear fecha de input date sin bug de timezone
+function _parseDate(val){
+  if(!val) return null;
+  // Si es YYYY-MM-DD (input date), añadir mediodía local para evitar offset UTC
+  if(/^\d{4}-\d{2}-\d{2}$/.test(val)){
+    const [y,m,d]=val.split('-').map(Number);
+    return new Date(y,m-1,d,12,0,0).toISOString();
+  }
+  return new Date(val).toISOString();
+}
+function _dateToInput(iso){
+  if(!iso) return '';
+  // Convertir ISO a YYYY-MM-DD usando fecha LOCAL
+  const d=new Date(iso);
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,'0');
+  const day=String(d.getDate()).padStart(2,'0');
+  return y+'-'+m+'-'+day;
+}
 function save(){
-  try{localStorage.setItem('tbr-manga-v5',JSON.stringify(STATE));}
-  catch(e){showToast('⚠️ Sin espacio. Considera eliminar algunas portadas.');}
+  try{
+    const slim = {};
+    Object.keys(STATE).forEach(id => {
+      slim[id] = Object.assign({}, STATE[id]);
+      delete slim[id].cover;
+    });
+    localStorage.setItem('tbr-manga-v5', JSON.stringify(slim));
+  } catch(e) {
+    showToast('⚠️ Sin espacio para datos. Libera espacio.');
+  }
 }
 
 const NOW=new Date();
@@ -411,7 +500,6 @@ function addChapFromToday(id){
   const max=st.chapTotal>0?st.chapTotal:Infinity;
   if(st.chapCur<max){
     st.chapCur++;
-    _autoStartDate(id);
     save();
     const el=document.getElementById(`chap-cur-${id}`);
     if(el){el.value=st.chapCur;el.classList.remove('chap-bump');void el.offsetWidth;el.classList.add('chap-bump');}
@@ -564,15 +652,11 @@ function buildCardHTML(b,i){
       <span class="chapter-sep">/</span>
       <input class="chapter-inp" type="number" min="0" value="${st.chapTotal||''}" onchange="setChap(${b.id},'chapTotal',this.value)" placeholder="Total">
       <span class="chapter-of">caps.</span>
+      ${st.status==='reading'?`<button class="chap-plus" onclick="addChap(${b.id})">+</button>`:''}
     </div>
-    ${st.status==='reading'?`<div style="display:flex;gap:.35rem;margin-top:.32rem;width:100%;">
-      <button style="height:30px;flex:1;border-radius:8px;border:1.5px solid var(--p2);background:var(--p1);color:var(--p4);font-size:.72rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;" onclick="subChap(${b.id})">− Cap.</button>
-      <button style="height:30px;flex:1;border-radius:8px;border:1.5px solid var(--p2);background:var(--p1);color:var(--p4);font-size:.72rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;" onclick="addChap(${b.id})">＋ Cap.</button>
-    </div>`:''}
   </div>`:'';
 
-  const showExtras=st.status==='read'||(st.extraCur>0||st.extraTotal>0);
-  const extrasHtml=sEx&&showExtras?`<div class="extras-section" style="margin-top:.1rem;">
+  const extrasHtml=sEx?`<div class="extras-section" style="margin-top:.1rem;">
     <div class="card-divider"></div>
     <div class="extras-label"><span>✨ Capítulos extra</span><span id="extra-pct-${b.id}">${extraPct>0?extraPct+'%':''}</span></div>
     ${st.extraTotal>0?`<div class="extras-bar-wrap"><div class="extras-bar-fill" id="extra-bar-${b.id}" style="width:${extraPct}%"></div></div>`:''}
@@ -590,7 +674,9 @@ function buildCardHTML(b,i){
     <div class="card-actions">
       <button class="delete-btn" onclick="deleteBook(${b.id})" title="Eliminar">🗑️</button>
     </div>
-    ${sCover?(()=>{const _cv=_getCover('m'+b.id);return _cv?`<img class="card-cover" src="${_cv}" alt="portada" title="Toca para cambiar portada" style="cursor:pointer;" onclick="event.stopPropagation();triggerCoverUpload(${b.id},'manga')">`:`<div class="cover-placeholder" style="cursor:pointer;" onclick="event.stopPropagation();triggerCoverUpload(${b.id},'manga')"><span>🖼️</span><p>Toca para añadir portada</p></div>`;})():''}
+    ${sCover?(st.cover
+      ?`<img class="card-cover" src="${st.cover}" alt="portada" title="Toca para cambiar portada" style="cursor:pointer;" onclick="event.stopPropagation();triggerCoverUpload(${b.id},'manga')">`
+      :`<div class="cover-placeholder" style="cursor:pointer;" onclick="event.stopPropagation();triggerCoverUpload(${b.id},'manga')"><span>🖼️</span><p>Toca para añadir portada</p></div>`):''}
     <div class="card-top" onclick="openDetailModal(${b.id})" style="cursor:pointer;">
       <span class="card-num">#${num}</span>
       <div style="flex:1;min-width:0;">
@@ -608,17 +694,6 @@ function buildCardHTML(b,i){
     ${sR?buildRatingBlock(b.id,st,true):''}
     <div style="padding:.2rem 0 .1rem;">${favBtns}</div>
     ${sSch&&isLocked&&!hideSchedule?`<div class="schedule-display" style="font-size:.72rem;color:var(--p4);">${dispText}</div>`:''}
-    ${(()=>{
-      if(st.chapRestEvery>0&&st.chapRestSkip>0&&st.chapCur>0){
-        const cycle=st.chapRestEvery+st.chapRestSkip;
-        const posInCycle=(st.chapCur-1)%cycle;
-        const isResting=posInCycle>=st.chapRestEvery;
-        const left=isResting?(cycle-posInCycle):(st.chapRestEvery-posInCycle);
-        if(isResting)return `<div style="font-size:.68rem;background:#fef3c7;color:#92400e;border-radius:6px;padding:.18rem .5rem;display:inline-block;">☕ Descanso · retoma en cap. ${st.chapCur+left}</div>`;
-        return `<div style="font-size:.68rem;color:var(--text3);">📖 Lee ${left} cap. más, luego ${st.chapRestSkip} de descanso</div>`;
-      }
-      return '';
-    })()}
     ${(()=>{
       if(!st.restActive||!st.restPause||!st.restStart)return '';
       const start=new Date(st.restStart);start.setHours(0,0,0,0);
@@ -684,8 +759,8 @@ function refreshDetailModal(){
     (st.chapCur||st.chapTotal)?['📖 Capítulos', `${st.chapCur||0} / ${st.chapTotal||'?'} ${st.chapTotal>0?`(${pct}%)`:''}` ]:null,
     (st.extraCur||st.extraTotal)?['📎 Extras', `${st.extraCur||0} / ${st.extraTotal||'?'}`]:null,
     st.sinopsis?['📝 Sinopsis', `<em style="color:var(--text2);font-size:.8rem;">${st.sinopsis}</em>`]:null,
-    st.startDate?['📅 Inicio', new Date(st.startDate).toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'})]:null,
-    st.finishDate?['✅ Finalizado', new Date(st.finishDate).toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'})]:null,
+    st.startDate?['📅 Inicio', new Date(st.startDate.length===10?st.startDate+'T12:00:00':st.startDate).toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'})]:null,
+    st.finishDate?['✅ Finalizado', new Date(st.finishDate.length===10?st.finishDate+'T12:00:00':st.finishDate).toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'})]:null,
     st.rating?['⭐ Valoración', stars]:null,
     b.priority?['🌟 Prioridad','Sí']:null,
     st.url?['🔗 Enlace',`<a href="${st.url}" target="_blank" rel="noopener" style="color:var(--p4);font-size:.8rem;">Ir a leer →</a>`]:null,
@@ -697,10 +772,9 @@ function refreshDetailModal(){
   </tr>`).join('');
 
   document.getElementById('detailTitle').textContent=b.title;
-  const _detCover=_getCover('m'+id);
   document.getElementById('detailBody').innerHTML=`
-    ${_detCover
-      ?`<img src="${_detCover}" style="width:100%;max-height:220px;object-fit:cover;border-radius:11px;margin-bottom:1rem;">`
+    ${st.cover
+      ?`<img src="${st.cover}" style="width:100%;max-height:220px;object-fit:cover;border-radius:11px;margin-bottom:1rem;">`
       :''}
     ${b.priority?`<div style="margin-bottom:.6rem;"><span class="priority-badge">⭐ Prioridad</span></div>`:''}
     <table style="width:100%;border-collapse:collapse;">${tableRows}</table>
@@ -868,7 +942,7 @@ function buildRatingBlock(id,st,isManga){
   return `<div class="stars-section"><div class="card-divider"></div><div class="stars-label">Puntuación</div><div class="emo-row">${rows}</div></div>`;
 }
 
-function setFinishDate(id,val){if(!STATE[id])return;STATE[id].finishDate=val?new Date(val).toISOString():null;save();}
+function setFinishDate(id,val){if(!STATE[id])return;STATE[id].finishDate=val?_parseDate(val):null;save();}
 function setEmission(id,val){if(!STATE[id])return;STATE[id].emission=STATE[id].emission===val?'':val;save();renderTodayBanner();renderOneCard(id);}
 function setFreq(id,val){if(!STATE[id])return;STATE[id].freq=val;STATE[id].updateDays=[];save();renderOneCard(id);}
 function lockSchedule(id){if(!STATE[id])return;STATE[id].scheduleLocked=true;save();renderOneCard(id);}
@@ -881,27 +955,18 @@ function toggleDay(id,day){
   STATE[id].updateDays=arr;
   save();renderTodayBanner();renderOneCard(id);
 }
-function _autoStartDate(id){
-  const st=STATE[id];
-  if(!st||st.startDate)return;
-  if(st.chapCur>=1){
-    st.startDate=new Date().toISOString();
-    if(st.status==='unread')st.status='reading';
-  }
-}
 function setChap(id,field,val){
   if(!STATE[id])return;
   const n=parseInt(val)||0;
   STATE[id][field]=Math.max(0,n);
   if(field==='chapCur'&&STATE[id].chapTotal>0&&STATE[id].chapCur>STATE[id].chapTotal)STATE[id].chapCur=STATE[id].chapTotal;
-  _autoStartDate(id);
   save();renderOneCard(id);
 }
 function addChap(id){
   const st=STATE[id];if(!st)return;
   const max=st.chapTotal>0?st.chapTotal:Infinity;
   if(st.chapCur<max){
-    st.chapCur++;_autoStartDate(id);save();
+    st.chapCur++;save();
     const el=document.getElementById(`chap-cur-${id}`);
     if(el){el.value=st.chapCur;el.classList.remove('chap-bump');void el.offsetWidth;el.classList.add('chap-bump');}
     const pct=st.chapTotal>0?Math.min(100,Math.round(st.chapCur/st.chapTotal*100)):0;
@@ -910,16 +975,6 @@ function addChap(id){
     if(st.chapTotal>0&&st.chapCur>=st.chapTotal){st.status='read';save();confettiPop();render();}
     dismissToday(id);markPendingDone(id);renderTodayBanner();
   }
-}
-function subChap(id){
-  const st=STATE[id];if(!st||st.chapCur<=0)return;
-  st.chapCur--;save();
-  const el=document.getElementById(`chap-cur-${id}`);
-  if(el){el.value=st.chapCur;el.classList.remove('chap-bump');void el.offsetWidth;el.classList.add('chap-bump');}
-  const pct=st.chapTotal>0?Math.min(100,Math.round(st.chapCur/st.chapTotal*100)):0;
-  const bar=document.getElementById(`chap-bar-${id}`);if(bar)bar.style.width=pct+'%';
-  const pctEl=document.getElementById(`chap-pct-${id}`);if(pctEl)pctEl.textContent=pct+'%';
-  save();
 }
 function setExtra(id,field,val){
   const n=parseInt(val)||0;
@@ -1080,11 +1135,11 @@ function handleCoverFile(input){
   reader.onload=e=>{
     const img=new Image();
     img.onload=()=>{
-      const maxW=200,maxH=300;let w=img.width,h=img.height;
+      const maxW=120,maxH=180;let w=img.width,h=img.height;
       if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}if(h>maxH){w=Math.round(w*maxH/h);h=maxH;}
       const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
       canvas.getContext('2d').drawImage(img,0,0,w,h);
-      _editCoverData=canvas.toDataURL('image/jpeg',.55);showCoverPreview(_editCoverData);
+      _editCoverData=canvas.toDataURL('image/jpeg',.5);showCoverPreview(_editCoverData);
     };img.src=e.target.result;
   };reader.readAsDataURL(file);
 }
@@ -1094,37 +1149,22 @@ function removeCover(){_editCoverData=null;document.getElementById('editCoverUrl
 function openEditModal(id){
   const book=BOOKS.find(b=>b.id===id);const st=STATE[id];
   if(!book||!st)return;
-  _editCoverData=_getCover('m'+id)||null;
+  _editCoverData=st.cover||_covers['m'+id]||null;
   document.getElementById('editId').value=id;
   document.getElementById('editTitle').value=book.title;
   document.getElementById('editType').value=st.type||'manhwa';
   document.getElementById('editUrl').value=st.url||'';
   document.getElementById('editAuthor').value=st.author||'';
   document.getElementById('editGenre').value=st.genre||'';
-  document.getElementById('editCoverUrl').value='';
+  document.getElementById('editCoverUrl').value=(st.cover&&!st.cover.startsWith('data:'))?st.cover:'';
   document.getElementById('editCoverFile').value='';
   document.getElementById('editPriority').checked=book.priority||false;
   document.getElementById('editRestActive').value=st.restActive||0;
   document.getElementById('editRestPause').value=st.restPause||0;
-  document.getElementById('editRestStart').value=st.restStart?new Date(st.restStart).toISOString().slice(0,10):'';
-  // Campos adicionales
-  const chapEl=document.getElementById('editChapTotal');if(chapEl)chapEl.value=st.chapTotal||'';
-  const crEvEl=document.getElementById('editChapRestEvery');if(crEvEl)crEvEl.value=st.chapRestEvery||0;
-  const crSkEl=document.getElementById('editChapRestSkip');if(crSkEl)crSkEl.value=st.chapRestSkip||0;
-  const sinEl=document.getElementById('editSinopsis');if(sinEl)sinEl.value=st.sinopsis||'';
-  const stEl=document.getElementById('editStatus');if(stEl)stEl.value=st.status||'unread';
-  const emEl=document.getElementById('editEmission');if(emEl)emEl.value=st.emission||'';
-  const sdEl=document.getElementById('editStartDate');if(sdEl)sdEl.value=st.startDate?new Date(st.startDate).toISOString().slice(0,10):'';
-  const fdEl=document.getElementById('editFinishDate');if(fdEl)fdEl.value=st.finishDate?new Date(st.finishDate).toISOString().slice(0,10):'';
-  const hrEl=document.getElementById('editHiatusReturn');if(hrEl)hrEl.value=st.hiatusReturn?new Date(st.hiatusReturn).toISOString().slice(0,10):'';
-  const fdRow=document.getElementById('editFinishDateRow');if(fdRow)fdRow.style.display=(st.status==='read')?'block':'none';
-  const hRow=document.getElementById('editHiatusRow');if(hRow)hRow.style.display=(st.emission==='hiatus')?'block':'none';
-  // Listeners dinámicos
-  if(stEl)stEl.onchange=()=>{if(fdRow)fdRow.style.display=(stEl.value==='read')?'block':'none';};
-  if(emEl)emEl.onchange=()=>{if(hRow)hRow.style.display=(emEl.value==='hiatus')?'block':'none';};
+  document.getElementById('editRestStart').value=_dateToInput(st.restStart?new Date(st.restStart).toISOString():null);
   document.getElementById('editError').style.display='none';
   updateRestPreview();
-  showCoverPreview(_getCover('m'+id)||null);
+  showCoverPreview(st.cover||null);
   document.getElementById('editOverlay').classList.add('open');
   setTimeout(()=>document.getElementById('editTitle').focus(),300);
 }
@@ -1163,21 +1203,13 @@ function confirmEdit(){
   STATE[id].url=document.getElementById('editUrl').value.trim();
   STATE[id].author=document.getElementById('editAuthor').value.trim();
   STATE[id].genre=document.getElementById('editGenre').value.trim();
-  if(_editCoverData!==null){_setCover('m'+id,_editCoverData||null);}
+  const _prevCover = _covers['m'+id] || '';
+  STATE[id].cover = _editCoverData || _prevCover;
+  if(_editCoverData) saveCover('m', id, _editCoverData);
   STATE[id].restActive=parseInt(document.getElementById('editRestActive').value)||0;
   STATE[id].restPause=parseInt(document.getElementById('editRestPause').value)||0;
   const rsVal=document.getElementById('editRestStart').value;
-  STATE[id].restStart=rsVal?new Date(rsVal).getTime():null;
-  // Campos adicionales
-  const ct=document.getElementById('editChapTotal');if(ct)STATE[id].chapTotal=parseInt(ct.value)||0;
-  const crEv=document.getElementById('editChapRestEvery');if(crEv)STATE[id].chapRestEvery=parseInt(crEv.value)||0;
-  const crSk=document.getElementById('editChapRestSkip');if(crSk)STATE[id].chapRestSkip=parseInt(crSk.value)||0;
-  const sn=document.getElementById('editSinopsis');if(sn)STATE[id].sinopsis=sn.value.trim();
-  const stEl=document.getElementById('editStatus');if(stEl)STATE[id].status=stEl.value;
-  const em=document.getElementById('editEmission');if(em)STATE[id].emission=em.value;
-  const sd=document.getElementById('editStartDate');if(sd)STATE[id].startDate=sd.value?new Date(sd.value).toISOString():null;
-  const fd=document.getElementById('editFinishDate');if(fd)STATE[id].finishDate=fd.value?new Date(fd.value).toISOString():null;
-  const hr=document.getElementById('editHiatusReturn');if(hr)STATE[id].hiatusReturn=hr.value?new Date(hr.value).getTime():null;
+  STATE[id].restStart=rsVal?new Date(rsVal.replace(/-/g,'/')).getTime():null;
   saveBooks();save();closeEditModal();renderTodayBanner();render();showToast(`✨ "${title}" actualizado`);
 }
 function deleteBook(id){
@@ -1249,24 +1281,14 @@ function confirmBulkImport(){
   showToast(`🌸 ${added} título${added!==1?'s':''} agregado${added!==1?'s':''} a ${bulkTarget==='manga'?'Manga':'Libros'}`);
 }
 function exportBackup(){
-  // Construir state con portadas incrustadas desde _CC
-  const stateWithCovers={};
-  Object.keys(STATE).forEach(id=>{
-    const cover=_getCover('m'+id);
-    stateWithCovers[id]=cover?{...STATE[id],cover}:{...STATE[id]};
-  });
-  const booksStateWithCovers={};
-  Object.keys(BOOKS_STATE).forEach(id=>{
-    const cover=_getCover('b'+id);
-    booksStateWithCovers[id]=cover?{...BOOKS_STATE[id],cover}:{...BOOKS_STATE[id]};
-  });
+  _exportCovers().then(covers=>{
   const data={
-    version:4,
+    version:3,
     exportedAt:new Date().toISOString(),
     books:BOOKS,
-    state:stateWithCovers,
+    state:STATE,
     booksLib:BOOKS_LIB,
-    booksState:booksStateWithCovers,
+    booksState:BOOKS_STATE,
     readingLog:loadReadingLog(),
     bingos:loadBingos(),
     diarioPrefs:loadDiarioPrefs(),
@@ -1279,259 +1301,10 @@ function exportBackup(){
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');a.href=url;a.download=`tbr-respaldo-${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(url);
-  const total=Object.keys(_CC).length;
-  showToast(`💾 Respaldo guardado · ${total} portada${total!==1?'s':''} incluida${total!==1?'s':''}`);
-}
-
-
-function parseAnimeListXML(input){
-  const file=input.files[0];if(!file)return;
-  const isGz=file.name.endsWith('.gz')||file.type==='application/gzip'||file.type==='application/x-gzip';
-  const preview=document.getElementById('animeListPreview');
-  const confirmBtn=document.getElementById('animeListConfirmBtn');
-  preview.innerHTML='<p style="font-size:.78rem;color:var(--text3);">⏳ Leyendo archivo…</p>';
-  confirmBtn.style.display='none';
-
-  if(isGz){
-    // Use DecompressionStream API (supported in modern browsers)
-    if(!window.DecompressionStream){
-      preview.innerHTML='<p style="color:#dc2626;font-size:.8rem;">❌ Tu navegador no soporta descompresión automática. Descomprime el .gz manualmente y sube el .xml.</p>';
-      return;
-    }
-    file.arrayBuffer().then(buf=>{
-      const ds=new DecompressionStream('gzip');
-      const writer=ds.writable.getWriter();
-      const reader=ds.readable.getReader();
-      writer.write(new Uint8Array(buf));
-      writer.close();
-      const chunks=[];
-      function pump(){
-        return reader.read().then(({done,value})=>{
-          if(done)return;
-          chunks.push(value);
-          return pump();
-        });
-      }
-      pump().then(()=>{
-        const total=chunks.reduce((a,c)=>a+c.length,0);
-        const merged=new Uint8Array(total);
-        let offset=0;
-        chunks.forEach(c=>{merged.set(c,offset);offset+=c.length;});
-        const text=new TextDecoder('utf-8').decode(merged);
-        _processMALXML(text,preview,confirmBtn);
-      }).catch(err=>{
-        preview.innerHTML=`<p style="color:#dc2626;font-size:.8rem;">❌ Error al descomprimir: ${err.message}</p>`;
-      });
-    });
-  } else {
-    const reader=new FileReader();
-    reader.onload=e=>_processMALXML(e.target.result,preview,confirmBtn);
-    reader.readAsText(file);
-  }
-}
-
-function _processMALXML(text,preview,confirmBtn){
-  try{
-    const parser=new DOMParser();
-    const xml=parser.parseFromString(text,'text/xml');
-    const parseErr=xml.querySelector('parsererror');
-    if(parseErr){
-      preview.innerHTML='<p style="color:#dc2626;font-size:.8rem;">❌ El archivo no es XML válido.</p>';
-      return;
-    }
-    // MAL manga list uses <manga> tags, anime uses <anime>
-    let entries=Array.from(xml.querySelectorAll('manga'));
-    let isManga=true;
-    if(!entries.length){
-      entries=Array.from(xml.querySelectorAll('anime'));
-      isManga=false;
-    }
-    if(!entries.length){
-      preview.innerHTML='<p style="color:#dc2626;font-size:.8rem;">❌ No se encontraron entradas. ¿Es el archivo correcto de MyAnimeList?</p>';
-      return;
-    }
-    // Manga status: 1=reading,2=completed,3=on-hold,4=dropped,6=plan_to_read
-    const statusMap={'1':'reading','2':'read','3':'paused','4':'paused','6':'unread'};
-    window._xmlParsed=[];
-    entries.forEach(a=>{
-      const title=(isManga
-        ? a.querySelector('manga_title')?.textContent
-        : a.querySelector('series_title')?.textContent)||'';
-      const statusRaw=a.querySelector('my_status')?.textContent||'6';
-      const status=statusMap[statusRaw]||'unread';
-      const chapCur=parseInt((isManga
-        ? a.querySelector('my_read_chapters')?.textContent
-        : a.querySelector('my_watched_episodes')?.textContent)||0)||0;
-      const chapTotal=parseInt((isManga
-        ? a.querySelector('manga_chapters')?.textContent
-        : a.querySelector('series_episodes')?.textContent)||0)||0;
-      const score=parseInt(a.querySelector('my_score')?.textContent||0)||0;
-      const rating=score>0?Math.round(score/2):0;
-      if(title.trim())window._xmlParsed.push({title:title.trim(),status,chapCur,chapTotal,rating});
-    });
-    const existing=new Set(BOOKS.map(b=>b.title.toLowerCase().trim()));
-    const dupes=window._xmlParsed.filter(x=>existing.has(x.title.toLowerCase().trim())).length;
-    const newOnes=window._xmlParsed.length-dupes;
-    const counts={unread:0,reading:0,read:0,paused:0};
-    window._xmlParsed.forEach(x=>{if(counts[x.status]!==undefined)counts[x.status]++;});
-    preview.innerHTML=`
-      <div style="background:var(--p1);border:1.5px solid var(--p2);border-radius:10px;padding:.75rem;margin-top:.4rem;">
-        <div style="font-size:.82rem;font-weight:600;color:var(--p4);margin-bottom:.4rem;">📊 ${window._xmlParsed.length} ${isManga?'manga':'anime'} encontrados</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.25rem;margin-bottom:.35rem;">
-          <span style="font-size:.74rem;color:var(--text2);">📖 TBR: <strong>${counts.unread}</strong></span>
-          <span style="font-size:.74rem;color:var(--text2);">✨ Leyendo: <strong>${counts.reading}</strong></span>
-          <span style="font-size:.74rem;color:var(--text2);">✅ Leídos: <strong>${counts.read}</strong></span>
-          <span style="font-size:.74rem;color:var(--text2);">⏸ Pausados: <strong>${counts.paused}</strong></span>
-        </div>
-        ${dupes>0?`<div style="font-size:.71rem;color:#d97706;margin-bottom:.2rem;">⚠️ ${dupes} ya existe${dupes===1?'':'n'} en tu lista (se omitirán)</div>`:''}
-        <div style="font-size:.71rem;color:var(--text3);">✨ ${newOnes} nuevo${newOnes!==1?'s':''} por importar</div>
-      </div>`;
-    if(newOnes>0)confirmBtn.style.display='block';
-  }catch(err){
-    console.error(err);
-    preview.innerHTML=`<p style="color:#dc2626;font-size:.8rem;">❌ Error al procesar: ${err.message}</p>`;
-  }
-}
-
-
-function confirmAnimeListImport(){
-  const parsed=window._xmlParsed||[];if(!parsed.length)return;
-  const existing=new Set(BOOKS.map(b=>b.title.toLowerCase().trim()));
-  let added=0;
-  parsed.forEach(item=>{
-    if(existing.has(item.title.toLowerCase().trim()))return;
-    const newId=Date.now()+Math.floor(Math.random()*99999)+added;
-    BOOKS.push({id:newId,title:item.title,addedAt:new Date().toISOString()});
-    STATE[newId]=Object.assign(defaultEntry(),{status:item.status,chapCur:item.chapCur,chapTotal:item.chapTotal,rating:item.rating,type:'manga'});
-    added++;
+  data.covers=covers;
+  showToast('💾 Respaldo completo guardado');
   });
-  saveBooks();save();renderTodayBanner();render();
-  document.getElementById('animeListPreview').innerHTML=
-    `<div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:.6rem .8rem;font-size:.8rem;color:#166534;margin-top:.5rem;">✅ ${added} título${added!==1?'s':''} importado${added!==1?'s':''}.</div>`;
-  document.getElementById('animeListConfirmBtn').style.display='none';
-  showToast(`🌸 ${added} título${added!==1?'s':''} importado${added!==1?'s':''} desde XML`);
-  window._xmlParsed=[];
 }
-function fetchMALList(){
-  const username=document.getElementById('malUsername').value.trim();
-  if(!username){showToast('✏️ Escribe tu nombre de usuario de MAL');return;}
-  const btn=document.getElementById('malFetchBtn');
-  const status=document.getElementById('malStatus');
-  const preview=document.getElementById('malPreview');
-  btn.disabled=true;btn.textContent='⏳ Cargando…';
-  status.textContent='Conectando con MyAnimeList…';
-  preview.innerHTML='';
-  window._malAllEntries=[];
-  _fetchMALPage(username,1,btn,status,preview);
-}
-
-function _fetchMALPage(username,page,btn,status,preview){
-  const url=`https://api.jikan.moe/v4/users/${encodeURIComponent(username)}/animelist?page=${page}&limit=300`;
-  fetch(url)
-    .then(r=>{
-      if(r.status===404)throw new Error('Usuario no encontrado en MyAnimeList');
-      if(!r.ok)throw new Error(`Error ${r.status} al contactar la API`);
-      return r.json();
-    })
-    .then(data=>{
-      const items=data.data||[];
-      window._malAllEntries=[...(window._malAllEntries||[]),...items];
-
-      const hasNext=data.pagination?.has_next_page;
-      if(hasNext){
-        status.textContent=`Cargando… ${window._malAllEntries.length} títulos hasta ahora`;
-        // Jikan rate limit: 1 req/sec
-        setTimeout(()=>_fetchMALPage(username,page+1,btn,status,preview),1100);
-      } else {
-        _renderMALPreview(btn,status,preview);
-      }
-    })
-    .catch(err=>{
-      btn.disabled=false;btn.textContent='🔍 Buscar';
-      status.textContent='';
-      preview.innerHTML=`<p style="color:#dc2626;font-size:.8rem;">❌ ${err.message}</p>`;
-    });
-}
-
-function _renderMALPreview(btn,status,preview){
-  btn.disabled=false;btn.textContent='🔍 Buscar';
-  const entries=window._malAllEntries||[];
-  if(!entries.length){
-    status.textContent='';
-    preview.innerHTML='<p style="font-size:.8rem;color:var(--text3);">La lista está vacía o es privada.</p>';
-    return;
-  }
-
-  // MAL status: 1=watching,2=completed,3=on-hold,4=dropped,6=plan_to_watch
-  const statusMap={1:'reading',2:'read',3:'paused',4:'paused',6:'unread'};
-  window._malParsed=entries.map(e=>({
-    title:e.anime?.title||'',
-    status:statusMap[e.watching_status]||'unread',
-    chapCur:e.watched_episodes||0,
-    chapTotal:e.anime?.episodes||0,
-    rating:e.score>0?Math.round(e.score/2):0,
-    malId:e.anime?.mal_id||0,
-  })).filter(x=>x.title);
-
-  const existing=new Set(BOOKS.map(b=>b.title.toLowerCase().trim()));
-  const dupes=window._malParsed.filter(x=>existing.has(x.title.toLowerCase().trim())).length;
-  const newOnes=window._malParsed.length-dupes;
-  const counts={unread:0,reading:0,read:0,paused:0};
-  window._malParsed.forEach(x=>{if(counts[x.status]!==undefined)counts[x.status]++;});
-
-  status.textContent='';
-  preview.innerHTML=`
-    <div style="background:var(--p1);border:1.5px solid var(--p2);border-radius:12px;padding:.85rem;margin:.5rem 0;">
-      <div style="font-size:.85rem;font-weight:600;color:var(--p4);margin-bottom:.5rem;">📊 ${window._malParsed.length} títulos encontrados</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem;margin-bottom:.45rem;">
-        <span style="font-size:.76rem;color:var(--text2);">📖 Sin empezar: <strong>${counts.unread}</strong></span>
-        <span style="font-size:.76rem;color:var(--text2);">✨ Leyendo: <strong>${counts.reading}</strong></span>
-        <span style="font-size:.76rem;color:var(--text2);">✅ Completados: <strong>${counts.read}</strong></span>
-        <span style="font-size:.76rem;color:var(--text2);">⏸ Pausados: <strong>${counts.paused}</strong></span>
-      </div>
-      ${dupes>0?`<div style="font-size:.72rem;color:#d97706;margin-bottom:.25rem;">⚠️ ${dupes} ya existe${dupes===1?'':'n'} en tu lista (se omitirán)</div>`:''}
-      <div style="font-size:.72rem;color:var(--text3);">✨ ${newOnes} nuevo${newOnes!==1?'s':''} por importar</div>
-    </div>
-    <div style="display:flex;gap:.5rem;margin-top:.5rem;">
-      <button onclick="_confirmMALImport('all')"
-        style="flex:1;padding:.5rem;border-radius:11px;border:none;background:linear-gradient(135deg,var(--p3),var(--p4));color:#fff;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;">
-        ✨ Importar todos (${newOnes})
-      </button>
-    </div>
-    <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.45rem;">
-      <button onclick="_confirmMALImport('unread')" style="flex:1;padding:.38rem .5rem;border-radius:9px;border:1.5px solid var(--border);background:var(--card);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:.74rem;cursor:pointer;">Solo TBR (${counts.unread})</button>
-      <button onclick="_confirmMALImport('reading')" style="flex:1;padding:.38rem .5rem;border-radius:9px;border:1.5px solid var(--border);background:var(--card);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:.74rem;cursor:pointer;">Solo Leyendo (${counts.reading})</button>
-      <button onclick="_confirmMALImport('read')" style="flex:1;padding:.38rem .5rem;border-radius:9px;border:1.5px solid var(--border);background:var(--card);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:.74rem;cursor:pointer;">Solo Leídos (${counts.read})</button>
-    </div>`;
-}
-
-function _confirmMALImport(filter){
-  const parsed=window._malParsed||[];
-  const existing=new Set(BOOKS.map(b=>b.title.toLowerCase().trim()));
-  let toImport=parsed.filter(x=>!existing.has(x.title.toLowerCase().trim()));
-  if(filter!=='all') toImport=toImport.filter(x=>x.status===filter);
-  if(!toImport.length){showToast('✅ No hay títulos nuevos para importar');return;}
-  let added=0;
-  toImport.forEach(item=>{
-    const newId=Date.now()+Math.floor(Math.random()*99999)+added;
-    BOOKS.push({id:newId,title:item.title,addedAt:new Date().toISOString()});
-    STATE[newId]=Object.assign(defaultEntry(),{
-      status:item.status,
-      chapCur:item.chapCur,
-      chapTotal:item.chapTotal,
-      rating:item.rating,
-      type:'manga',
-    });
-    added++;
-  });
-  saveBooks();save();renderTodayBanner();render();
-  document.getElementById('malPreview').innerHTML=
-    `<div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:.7rem .85rem;font-size:.82rem;color:#166534;margin-top:.5rem;">
-      ✅ ${added} título${added!==1?'s':''} importado${added!==1?'s':''}. ¡Ve a la pestaña Manga para verlos!
-    </div>`;
-  showToast(`🌸 ${added} título${added!==1?'s':''} importado${added!==1?'s':''} de MAL`);
-}
-
 function importBackup(input){
   const file=input.files[0];if(!file)return;
   const reader=new FileReader();
@@ -1544,40 +1317,20 @@ function importBackup(input){
       if(!hasManga&&!hasBooks){showToast('❌ Archivo no válido');return;}
       if(!confirm('¿Restaurar respaldo? Se reemplazarán los datos actuales.')){input.value='';return;}
 
-      let coversRestored=0;
-
       if(hasManga){
         BOOKS=data.books;
         STATE={};
-        Object.keys(data.state).forEach(id=>{
-          const entry=Object.assign(defaultEntry(),data.state[id]);
-          // Migrar portada del backup antiguo → IndexedDB
-          if(entry.cover&&entry.cover.length>100){
-            _setCover('m'+id, entry.cover);
-            coversRestored++;
-          }
-          delete entry.cover;
-          STATE[id]=entry;
-        });
+        Object.keys(data.state).forEach(id=>{STATE[id]=Object.assign(defaultEntry(),data.state[id]);});
+
         BOOKS.forEach(b=>{if(!STATE[b.id])STATE[b.id]=defaultEntry();});
       }
 
       if(hasBooks){
         BOOKS_LIB=data.booksLib;
         BOOKS_STATE={};
-        Object.keys(data.booksState).forEach(id=>{
-          const entry=Object.assign(defaultBookEntry(),data.booksState[id]);
-          // Migrar portada del backup antiguo → IndexedDB
-          if(entry.cover&&entry.cover.length>100){
-            _setCover('b'+id, entry.cover);
-            coversRestored++;
-          }
-          delete entry.cover;
-          BOOKS_STATE[id]=entry;
-        });
+        Object.keys(data.booksState).forEach(id=>{BOOKS_STATE[id]=Object.assign(defaultBookEntry(),data.booksState[id]);});
         BOOKS_LIB.forEach(b=>{if(!BOOKS_STATE[b.id])BOOKS_STATE[b.id]=defaultBookEntry();});
       }
-
       saveBooks();save();saveBooksLib();saveBooksState();
 
       if(data.readingLog)saveReadingLog(data.readingLog);
@@ -1589,11 +1342,10 @@ function importBackup(input){
       if(data.bookFieldPrefs)localStorage.setItem('tbr-book-field-prefs',JSON.stringify(data.bookFieldPrefs));
       if(data.statsPrefs)localStorage.setItem('tbr-stats-prefs',JSON.stringify(data.statsPrefs));
 
-      loadSavedPalette();applyTabOrder();applyTabVisibility();
+      loadSavedPalette();applyTabOrder();
       renderTodayBanner();render();renderBooks();
-      const coverMsg=coversRestored>0?` · ${coversRestored} portada${coversRestored!==1?'s':''} migrada${coversRestored!==1?'s':''}`:' (sin portadas en backup)';
-      showToast(`✨ Datos restaurados — ${BOOKS.length} manga · ${BOOKS_LIB.length} libros${coverMsg}`);
-    }catch(err){console.error(err);showToast('❌ Error al leer el archivo');}
+      showToast(`✨ Datos restaurados — ${BOOKS.length} manga · ${BOOKS_LIB.length} libros`);
+    }catch(err){showToast('❌ Error al leer el archivo');}
     input.value='';
   };reader.readAsText(file);
 }
@@ -1696,7 +1448,7 @@ function saveDiarioPrefs(p){localStorage.setItem('tbr-diario-prefs',JSON.stringi
 function getDiarioSectionPrefs(){try{return JSON.parse(localStorage.getItem('tbr-diario-sections')||'{}');}catch{return{};}}
 function saveDiarioSectionPrefs(){
   const prefs={};
-  ['mensual','tracker','reto','mejor','abc','shelf'].forEach(k=>{const el=document.getElementById(`dtog-${k}`);if(el)prefs[k]=el.checked;});
+  ['tracker','reto','mejor','abc','shelf'].forEach(k=>{const el=document.getElementById(`dtog-${k}`);if(el)prefs[k]=el.checked;});
   localStorage.setItem('tbr-diario-sections',JSON.stringify(prefs));
   const trackerCard=document.getElementById('diarioTrackerCard');
   if(trackerCard)trackerCard.style.display=prefs.tracker===false?'none':'';
@@ -1704,7 +1456,7 @@ function saveDiarioSectionPrefs(){
 }
 function loadDiarioSectionToggles(){
   const prefs=getDiarioSectionPrefs();
-  ['mensual','tracker','reto','mejor','abc','shelf'].forEach(k=>{
+  ['tracker','reto','mejor','abc','shelf'].forEach(k=>{
     const el=document.getElementById(`dtog-${k}`);
     if(el)el.checked=prefs[k]!==false;
   });
@@ -1726,7 +1478,7 @@ function getReadItems(){
     BOOKS.forEach(b=>{
       const s=STATE[b.id];
       if(s&&s.status==='read'){
-        items.push({id:'m'+b.id,title:b.title||'',cover:_getCover('m'+b.id)||'',finishDate:s.finishDate||null,startDate:s.startDate||null,type:'manga',author:s.author||''});
+        items.push({id:'m'+b.id,title:b.title||'',cover:s.cover||'',finishDate:s.finishDate||null,type:'manga',author:s.author||''});
       }
     });
   }
@@ -1734,7 +1486,7 @@ function getReadItems(){
     BOOKS_LIB.forEach(b=>{
       const st=BOOKS_STATE[b.id];
       if(st&&st.status==='read'){
-        items.push({id:'b'+b.id,title:b.title||'',cover:_getCover('b'+b.id)||'',finishDate:st.finishDate||null,startDate:st.addedAt||null,type:'books',author:st.author||''});
+        items.push({id:'b'+b.id,title:b.title||'',cover:st.cover||'',finishDate:st.finishDate||null,type:'books',author:st.author||''});
       }
     });
   }
@@ -1749,10 +1501,8 @@ function renderDiario(){
   const items=getReadItems();
   const year=new Date().getFullYear();
   el.innerHTML='';
-  if(sPrefs.mensual!==false) el.appendChild(buildMangaByMonthCard(items));
   if(sPrefs.reto!==false) el.appendChild(buildRetoCard(items,prefs,year));
-  const mejorYear=prefs.mejorYear||year;
-  if(sPrefs.mejor!==false) el.appendChild(buildMejorMesCard(items,prefs,mejorYear));
+  if(sPrefs.mejor!==false) el.appendChild(buildMejorMesCard(items,prefs,year));
   if(sPrefs.abc!==false) el.appendChild(buildAbcCard(items));
 }
 
@@ -1801,30 +1551,13 @@ function buildMejorMesCard(items,prefs,year){
   div.className='diario-card';
   const best=prefs.bestMonth||{};
 
-  // Recopilar todos los items con startDate (cualquier estado)
-  const allItems=[];
-  if(_diarioType!=='books'){
-    BOOKS.forEach(b=>{
-      const s=STATE[b.id];if(!s)return;
-      const sd=s.startDate||null;
-      if(!sd)return;
-      allItems.push({title:b.title||'',cover:_getCover('m'+b.id)||'',startDate:sd});
-    });
-  }
-  if(_diarioType!=='manga'){
-    BOOKS_LIB.forEach(b=>{
-      const st=BOOKS_STATE[b.id];if(!st)return;
-      const sd=st.startDate||st.addedAt||null;
-      if(!sd)return;
-      allItems.push({title:b.title||'',cover:_getCover('b'+b.id)||'',startDate:sd});
-    });
-  }
-
-  const allItemsThisYear=allItems.filter(x=>x.startDate&&x.startDate.startsWith(String(year)));
   const cells=MES_NAMES.map((mn,mi)=>{
     const monthKey=`${year}-${String(mi+1).padStart(2,'0')}`;
     const saved=best[monthKey];
-    const monthItems=allItemsThisYear.filter(x=>x.startDate&&x.startDate.startsWith(monthKey));
+    const monthItems=items.filter(x=>{
+      if(!x.finishDate)return false;
+      return x.finishDate.startsWith(monthKey);
+    });
     const coverHtml=saved?.cover
       ?`<img class="mes-cover" src="${saved.cover}" onerror="this.style.display='none'">`
       :`<div class="mes-cover-empty">${monthItems.length?'⭐':'📖'}</div>`;
@@ -1835,44 +1568,18 @@ function buildMejorMesCard(items,prefs,year){
     </div>`;
   }).join('');
 
-  // Year selector
-  const yearsInData=new Set(allItems.map(it=>it.startDate?.slice(0,4)).filter(Boolean));
-  yearsInData.add(String(new Date().getFullYear()));
-  const yearList=[...yearsInData].map(Number).sort((a,b)=>b-a);
-  const yearOpts=yearList.map(y=>`<option value="${y}"${y===year?' selected':''}>${y}</option>`).join('');
-  const yearSel=`<select onchange="saveDiarioMeta('mejorYear',parseInt(this.value));renderDiario()" style="padding:.2rem .4rem;border-radius:8px;border:1.5px solid var(--p2);background:var(--p1);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.74rem;font-weight:600;cursor:pointer;outline:none;">${yearOpts}</select>`;
-
   div.innerHTML=`<div class="diario-card-title">⭐ Mejor del mes <span>toca un mes para elegir</span></div>
-    <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.65rem;"><span style="font-size:.72rem;color:var(--text3);">📅 Año:</span>${yearSel}</div>
     <div class="mes-grid">${cells}</div>`;
   return div;
 }
 
-
 function openMejorMesModal(monthKey){
   const prefs=loadDiarioPrefs();
+  const items=getReadItems();
+  const monthItems=items.filter(x=>x.finishDate&&x.finishDate.startsWith(monthKey));
   const [y,m]=monthKey.split('-');
   const mn=MES_NAMES[parseInt(m)-1];
   const current=prefs.bestMonth?.[monthKey];
-
-  // Recopilar todos los iniciados ese mes (cualquier estado)
-  const monthItems=[];
-  if(_diarioType!=='books'){
-    BOOKS.forEach(b=>{
-      const s=STATE[b.id];if(!s)return;
-      const sd=s.startDate||null;
-      if(sd&&sd.startsWith(monthKey))
-        monthItems.push({title:b.title||'',cover:_getCover('m'+b.id)||''});
-    });
-  }
-  if(_diarioType!=='manga'){
-    BOOKS_LIB.forEach(b=>{
-      const st=BOOKS_STATE[b.id];if(!st)return;
-      const sd=st.startDate||st.addedAt||null;
-      if(sd&&sd.startsWith(monthKey))
-        monthItems.push({title:b.title||'',cover:_getCover('b'+b.id)||''});
-    });
-  }
 
   const opts=monthItems.length
     ?monthItems.map(it=>`<div onclick="saveMejorMes('${monthKey}','${encodeURIComponent(JSON.stringify({title:it.title,cover:it.cover}))}',this)"
@@ -1880,11 +1587,10 @@ function openMejorMesModal(monthKey){
         ${it.cover?`<img src="${it.cover}" style="width:32px;height:44px;object-fit:cover;border-radius:4px;">`:`<div style="width:32px;height:44px;background:var(--border);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.9rem;">📖</div>`}
         <span style="font-size:.8rem;color:var(--text);">${it.title}</span>
       </div>`).join('')
-    :`<p style="font-size:.78rem;color:var(--text3);text-align:center;padding:.85rem 0;">Sin títulos iniciados en ${mn} ${y}</p>`;
+    :`<p style="font-size:.78rem;color:var(--text3);text-align:center;padding:.85rem 0;">Sin lecturas terminadas en ${mn} ${y}</p>`;
 
   showSimpleModal(`⭐ Mejor de ${mn} ${y}`,`<div style="max-height:55vh;overflow-y:auto;">${opts}</div><button onclick="saveMejorMes('${monthKey}','',null)" style="width:100%;margin-top:.5rem;padding:.4rem;border-radius:10px;border:1.5px solid var(--border);background:transparent;color:var(--text3);font-family:'DM Sans',sans-serif;font-size:.78rem;cursor:pointer;">✖ Quitar selección</button>`);
 }
-
 
 function saveMejorMes(monthKey,encoded){
   const prefs=loadDiarioPrefs();
@@ -1902,43 +1608,21 @@ function buildAbcCard(items){
   const yearNow=new Date().getFullYear();
   const abcYear=_abcYear||yearNow;
 
-  // Recopilar todos los items con startDate de cualquier estado
-  const allItems=[];
-  if(_diarioType!=='books'){
-    BOOKS.forEach(b=>{
-      const s=STATE[b.id];
-      if(!s)return;
-      const sd=s.startDate||null;
-      allItems.push({id:'m'+b.id,title:b.title||'',startDate:sd,type:'manga'});
-    });
-  }
-  if(_diarioType!=='manga'){
-    BOOKS_LIB.forEach(b=>{
-      const st=BOOKS_STATE[b.id];
-      if(!st)return;
-      // Para libros usamos addedAt como startDate si no hay startDate
-      const sd=st.startDate||st.addedAt||null;
-      allItems.push({id:'b'+b.id,title:b.title||'',startDate:sd,type:'books'});
-    });
-  }
-
-  const yearsInData=new Set(allItems.map(it=>it.startDate?.slice(0,4)).filter(Boolean));
+  const yearsInData=new Set(items.map(it=>it.finishDate?.slice(0,4)).filter(Boolean));
   yearsInData.add(String(yearNow));
   const yearList=[...yearsInData].map(Number).sort((a,b)=>b-a);
   if(!yearList.includes(abcYear))yearList.push(abcYear);
   yearList.sort((a,b)=>b-a);
 
-  const filtered=allItems.filter(it=>{
-    if(!it.startDate)return false;
-    return it.startDate.startsWith(String(abcYear));
+  const filtered=items.filter(it=>{
+    if(!it.finishDate)return false;
+    return it.finishDate.startsWith(String(abcYear));
   });
-
   const map={};
   filtered.forEach(it=>{
     const first=it.title.replace(/^(El |La |Los |Las |Un |Una |The )/i,'').toUpperCase()[0];
-    if(first&&/[A-ZÑ]/.test(first)&&!map[first])map[first]=it.title;
+    if(first&&!map[first])map[first]=it.title;
   });
-  const ALPHABET='ABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.split('');
   const cells=ALPHABET.map(l=>`<div class="abc-cell">
     <span class="abc-letter">${l}</span>
     <span class="abc-value${map[l]?'':' abc-empty'}">${map[l]||'—'}</span>
@@ -1948,99 +1632,10 @@ function buildAbcCard(items){
   const yearSelect=`<select onchange="setAbcYear(parseInt(this.value))" style="padding:.25rem .4rem;border-radius:8px;border:1.5px solid var(--p2);background:var(--p1);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;outline:none;">${yearOptions}</select>`;
 
   div.innerHTML=`<div class="diario-card-title">🔤 Abecedario literario <span>${Object.keys(map).length}/${ALPHABET.length}</span></div>
-    <div style="display:flex;gap:.5rem;margin-bottom:.6rem;align-items:center;"><span style="font-size:.74rem;color:var(--text3);">📅 Empezados en:</span>${yearSelect}</div>
+    <div style="display:flex;gap:.5rem;margin-bottom:.6rem;align-items:center;"><span style="font-size:.74rem;color:var(--text3);">📅 Año:</span>${yearSelect}</div>
     <div class="abc-grid">${cells}</div>`;
   return div;
 }
-
-function buildMangaByMonthCard(items){
-  const div=document.createElement('div');
-  div.className='diario-card';
-  const now=new Date();
-  const MES_NAMES_FULL=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-  const MES_NAMES_SHORT=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-
-  // Recopilar TODOS los items con startDate (cualquier estado)
-  const allItems=[];
-  if(_diarioType!=='books'){
-    BOOKS.forEach(b=>{
-      const s=STATE[b.id];if(!s)return;
-      const sd=s.startDate||null;
-      if(!sd)return;
-      allItems.push({id:'m'+b.id,title:b.title||'',cover:_getCover('m'+b.id)||'',startDate:sd,type:'manga',bookId:b.id});
-    });
-  }
-  if(_diarioType!=='manga'){
-    BOOKS_LIB.forEach(b=>{
-      const st=BOOKS_STATE[b.id];if(!st)return;
-      const sd=st.startDate||st.addedAt||null;
-      if(!sd)return;
-      allItems.push({id:'b'+b.id,title:b.title||'',cover:_getCover('b'+b.id)||'',startDate:sd,type:'books',bookId:b.id});
-    });
-  }
-
-  // Años disponibles
-  const yearsInData=new Set(allItems.map(it=>new Date(it.startDate).getFullYear()));
-  yearsInData.add(now.getFullYear());
-  const yearList=[...yearsInData].sort((a,b)=>b-a);
-
-  // Estado persistido: año y mes seleccionados
-  if(!window._mensualYear) window._mensualYear=now.getFullYear();
-  if(window._mensualMonth===undefined) window._mensualMonth=now.getMonth();
-  const selYear=window._mensualYear;
-  const selMonth=window._mensualMonth;
-
-  // Filtrar por año seleccionado y agrupar por mes
-  const byMonth=Array.from({length:12},()=>[]);
-  allItems.forEach(it=>{
-    const d=new Date(it.startDate);
-    if(d.getFullYear()!==selYear)return;
-    byMonth[d.getMonth()].push(it);
-  });
-
-  const totalYear=byMonth.reduce((a,m)=>a+m.length,0);
-
-  // Selector de año
-  const yearOpts=yearList.map(y=>`<option value="${y}"${y===selYear?' selected':''}>${y}</option>`).join('');
-  const yearSel=`<select onchange="window._mensualYear=parseInt(this.value);window._mensualMonth=0;renderDiario()" style="padding:.2rem .4rem;border-radius:8px;border:1.5px solid var(--p2);background:var(--p1);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.74rem;font-weight:600;cursor:pointer;outline:none;">${yearOpts}</select>`;
-
-  // Botones de mes (estilo pill)
-  const monthPills=MES_NAMES_SHORT.map((mn,mi)=>{
-    const cnt=byMonth[mi].length;
-    const isActive=mi===selMonth;
-    return `<button onclick="window._mensualMonth=${mi};renderDiario()" style="padding:.25rem .5rem;border-radius:20px;border:1.5px solid ${isActive?'var(--p3)':'var(--border)'};background:${isActive?'var(--p2)':'var(--card)'};color:${isActive?'var(--p4)':'var(--text3)'};font-family:'DM Sans',sans-serif;font-size:.65rem;font-weight:${isActive?'700':'400'};cursor:pointer;white-space:nowrap;position:relative;">${mn}${cnt?`<span style="position:absolute;top:-4px;right:-4px;background:var(--p3);color:#fff;border-radius:50%;width:14px;height:14px;font-size:.5rem;font-weight:700;display:flex;align-items:center;justify-content:center;line-height:1;">${cnt}</span>`:''}
-    </button>`;
-  }).join('');
-
-  // Portadas del mes seleccionado
-  const monthItems=byMonth[selMonth];
-  let coversHtml='';
-  if(!monthItems.length){
-    coversHtml=`<div style="text-align:center;padding:1.2rem;color:var(--text3);font-size:.8rem;font-style:italic;">Ningún título empezado en ${MES_NAMES_FULL[selMonth]} ${selYear}</div>`;
-  } else {
-    const cards=monthItems.map(it=>{
-      const clickFn=it.type==='manga'?`openDetailModal(${it.bookId})`:`openBookDetailModal(${it.bookId})`;
-      const coverEl=it.cover
-        ?`<img src="${it.cover}" style="width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:6px;border:1.5px solid var(--border);display:block;">`
-        :`<div style="width:100%;aspect-ratio:2/3;border-radius:6px;border:1.5px dashed var(--border);background:var(--p0);display:flex;align-items:center;justify-content:center;font-size:1.3rem;">${it.type==='manga'?'📚':'📖'}</div>`;
-      return `<div onclick="${clickFn}" style="cursor:pointer;display:flex;flex-direction:column;gap:.28rem;">
-        ${coverEl}
-        <span style="font-size:.58rem;color:var(--text2);text-align:center;line-height:1.2;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${it.title}</span>
-      </div>`;
-    }).join('');
-    coversHtml=`<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-top:.65rem;">${cards}</div>`;
-  }
-
-  div.innerHTML=`<div class="diario-card-title">📚 Iniciados por mes <span>${totalYear} en ${selYear}</span></div>
-    <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.6rem;">
-      <span style="font-size:.72rem;color:var(--text3);">📅</span>${yearSel}
-      <span style="font-size:.72rem;color:var(--text3);margin-left:.2rem;">${MES_NAMES_FULL[selMonth]}: <strong style="color:var(--p4);">${byMonth[selMonth].length}</strong></span>
-    </div>
-    <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.4rem;">${monthPills}</div>
-    ${coversHtml}`;
-  return div;
-}
-
 
 function getSpineColors(){
   const st=getComputedStyle(document.documentElement);
@@ -2347,21 +1942,21 @@ function downloadBingoImage(){
 
 function loadBooksLib(){try{return JSON.parse(localStorage.getItem('tbr-books-lib')||'null')||[];}catch{return[];}}
 function saveBooksLib(){localStorage.setItem('tbr-books-lib',JSON.stringify(BOOKS_LIB));}
-function defaultBookEntry(){return{status:'unread',rating:0,cry:0,laugh:0,spicy:0,favorite:false,hated:false,author:'',genre:'',saga:'',format:'fisico',pages:0,pagesRead:0,url:'',synopsis:'',priority:false,finishDate:null,addedAt:null,releaseDate:null};}
+function defaultBookEntry(){return{status:'unread',rating:0,cry:0,laugh:0,spicy:0,favorite:false,hated:false,author:'',genre:'',saga:'',format:'fisico',pages:0,pagesRead:0,url:'',cover:'',synopsis:'',priority:false,finishDate:null,addedAt:null,releaseDate:null};}
 function loadBooksState(){
-  try{
-    const s=JSON.parse(localStorage.getItem('tbr-books-state')||'{}');
-    const out={};
-    Object.keys(s).forEach(id=>{out[id]=Object.assign(defaultBookEntry(),s[id]);});
-    return out;
-  }catch{return{};}
+  try{const s=JSON.parse(localStorage.getItem('tbr-books-state')||'{}');const out={};Object.keys(s).forEach(id=>{out[id]=Object.assign(defaultBookEntry(),s[id]);});return out;}catch{return{};}
 }
 function saveBooksState(){
   try{
-    const slim={};
-    Object.keys(BOOKS_STATE).forEach(id=>{const s={...BOOKS_STATE[id]};delete s.cover;slim[id]=s;});
-    localStorage.setItem('tbr-books-state',JSON.stringify(slim));
-  }catch(e){showToast('⚠️ Sin espacio para guardar datos.');}
+    const slim = {};
+    Object.keys(BOOKS_STATE).forEach(id => {
+      slim[id] = Object.assign({}, BOOKS_STATE[id]);
+      delete slim[id].cover;
+    });
+    localStorage.setItem('tbr-books-state', JSON.stringify(slim));
+  } catch(e) {
+    showToast('⚠️ Sin espacio para datos. Libera espacio.');
+  }
 }
 let BOOKS_LIB=loadBooksLib();
 let BOOKS_STATE=loadBooksState();
@@ -2378,13 +1973,13 @@ function triggerCoverUpload(id,type,fromModal){
     reader.onload=e=>{
       const img=new Image();
       img.onload=()=>{
-        const maxW=200,maxH=300;let w=img.width,h=img.height;
+        const maxW=120,maxH=180;let w=img.width,h=img.height;
         if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}if(h>maxH){w=Math.round(w*maxH/h);h=maxH;}
         const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
         canvas.getContext('2d').drawImage(img,0,0,w,h);
-        const data=canvas.toDataURL('image/jpeg',.55);
-        if(type==='manga'){_setCover('m'+id,data);save();renderOneCard(id);if(fromModal)refreshDetailModal();}
-        else{_setCover('b'+id,data);saveBooksState();renderBooks();if(fromModal)openBookDetailModal(id);}
+        const data=canvas.toDataURL('image/jpeg',.5);
+        if(type==='manga'){STATE[id].cover=data;saveCover('m',id,data);save();renderOneCard(id);if(fromModal)refreshDetailModal();}
+        else{BOOKS_STATE[id].cover=data;saveCover('b',id,data);saveBooksState();renderBooks();if(fromModal)openBookDetailModal(id);}
         showToast('🖼️ Portada actualizada');
       };img.src=e.target.result;
     };reader.readAsDataURL(file);
@@ -2569,7 +2164,9 @@ function renderBooks(){
       <div class="card-actions">
         <button class="delete-btn" onclick="deleteBookDirect(${b.id})">🗑️</button>
       </div>
-      ${bCov?(()=>{const _bv=_getCover('b'+b.id);return _bv?`<img class="card-cover" src="${_bv}" alt="portada" title="Toca para cambiar portada" style="cursor:pointer;" onclick="event.stopPropagation();triggerCoverUpload(${b.id},'books')">`:`<div class="cover-placeholder" style="cursor:pointer;" onclick="event.stopPropagation();triggerCoverUpload(${b.id},'books')"><span>📖</span><p>Toca para añadir portada</p></div>`;})():''}
+      ${bCov?(st.cover
+        ?`<img class="card-cover" src="${st.cover}" alt="portada" title="Toca para cambiar portada" style="cursor:pointer;" onclick="event.stopPropagation();triggerCoverUpload(${b.id},'books')">`
+        :`<div class="cover-placeholder" style="cursor:pointer;" onclick="event.stopPropagation();triggerCoverUpload(${b.id},'books')"><span>📖</span><p>Toca para añadir portada</p></div>`):''}
       <div class="card-top" onclick="openBookDetailModal(${b.id})" style="cursor:pointer;">
         <span class="card-num">#${num}</span>
         <div style="flex:1;min-width:0;">
@@ -2601,7 +2198,10 @@ function renderBooks(){
 
       ${bR?buildRatingBlock(b.id,st,false):''}
       ${bR?favBtnsB:''}
-      ${bFd&&st.status==='read'&&st.finishDate?`<div style="font-size:.7rem;color:var(--text3);">✅ Terminado: <input type="date" value="${st.finishDate}" onchange="setBookFinishDate(${b.id},this.value)" style="border:none;background:transparent;color:var(--text3);font-size:.7rem;font-family:'DM Sans',sans-serif;cursor:pointer;"></div>`:''}
+      ${bFd&&(st.status==='read'||st.status==='reading'||st.status==='paused')?`<div style="display:flex;flex-direction:column;gap:.15rem;">
+          ${(st.status==='reading'||st.status==='read'||st.status==='paused')?`<div style="font-size:.7rem;color:var(--text3);display:flex;align-items:center;gap:.3rem;">📖 <input type="date" value="${_dateToInput(st.startDate)}" onchange="setBookStartDate(${b.id},this.value)" style="border:none;background:transparent;color:var(--text3);font-size:.7rem;font-family:'DM Sans',sans-serif;cursor:pointer;"></div>`:''}
+          ${st.status==='read'?`<div style="font-size:.7rem;color:var(--text3);display:flex;align-items:center;gap:.3rem;">✅ <input type="date" value="${_dateToInput(st.finishDate)}" onchange="setBookFinishDate(${b.id},this.value)" style="border:none;background:transparent;color:var(--text3);font-size:.7rem;font-family:'DM Sans',sans-serif;cursor:pointer;"></div>`:''}
+        </div>`:''}
       ${(()=>{
         if(!st.releaseDate)return '';
         const rd=new Date(st.releaseDate);rd.setHours(0,0,0,0);
@@ -2638,9 +2238,8 @@ function openBookDetailModal(id){
     (st.status==='reading'&&st.pagesRead)?['📖 Progreso',st.pages?`${st.pagesRead} / ${st.pages} págs (${Math.round(st.pagesRead/st.pages*100)}%)`:`${Math.min(100,st.pagesRead)}%`]:null,
   ].filter(Boolean);
 
-  const _bdc=_getCover('b'+id);
-  const cover=_bdc
-    ?`<img src="${_bdc}" style="width:100%;max-height:220px;object-fit:contain;border-radius:10px;margin-bottom:.85rem;cursor:pointer;" title="Toca para cambiar portada" onclick="triggerCoverUpload(${id},'books',true)">`
+  const cover=st.cover
+    ?`<img src="${st.cover}" style="width:100%;max-height:220px;object-fit:contain;border-radius:10px;margin-bottom:.85rem;cursor:pointer;" title="Toca para cambiar portada" onclick="triggerCoverUpload(${id},'books',true)">`
     :`<div style="width:100%;height:80px;display:flex;align-items:center;justify-content:center;background:var(--p1);border-radius:10px;font-size:1.2rem;gap:.5rem;color:var(--p4);cursor:pointer;margin-bottom:.85rem;" onclick="triggerCoverUpload(${id},'books',true)">📖 <span style="font-size:.8rem;">Toca para añadir portada</span></div>`;
 
   document.getElementById('bookDetailBody').innerHTML=`
@@ -2660,9 +2259,22 @@ function openBookDetailModal(id){
   document.getElementById('bookDetailOverlay').classList.add('open');
 }
 function closeBookDetailModal(){document.getElementById('bookDetailOverlay').classList.remove('open');}
-function setBookStatus(id,s){const st=BOOKS_STATE[id];if(!st)return;st.status=s;if(s==='read'){if(!st.finishDate)st.finishDate=new Date().toISOString().slice(0,10);st.pagesRead=st.pages||0;}else if(s==='unread'){st.pagesRead=0;st.finishDate=null;}saveBooksState();renderBooks();}
+function setBookStatus(id,s){
+  const st=BOOKS_STATE[id];if(!st)return;
+  st.status=s;
+  if(s==='reading'){
+    if(!st.startDate)st.startDate=new Date().toISOString();
+  }else if(s==='read'){
+    if(!st.startDate)st.startDate=new Date().toISOString();
+    if(!st.finishDate)st.finishDate=new Date().toISOString();
+    st.pagesRead=st.pages||0;
+  }else if(s==='unread'){
+    st.pagesRead=0;st.finishDate=null;st.startDate=null;
+  }
+  saveBooksState();renderBooks();
+}
 function setBookRating(id,n){if(!BOOKS_STATE[id])return;BOOKS_STATE[id].rating=BOOKS_STATE[id].rating===n?0:n;saveBooksState();renderBooks();}
-function setBookFinishDate(id,val){if(!BOOKS_STATE[id])return;BOOKS_STATE[id].finishDate=val;saveBooksState();}
+function setBookFinishDate(id,val){if(!BOOKS_STATE[id])return;BOOKS_STATE[id].finishDate=val?_parseDate(val):null;saveBooksState();}
 function setBookProgress(id,val,isPages){
   const st=BOOKS_STATE[id];if(!st)return;
   const n=parseInt(val)||0;
@@ -2693,7 +2305,7 @@ let _editBookCoverData=null;
 function handleBookCoverFile(input){
   const file=input.files[0];if(!file)return;
   const reader=new FileReader();
-  reader.onload=e=>{const img=new Image();img.onload=()=>{const maxW=200,maxH=300;let w=img.width,h=img.height;if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}if(h>maxH){w=Math.round(w*maxH/h);h=maxH;}const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;canvas.getContext('2d').drawImage(img,0,0,w,h);_editBookCoverData=canvas.toDataURL('image/jpeg',.55);showBookCoverPreview(_editBookCoverData);};img.src=e.target.result;};reader.readAsDataURL(file);
+  reader.onload=e=>{const img=new Image();img.onload=()=>{const maxW=120,maxH=180;let w=img.width,h=img.height;if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}if(h>maxH){w=Math.round(w*maxH/h);h=maxH;}const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;canvas.getContext('2d').drawImage(img,0,0,w,h);_editBookCoverData=canvas.toDataURL('image/jpeg',.5);showBookCoverPreview(_editBookCoverData);};img.src=e.target.result;};reader.readAsDataURL(file);
 }
 function previewBookCoverUrl(url){_editBookCoverData=url||null;showBookCoverPreview(url||null);}
 function showBookCoverPreview(src){const el=document.getElementById('editBookCoverPreview');el.innerHTML=src?`<img src="${src}" style="height:88px;border-radius:7px;object-fit:cover;border:1.5px solid var(--border);">`:'';}
@@ -2702,14 +2314,14 @@ function removeBookCover(){_editBookCoverData=null;document.getElementById('edit
 function openEditBookModal(id){
   const b=BOOKS_LIB.find(x=>x.id===id);const st=BOOKS_STATE[id];
   if(!b||!st)return;
-  _editBookCoverData=_getCover('b'+id)||null;
+  _editBookCoverData=st.cover||_covers['b'+id]||null;
   document.getElementById('editBookId').value=id;document.getElementById('editBTitle').value=b.title;
   document.getElementById('editBAuthor').value=st.author||'';document.getElementById('editBGenre').value=st.genre||'';
   document.getElementById('editBSaga').value=st.saga||'';document.getElementById('editBFormat').value=st.format||'fisico';
   document.getElementById('editBPages').value=st.pages||'';document.getElementById('editBUrl').value=st.url||'';
   document.getElementById('editBPriority').checked=b.priority||false;document.getElementById('editBTitleError').style.display='none';
-  document.getElementById('editBookCoverUrl').value='';
-  document.getElementById('editBookCoverFile').value='';showBookCoverPreview(_getCover('b'+id)||null);
+  document.getElementById('editBookCoverUrl').value=(st.cover&&!st.cover.startsWith('data:'))?st.cover:'';
+  document.getElementById('editBookCoverFile').value='';showBookCoverPreview(st.cover||null);
   document.getElementById('editBReleaseDate').value=st.releaseDate||'';
   document.getElementById('editBookOverlay').classList.add('open');setTimeout(()=>document.getElementById('editBTitle').focus(),300);
 }
@@ -2720,8 +2332,12 @@ function confirmEditBook(){
   if(!title){document.getElementById('editBTitleError').style.display='block';return;}
   const b=BOOKS_LIB.find(x=>x.id===id);b.title=title;b.priority=document.getElementById('editBPriority').checked;
   const rdVal=document.getElementById('editBReleaseDate').value;
-  Object.assign(BOOKS_STATE[id],{author:document.getElementById('editBAuthor').value.trim(),genre:document.getElementById('editBGenre').value.trim(),saga:document.getElementById('editBSaga').value.trim(),format:document.getElementById('editBFormat').value,pages:parseInt(document.getElementById('editBPages').value)||0,url:document.getElementById('editBUrl').value.trim(),releaseDate:rdVal||null});
-  if(_editBookCoverData!==null){_setCover('b'+id,_editBookCoverData||null);}
+  Object.assign(BOOKS_STATE[id],{author:document.getElementById('editBAuthor').value.trim(),genre:document.getElementById('editBGenre').value.trim(),saga:document.getElementById('editBSaga').value.trim(),format:document.getElementById('editBFormat').value,pages:parseInt(document.getElementById('editBPages').value)||0,url:document.getElementById('editBUrl').value.trim(),cover:_editBookCoverData||'',releaseDate:rdVal||null});
+  if(_editBookCoverData){
+    const _bid=Number(document.getElementById('editBookId').value);
+    BOOKS_STATE[_bid].cover=_editBookCoverData;
+    saveCover('b',_bid,_editBookCoverData);
+  }
   saveBooksLib();saveBooksState();closeEditBookModal();renderBooks();renderTodayBanner();showToast(`✨ "${title}" actualizado`);
 }
 function deleteBookEntry(){
@@ -2767,7 +2383,6 @@ function renderReadingCalendar(){
       <div class="cal-names-row">${DN.map(n=>`<div class="cal-day-name">${n}</div>`).join('')}</div>
       <div class="cal-days-row">${emptyCells}${daysCells}</div>
     </div>
-    <div style="height:1px;background:var(--border);margin:.6rem 0 .45rem;border-radius:2px;"></div>
     <div class="cal-streak">📅 ${readDays} día${readDays!==1?'s':''} leídos · 🔥 Racha: ${streak} día${streak!==1?'s':''}</div>`;
 }
 function toggleReadDay(key){const log=loadReadingLog();if(log[key])delete log[key];else log[key]=true;saveReadingLog(log);renderReadingCalendar();}
@@ -3080,7 +2695,7 @@ function generatePdf(){
         return wrapPage(`${hdr}<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:6px;">${cards}</div>`,'grid');
       }).join('');
     };
-    return buildBlock(mangaItems,b=>({...STATE[b.id],cover:_getCover('m'+b.id)||''}),'Manga')+buildBlock(bookItems,b=>({...BOOKS_STATE[b.id],cover:_getCover('b'+b.id)||''}),'Libros');
+    return buildBlock(mangaItems,b=>STATE[b.id],'Manga')+buildBlock(bookItems,b=>BOOKS_STATE[b.id],'Libros');
   };
 
   const buildReviewSection=()=>{
@@ -3129,7 +2744,7 @@ function generatePdf(){
         return wrapPage(inner,'review');
       }).join('');
     };
-    return buildBlock(mangaItems,b=>({...STATE[b.id],cover:_getCover('m'+b.id)||''}))+buildBlock(bookItems,b=>({...BOOKS_STATE[b.id],cover:_getCover('b'+b.id)||''}));
+    return buildBlock(mangaItems,b=>STATE[b.id])+buildBlock(bookItems,b=>BOOKS_STATE[b.id]);
   };
 
   const buildTrackerSection=()=>{
@@ -3399,7 +3014,7 @@ function _uploadLibDeco() {
         const canvas = document.createElement('canvas');
         canvas.width = w; canvas.height = h;
         canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        const data = canvas.toDataURL('image/jpeg', 0.60);
+        const data = canvas.toDataURL('image/jpeg', 0.85);
         // Guardar en memoria primero
         _libDecoImg = data;
         // Intentar guardar en localStorage
@@ -3434,21 +3049,32 @@ function renderLibreria() {
   const el = document.getElementById('libreriaShelf');
   if(!el) return;
 
-  let items = [];
+  let allItems = [];
   if(_libType !== 'books') {
     BOOKS.forEach(b => {
       const st = STATE[b.id] || {};
       if((st.status||'unread') !== 'read') return;
-      items.push({title:b.title||'?', cover:_getCover('m'+b.id)||'', favorite:!!st.favorite, type:'manga', id:b.id});
+      const refYear = st.startDate?new Date(st.startDate).getFullYear():st.finishDate?new Date(st.finishDate).getFullYear():null;
+      allItems.push({title:b.title||'?', cover:st.cover||'', favorite:!!st.favorite, type:'manga', id:b.id, year:refYear});
     });
   }
   if(_libType !== 'manga') {
     BOOKS_LIB.forEach(b => {
       const st = BOOKS_STATE[b.id] || {};
       if((st.status||'unread') !== 'read') return;
-      items.push({title:b.title||'?', cover:_getCover('b'+b.id)||'', favorite:!!st.favorite, type:'books', id:b.id});
+      const refYear = st.startDate?new Date(st.startDate).getFullYear():st.finishDate?new Date(st.finishDate).getFullYear():null;
+      allItems.push({title:b.title||'?', cover:st.cover||'', favorite:!!st.favorite, type:'books', id:b.id, year:refYear});
     });
   }
+
+  // Calcular años disponibles
+  const yearNow = new Date().getFullYear();
+  const yearsSet = new Set(allItems.map(it=>it.year||yearNow));
+  const yearList = [...yearsSet].sort((a,b)=>b-a);
+  if(!_libYear || !yearsSet.has(_libYear)) _libYear = yearNow;
+
+  // Filtrar por año seleccionado
+  const items = allItems.filter(it=>(it.year||yearNow)===_libYear);
 
   if(items.length === 0) {
     el.innerHTML = '<div class="lib-bookcase"><div class="lib-empty">📚 Aún no tienes títulos leídos</div></div>';
@@ -3519,7 +3145,12 @@ function renderLibreria() {
     `<button onclick="_setLibDecoStart('${s}')" style="padding:.2rem .5rem;border-radius:20px;border:1.5px solid ${_libDecoStart===s?'var(--p3)':'var(--border)'};background:${_libDecoStart===s?'var(--p2)':'transparent'};color:${_libDecoStart===s?'var(--p4)':'var(--text3)'};font-family:'DM Sans',sans-serif;font-size:.68rem;cursor:pointer;">${s==='left'?'← Izquierda':'Derecha →'}</button>`
   ).join('');
 
-  const toolbar = `<div style="display:flex;flex-direction:column;gap:.45rem;margin-bottom:.75rem;">
+  const yearSelect = yearList.length > 1 ? `<div style="display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;margin-bottom:.5rem;">
+    <span style="font-size:.72rem;color:var(--text3);">📅 Año:</span>
+    ${yearList.map(y=>`<button onclick="setLibYear(${y})" style="padding:.2rem .55rem;border-radius:20px;border:1.5px solid ${y===_libYear?'var(--p3)':'var(--border)'};background:${y===_libYear?'var(--p2)':'transparent'};color:${y===_libYear?'var(--p4)':'var(--text3)'};font-family:'DM Sans',sans-serif;font-size:.72rem;cursor:pointer;">${y}</button>`).join('')}
+  </div>` : '';
+
+  const toolbar = `<div style="display:flex;flex-direction:column;gap:.45rem;margin-bottom:.75rem;">${yearSelect}
     <div style="display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;">
       <span style="font-size:.72rem;color:var(--text3);">🖼️ Zona portada:</span>${posOptions}
     </div>
@@ -3568,18 +3199,173 @@ function applyTabVisibility(){
   if(switcher)switcher.style.display=(prefs['manga']===false&&prefs['books']===false)?'none':'';
 }
 
-function saveTabVisibility(){
-  const prefs={};
-  ['manga','books','libreria','stats','bingo','diario','custom','settings'].forEach(id=>{
-    const el=document.getElementById('tabtog-'+id);
-    if(el)prefs[id]=el.checked?true:false;
-  });
-  localStorage.setItem('tbr-tab-visibility',JSON.stringify(prefs));
-  applyTabVisibility();
+
+// ══════════════════════════════════════════════════════════════
+// SUPABASE AUTH + SYNC
+// ══════════════════════════════════════════════════════════════
+let _sbUser = null;
+
+// Inicializar sesión guardada
+async function _initAuth() {
+  try {
+    const { data } = await _SB.auth.getSession();
+    if (data.session) {
+      _sbUser = data.session.user;
+      _updateAuthUI();
+    }
+  } catch(e) {}
 }
 
-document.addEventListener('DOMContentLoaded',()=>{
+function openAuthModal() {
+  document.getElementById('authOverlay').style.display = 'flex';
+  document.getElementById('authError').style.display = 'none';
+  _updateAuthUI();
+}
 
+function closeAuthModal() {
+  document.getElementById('authOverlay').style.display = 'none';
+}
+
+function _updateAuthUI() {
+  const form = document.getElementById('authForm');
+  const actions = document.getElementById('authActions');
+  const info = document.getElementById('authUserInfo');
+  const btn = document.getElementById('cloudBtn');
+  if (_sbUser) {
+    form.style.display = 'none';
+    actions.style.display = 'flex';
+    info.style.display = 'block';
+    document.getElementById('authUserEmail').textContent = _sbUser.email;
+    if (btn) { btn.textContent = '☁️✅'; btn.title = 'Conectado: ' + _sbUser.email; }
+  } else {
+    form.style.display = 'block';
+    actions.style.display = 'none';
+    info.style.display = 'none';
+    if (btn) { btn.textContent = '☁️'; btn.title = 'Conectar con la nube'; }
+  }
+}
+
+function _showAuthError(msg) {
+  const el = document.getElementById('authError');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+async function authLogin() {
+  const email = document.getElementById('authEmail').value.trim();
+  const pass = document.getElementById('authPassword').value;
+  if (!email || !pass) return _showAuthError('Rellena email y contraseña');
+  try {
+    const { data, error } = await _SB.auth.signInWithPassword({ email, password: pass });
+    if (error) return _showAuthError(error.message);
+    _sbUser = data.user;
+    _updateAuthUI();
+    showToast('🌸 Sesión iniciada');
+  } catch(e) { _showAuthError('Error de conexión'); }
+}
+
+async function authSignup() {
+  const email = document.getElementById('authEmail').value.trim();
+  const pass = document.getElementById('authPassword').value;
+  if (!email || !pass) return _showAuthError('Rellena email y contraseña');
+  if (pass.length < 6) return _showAuthError('La contraseña debe tener al menos 6 caracteres');
+  try {
+    const { data, error } = await _SB.auth.signUp({ email, password: pass });
+    if (error) return _showAuthError(error.message);
+    _sbUser = data.user;
+    _updateAuthUI();
+    showToast('🌸 Cuenta creada. ¡Bienvenida!');
+  } catch(e) { _showAuthError('Error de conexión'); }
+}
+
+async function authLogout() {
+  await _SB.auth.signOut();
+  _sbUser = null;
+  _updateAuthUI();
+  showToast('👋 Sesión cerrada');
+}
+
+async function syncToCloud() {
+  if (!_sbUser) return showToast('⚠️ Inicia sesión primero');
+  showToast('☁️ Guardando en la nube…');
+  try {
+    // Recoger todos los datos
+    const covers = {};
+    Object.keys(_covers || {}).forEach(k => { covers[k] = _covers[k]; });
+
+    const payload = {
+      id: _sbUser.id,
+      books: BOOKS,
+      state: STATE,
+      books_lib: BOOKS_LIB,
+      books_state: BOOKS_STATE,
+      covers: covers,
+      reading_log: loadReadingLog(),
+      bingos: loadBingos(),
+      diario_prefs: loadDiarioPrefs(),
+      settings: {
+        palette: localStorage.getItem('tbr-palette') || 'rose',
+        dark: localStorage.getItem('tbr-manga-dark') || '0',
+        fieldPrefs: JSON.parse(localStorage.getItem('tbr-field-prefs') || '{}'),
+        bookFieldPrefs: JSON.parse(localStorage.getItem('tbr-book-field-prefs') || '{}'),
+        statsPrefs: JSON.parse(localStorage.getItem('tbr-stats-prefs') || '{}'),
+        ratingPrefs: JSON.parse(localStorage.getItem('tbr-rating-prefs') || '{}'),
+        bookView: localStorage.getItem('tbr-book-view') || '2',
+        tabOrder: loadTabOrder(),
+        tabVisibility: JSON.parse(localStorage.getItem('tbr-tab-visibility') || '{}'),
+        diarioSections: JSON.parse(localStorage.getItem('tbr-diario-sections') || '{}'),
+      },
+      updated_at: new Date().toISOString()
+    };
+
+    const { error } = await _SB.from('app_data').upsert(payload);
+    if (error) throw error;
+    showToast('✅ Datos guardados en la nube');
+  } catch(e) {
+    showToast('❌ Error al guardar: ' + (e.message || e));
+  }
+}
+
+async function syncFromCloud() {
+  if (!_sbUser) return showToast('⚠️ Inicia sesión primero');
+  if (!confirm('¿Restaurar datos desde la nube? Se reemplazarán los datos locales.')) return;
+  showToast('⬇️ Descargando desde la nube…');
+  try {
+    const { data, error } = await _SB.from('app_data').select('*').eq('id', _sbUser.id).single();
+    if (error || !data) return showToast('❌ No hay datos en la nube todavía');
+
+    // Restaurar datos
+    if (data.books) { BOOKS = data.books; saveBooks(); }
+    if (data.state) { Object.assign(STATE, data.state); save(); }
+    if (data.books_lib) { BOOKS_LIB = data.books_lib; saveBooksLib(); }
+    if (data.books_state) { Object.assign(BOOKS_STATE, data.books_state); saveBooksState(); }
+    if (data.covers) { _importCovers(data.covers); }
+    if (data.reading_log) saveReadingLog(data.reading_log);
+    if (data.bingos) saveBingos(data.bingos);
+    if (data.diario_prefs) saveDiarioPrefs(data.diario_prefs);
+    if (data.settings) {
+      const s = data.settings;
+      if (s.palette) localStorage.setItem('tbr-palette', s.palette);
+      if (s.dark !== undefined) localStorage.setItem('tbr-manga-dark', s.dark);
+      if (s.fieldPrefs) localStorage.setItem('tbr-field-prefs', JSON.stringify(s.fieldPrefs));
+      if (s.bookFieldPrefs) localStorage.setItem('tbr-book-field-prefs', JSON.stringify(s.bookFieldPrefs));
+      if (s.statsPrefs) localStorage.setItem('tbr-stats-prefs', JSON.stringify(s.statsPrefs));
+      if (s.ratingPrefs) localStorage.setItem('tbr-rating-prefs', JSON.stringify(s.ratingPrefs));
+      if (s.bookView) localStorage.setItem('tbr-book-view', s.bookView);
+      if (s.tabOrder) saveTabOrder(s.tabOrder);
+      if (s.tabVisibility) localStorage.setItem('tbr-tab-visibility', JSON.stringify(s.tabVisibility));
+      if (s.diarioSections) localStorage.setItem('tbr-diario-sections', JSON.stringify(s.diarioSections));
+    }
+    loadSavedPalette(); applyTheme(); applyTabOrder(); applyTabVisibility();
+    render(); renderBooks(); renderTodayBanner();
+    closeAuthModal();
+    showToast('✅ Datos restaurados desde la nube');
+  } catch(e) {
+    showToast('❌ Error al restaurar: ' + (e.message || e));
+  }
+}
+// ══════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded',()=>{
   try{
     const prefs=JSON.parse(localStorage.getItem('tbr-field-prefs')||'{}');
     let changed=false;
@@ -3594,14 +3380,22 @@ document.addEventListener('DOMContentLoaded',()=>{
   loadBookView();
   loadDiarioSectionToggles();
   loadRatingPrefsToggles();
-  render();
-  _loadCoversFromIDB();
-  // Sincronizar select de orden
-  const ss=document.getElementById('mangaSortSelect');
-  if(ss)ss.value=_mangaSort;
-  applyTabOrder();
-  applyTabVisibility();
-  renderTodayBanner();
+  // Cargar portadas desde IDB PRIMERO, luego renderizar
+  _initAuth();
+  _initCovers().then(() => {
+    render();
+    const ss=document.getElementById('mangaSortSelect');
+    if(ss)ss.value=_mangaSort;
+    applyTabOrder();
+    renderTodayBanner();
+  }).catch(() => {
+    // Si IDB falla, renderizar de todas formas
+    render();
+    const ss=document.getElementById('mangaSortSelect');
+    if(ss)ss.value=_mangaSort;
+    applyTabOrder();
+    renderTodayBanner();
+  });
   document.getElementById('pdfFilter').addEventListener('change',togglePdfRows);
 });
 
@@ -3632,7 +3426,8 @@ document.addEventListener('click',e=>{
           </div>
           <div class="header-right">
             <button class="hdr-today-btn" id="todayTabBtn" onclick="toggleTodayPanel()">📅 Hoy <span class="today-badge" id="todayCount">0</span></button>
-            <a href="https://ko-fi.com/Brabbit_03" target="_blank" rel="noopener" class="kofi-btn">☕ Ko-fi</a>
+            <button onclick="openAuthModal()" id="cloudBtn" style="padding:.3rem .65rem;border-radius:20px;border:1.5px solid var(--border);background:var(--card);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:.72rem;cursor:pointer;">☁️</button>
+          <a href="https://ko-fi.com/Brabbit_03" target="_blank" rel="noopener" class="kofi-btn">☕ Ko-fi</a>
           </div>
         </div>
       </div>
@@ -3652,7 +3447,8 @@ document.addEventListener('click',e=>{
           </div>
           <div class="header-right">
             <button class="hdr-today-btn" onclick="toggleTodayPanel()">📅 Hoy <span class="today-badge" id="todayCountBooks"></span></button>
-            <a href="https://ko-fi.com/Brabbit_03" target="_blank" rel="noopener" class="kofi-btn">☕ Ko-fi</a>
+            <button onclick="openAuthModal()" id="cloudBtn" style="padding:.3rem .65rem;border-radius:20px;border:1.5px solid var(--border);background:var(--card);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:.72rem;cursor:pointer;">☁️</button>
+          <a href="https://ko-fi.com/Brabbit_03" target="_blank" rel="noopener" class="kofi-btn">☕ Ko-fi</a>
           </div>
         </div>
       </div>
@@ -3877,7 +3673,7 @@ document.addEventListener('click',e=>{
         </div>
       </div>
 
-      <div style="display:flex;flex-direction:column;gap:.85rem;margin-top:.85rem;" id="diarioContent"></div>
+      <div style="display:flex;flex-direction:column;gap:.85rem;" id="diarioContent"></div>
     </div>
   </div>
 
@@ -3973,7 +3769,6 @@ document.addEventListener('click',e=>{
         <h3 class="stat-section-title">📝 Secciones del Diario</h3>
         <p style="font-size:.76rem;color:var(--text3);margin-bottom:.75rem;">Elige qué secciones se muestran en tu diario</p>
         <div style="display:flex;flex-direction:column;gap:.45rem;">
-          <label class="toggle-row"><input type="checkbox" id="dtog-mensual" checked onchange="saveDiarioSectionPrefs()"> 📊 Leídos por mes</label>
           <label class="toggle-row"><input type="checkbox" id="dtog-tracker" checked onchange="saveDiarioSectionPrefs()"> 📅 Tracker de Lectura Diaria</label>
           <label class="toggle-row"><input type="checkbox" id="dtog-reto" checked onchange="saveDiarioSectionPrefs()"> 🎯 Reto de lectura</label>
           <label class="toggle-row"><input type="checkbox" id="dtog-mejor" checked onchange="saveDiarioSectionPrefs()"> ⭐ Mejor del mes</label>
@@ -4075,44 +3870,6 @@ document.addEventListener('click',e=>{
         <h3 style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--p4);margin-bottom:.35rem;">🌸 Exportar Journal</h3>
         <p style="font-size:.8rem;color:var(--text3);margin-bottom:.9rem;">Genera un journal kawaii con tu historial de lecturas, tracker y estadísticas.</p>
         <button onclick="openPdfModal()" style="width:100%;padding:.6rem;border-radius:11px;border:1.5px solid #fecaca;background:#fff5f5;color:#dc2626;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;">🌸 Crear Journal PDF</button>
-      </div>
-      <div style="background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:1.3rem;">
-        <h3 style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--p4);margin-bottom:.35rem;">📺 Importar desde MyAnimeList</h3>
-        <p style="font-size:.8rem;color:var(--text3);margin-bottom:.85rem;">Dos formas de importar tu lista de MyAnimeList.</p>
-
-        <!-- Opción 1: Por nombre de usuario -->
-        <div style="background:var(--p0);border-radius:12px;padding:.85rem;margin-bottom:.75rem;border:1.5px solid var(--border);">
-          <div style="font-size:.8rem;font-weight:600;color:var(--p4);margin-bottom:.5rem;">🔍 Opción 1 — Por nombre de usuario</div>
-          <p style="font-size:.74rem;color:var(--text3);margin-bottom:.6rem;">Tu lista debe ser <strong>pública</strong> en MAL. Usa la API de Jikan.</p>
-          <div style="display:flex;gap:.5rem;">
-            <input type="text" id="malUsername" placeholder="Tu usuario de MAL…"
-              style="flex:1;padding:.45rem .75rem;border:1.5px solid var(--border);border-radius:10px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none;"
-              onfocus="this.style.borderColor='var(--p3)'" onblur="this.style.borderColor='var(--border)'"
-              onkeydown="if(event.key==='Enter')fetchMALList()">
-            <button onclick="fetchMALList()" id="malFetchBtn"
-              style="padding:.45rem .9rem;border-radius:10px;border:none;background:linear-gradient(135deg,var(--p3),var(--p4));color:#fff;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;cursor:pointer;white-space:nowrap;">
-              🔍 Buscar
-            </button>
-          </div>
-          <div id="malStatus" style="font-size:.74rem;color:var(--text3);min-height:1rem;margin-top:.35rem;"></div>
-          <div id="malPreview"></div>
-        </div>
-
-        <!-- Opción 2: Subir XML -->
-        <div style="background:var(--p0);border-radius:12px;padding:.85rem;border:1.5px solid var(--border);">
-          <div style="font-size:.8rem;font-weight:600;color:var(--p4);margin-bottom:.5rem;">📁 Opción 2 — Subir archivo XML</div>
-          <div style="font-size:.73rem;color:var(--text3);line-height:1.65;margin-bottom:.6rem;">
-            1. Ve a <em>myanimelist.net/panel.php?go=export</em><br>
-            2. Click en <em>"Export My Anime List"</em><br>
-            3. Descomprime el .gz y sube el .xml aquí
-          </div>
-          <label style="display:flex;align-items:center;justify-content:center;gap:.4rem;width:100%;padding:.5rem;border-radius:10px;border:1.5px dashed var(--p2);background:var(--card);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;box-sizing:border-box;">
-            📁 Seleccionar archivo .xml o .xml.gz
-            <input type="file" id="animeListFile" accept=".xml,.gz,.xml.gz" style="display:none" onchange="parseAnimeListXML(this)">
-          </label>
-          <div id="animeListPreview" style="margin-top:.5rem;"></div>
-          <button id="animeListConfirmBtn" onclick="confirmAnimeListImport()" style="display:none;width:100%;margin-top:.5rem;padding:.5rem;border-radius:10px;border:none;background:linear-gradient(135deg,var(--p3),var(--p4));color:#fff;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;">✨ Importar desde XML</button>
-        </div>
       </div>
       <div style="background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:1.3rem;">
         <h3 style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--p4);margin-bottom:.35rem;">📋 Importar lista en masa</h3>
@@ -4256,20 +4013,6 @@ document.addEventListener('click',e=>{
     <div class="add-field">
       <label>📖 Capítulos totales <span style="font-size:.7rem;color:var(--text3);">(0 = desconocido)</span></label>
       <input type="number" id="editChapTotal" min="0" placeholder="0" style="width:100%;padding:.5rem .8rem;border:1.5px solid var(--border);border-radius:11px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;">
-    </div>
-    <div class="add-field" style="border-top:1px solid var(--border);padding-top:.75rem;">
-      <label>☕ Micro-descanso por capítulos <span style="font-size:.7rem;color:var(--text3);">(ej: cada 3 caps, descansa 1)</span></label>
-      <p style="font-size:.72rem;color:var(--text3);margin:.15rem 0 .55rem;">Deja en 0 para desactivar.</p>
-      <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;">
-        <span style="font-size:.8rem;color:var(--text2);">Cada</span>
-        <input type="number" id="editChapRestEvery" min="0" max="200" value="0"
-          style="width:52px;padding:.3rem .45rem;border:1.5px solid var(--border);border-radius:8px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.82rem;text-align:center;outline:none;">
-        <span style="font-size:.8rem;color:var(--text2);">caps. leídos, descansa</span>
-        <input type="number" id="editChapRestSkip" min="0" max="50" value="0"
-          style="width:52px;padding:.3rem .45rem;border:1.5px solid var(--border);border-radius:8px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.82rem;text-align:center;outline:none;">
-        <span style="font-size:.8rem;color:var(--text2);">cap(s).</span>
-      </div>
-    </div>
     </div>
     <div class="add-field">
       <label>📝 Sinopsis personal <span style="font-size:.7rem;color:var(--text3);">(tu descripción)</span></label>
@@ -4484,28 +4227,41 @@ document.addEventListener('click',e=>{
     </div>
   </d
 
-<div class="add-overlay" id="animeListOverlay" onclick="closeAnimeListOnOverlay(event)">
-  <div class="add-modal" style="max-height:90vh;overflow-y:auto;width:min(440px,96vw);">
-    <h2>📺 Importar MyAnimeList</h2>
-    <p style="font-size:.78rem;color:var(--text3);margin-bottom:1rem;">Sube el archivo XML exportado desde myanimelist.net. Se importarán todos tus animes como manga, respetando estado, capítulos y puntuación.</p>
-    <div style="background:var(--p0);border-radius:10px;padding:.65rem .8rem;margin-bottom:.85rem;font-size:.75rem;color:var(--text3);line-height:1.65;">
-      <strong style="color:var(--p4);display:block;margin-bottom:.2rem;">¿Cómo exportar?</strong>
-      1. Ve a <em>myanimelist.net/panel.php?go=export</em><br>
-      2. Haz clic en <em>"Export My Anime List"</em><br>
-      3. Descarga el .gz, descomprímelo y sube el .xml aquí
+
+<!-- Modal de cuenta Supabase -->
+<div id="authOverlay" style="display:none;position:fixed;inset:0;z-index:900;background:rgba(74,30,48,.55);align-items:center;justify-content:center;">
+  <div style="background:var(--card);border-radius:22px;padding:1.8rem;width:min(380px,94vw);box-shadow:0 8px 32px rgba(0,0,0,.2);">
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--p4);margin:0 0 .3rem;">🌸 Cuenta Hanami Reads</h2>
+    <p style="font-size:.76rem;color:var(--text3);margin:0 0 1.1rem;">Sincroniza tus datos en la nube</p>
+
+    <div id="authUserInfo" style="display:none;margin-bottom:1rem;padding:.75rem;background:var(--p1);border-radius:12px;border:1.5px solid var(--border);">
+      <p style="font-size:.8rem;color:var(--text2);margin:0 0 .3rem;">Conectado como:</p>
+      <p id="authUserEmail" style="font-size:.85rem;font-weight:600;color:var(--p4);margin:0;"></p>
     </div>
-    <div class="add-field">
-      <label>Archivo XML de MyAnimeList</label>
-      <label style="display:flex;align-items:center;gap:.5rem;padding:.55rem .8rem;border:1.5px dashed var(--p2);border-radius:11px;background:var(--p0);cursor:pointer;font-size:.82rem;color:var(--p4);font-family:'DM Sans',sans-serif;">
-        📁 Seleccionar archivo .xml
-        <input type="file" id="animeListFile" accept=".xml" style="display:none" onchange="parseAnimeListXML(this)">
-      </label>
+
+    <div id="authForm">
+      <div style="margin-bottom:.75rem;">
+        <label style="font-size:.72rem;color:var(--text3);display:block;margin-bottom:.28rem;">Email</label>
+        <input type="email" id="authEmail" placeholder="tu@email.com" style="width:100%;padding:.5rem .8rem;border:1.5px solid var(--border);border-radius:11px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;box-sizing:border-box;">
+      </div>
+      <div style="margin-bottom:1rem;">
+        <label style="font-size:.72rem;color:var(--text3);display:block;margin-bottom:.28rem;">Contraseña</label>
+        <input type="password" id="authPassword" placeholder="••••••••" style="width:100%;padding:.5rem .8rem;border:1.5px solid var(--border);border-radius:11px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;box-sizing:border-box;">
+      </div>
+      <p id="authError" style="font-size:.74rem;color:#dc2626;margin:-.5rem 0 .75rem;display:none;"></p>
+      <div style="display:flex;gap:.5rem;margin-bottom:.75rem;">
+        <button onclick="authLogin()" style="flex:1;padding:.55rem;border-radius:11px;border:none;background:linear-gradient(135deg,var(--p3),var(--p4));color:#fff;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;">Entrar</button>
+        <button onclick="authSignup()" style="flex:1;padding:.55rem;border-radius:11px;border:1.5px solid var(--p3);background:transparent;color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.82rem;cursor:pointer;">Registrarse</button>
+      </div>
     </div>
-    <div id="animeListPreview"></div>
-    <div class="add-actions">
-      <button class="add-cancel" onclick="closeAnimeListModal()">Cancelar</button>
-      <button class="add-confirm" id="animeListConfirmBtn" onclick="confirmAnimeListImport()" style="display:none;">✨ Importar títulos</button>
+
+    <div id="authActions" style="display:none;flex-direction:column;gap:.5rem;">
+      <button onclick="syncToCloud()" style="width:100%;padding:.55rem;border-radius:11px;border:none;background:linear-gradient(135deg,var(--p3),var(--p4));color:#fff;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;">☁️ Guardar en la nube</button>
+      <button onclick="syncFromCloud()" style="width:100%;padding:.55rem;border-radius:11px;border:1.5px solid var(--p3);background:var(--p1);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.82rem;cursor:pointer;">⬇️ Restaurar desde la nube</button>
+      <button onclick="authLogout()" style="width:100%;padding:.45rem;border-radius:11px;border:1.5px solid var(--border);background:transparent;color:var(--text3);font-family:'DM Sans',sans-serif;font-size:.78rem;cursor:pointer;">Cerrar sesión</button>
     </div>
+
+    <button onclick="closeAuthModal()" style="width:100%;padding:.4rem;margin-top:.5rem;border-radius:11px;border:1.5px solid var(--border);background:transparent;color:var(--text3);font-family:'DM Sans',sans-serif;font-size:.78rem;cursor:pointer;">Cerrar</button>
   </div>
 </div>
 
