@@ -19,6 +19,7 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <title>🌸 Hanami Reads</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 
 :root{--p0:#fff5f7;--p1:#ffe4ec;--p2:#ffc2d4;--p3:#ff8fab;--p4:#e05f85;--p5:#a0395a;--text:#4a1e30;--text2:#8a4a60;--text3:#b88090;--card:#ffffff;--bg:#fff5f7;--border:#f5d0db;--shadow:rgba(255,194,212,0.3);--toolbar-bg:#ffffffee;--input-bg:#ffffff;--modal-bg:#ffffff;--progress-track:#fde8ed;}[data-theme="dark"]{--p0:#1a0d12;--p1:#2d1520;--p2:#5a2a3a;--p3:#c06080;--p4:#e07090;--p5:#f0a0b8;--text:#f5d0db;--text2:#d4909f;--text3:#906070;--card:#261218;--bg:#1a0d12;--border:#3d1f28;--shadow:rgba(0,0,0,0.4);--toolbar-bg:#1a0d12ee;--input-bg:#261218;--modal-bg:#261218;--progress-track:#3d1f28;}*{margin:0;padding:0;box-sizing:border-box;}html{-webkit-text-size-adjust:100%;}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s;-webkit-tap-highlight-color:transparent;overscroll-behavior:none;}body::before{content:'';position:absolute;top:0;left:0;right:0;height:300px;background:linear-gradient(180deg,var(--p1) 0%,transparent 100%);pointer-events:none;z-index:0;transition:background .3s;}.wrap{max-width:1400px;margin:0 auto;padding:1.2rem 1rem 5rem;position:relative;z-index:1;overflow-x:hidden;}header{text-align:center;margin-bottom:1rem;padding:0;background:var(--p1);border-radius:18px;border:1.5px solid var(--border);box-shadow:0 4px 16px var(--shadow);animation:fadeUp .4s ease both;overflow:hidden;}.header-sticky{position:sticky;top:0;z-index:100;background:var(--p1);border-bottom:1px solid var(--border);padding:.65rem 1rem;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}.header-body{padding:.5rem 1rem .85rem;}#mangaHeaderBody[style*="none"]{padding:0;}header h1{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;color:var(--text);margin:0;}header .sub{font-size:.7rem;color:var(--text3);font-style:italic;}.header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;}.header-center{display:flex;flex-direction:column;align-items:center;gap:.1rem;}.theme-toggle{width:34px;height:34px;border-radius:50%;flex-shrink:0;border:1.5px solid var(--border);background:var(--card);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:transform .2s;}.theme-toggle:hover{transform:rotate(20deg) scale(1.1);}.kofi-btn{display:flex;align-items:center;gap:.3rem;padding:.3rem .65rem;border-radius:40px;border:1.5px solid var(--border);background:var(--card);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:500;cursor:pointer;text-decoration:none;flex-shrink:0;transition:border-color .2s,color .2s;}.kofi-btn:hover{border-color:var(--p3);color:var(--p4);}.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:.32rem;flex-shrink:0;}.hdr-today-btn{display:flex;align-items:center;gap:.35rem;padding:.3rem .65rem;border-radius:40px;border:1.5px solid var(--p2);background:var(--p1);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:500;cursor:pointer;transition:background .15s,border-color .15s;white-space:nowrap;flex-shrink:0;}.hdr-today-btn:hover{background:var(--p2);}.hdr-today-btn.has-updates{background:var(--p3);border-color:var(--p4);color:#fff;}.hdr-today-btn.has-updates .today-badge{background:rgba(255,255,255,.9);color:var(--p4);}.today-badge{background:#fff;color:var(--p4);border-radius:20px;font-size:.65rem;font-weight:700;padding:.02rem .38rem;min-width:18px;text-align:center;}.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:.75rem 0 .7rem;}.books-hdr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:.75rem 0 .7rem;}.stat-pill{background:var(--p0);border:1.5px solid var(--border);border-radius:14px;padding:.7rem .5rem .6rem;font-size:.7rem;color:var(--text2);display:flex;flex-direction:column;align-items:center;gap:.2rem;cursor:pointer;user-select:none;transition:border-color .15s,background .15s;min-width:0;}
@@ -138,8 +139,6 @@
 
 
 
-.lib-deco-spot{cursor:pointer;transition:transform .15s;}
-.lib-deco-spot:hover{transform:scale(1.1);}
 </style>
 <script>
 var currentTab='manga';
@@ -235,6 +234,30 @@ const EMISSIONS=[
 const WEEK_DAYS=['Lu','Ma','Mi','Ju','Vi','Sá','Do'];
 const MONTH_DATES=Array.from({length:31},(_,i)=>i+1);
 
+// ── Helpers de fecha (evitan el bug de zona horaria UTC) ──────────────────────
+// <input type="date"> da "YYYY-MM-DD"; new Date(str) lo interpreta como UTC,
+// lo que al mostrarlo en zonas detrás de UTC retrocede un día. Estos helpers
+// siempre construyen/leen la fecha usando componentes LOCALES.
+function parseLocalDate(dateStr){
+  if(!dateStr) return null;
+  const parts=String(dateStr).split('-');
+  if(parts.length<3) return null;
+  const y=parseInt(parts[0]),m=parseInt(parts[1]),d=parseInt(parts[2]);
+  if(!y||!m||!d) return null;
+  return new Date(y,m-1,d);
+}
+function dateInputValue(dateLike){
+  if(!dateLike) return '';
+  // Si ya es un string "YYYY-MM-DD" (sin hora), devolverlo directo — evita re-parsear como UTC
+  if(typeof dateLike==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(dateLike)) return dateLike;
+  const d=new Date(dateLike);
+  if(isNaN(d.getTime())) return '';
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,'0');
+  const day=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+
 function defaultEntry(){return{status:'unread',rating:0,cry:0,laugh:0,spicy:0,favorite:false,hated:false,chapCur:0,chapTotal:0,extraCur:0,extraTotal:0,emission:'',freq:'week',updateDays:[],type:'manhwa',url:'',author:'',genre:'',synopsis:'',sinopsis:'',scheduleLocked:false,finishDate:null,hiatusReturn:null,restActive:0,restPause:0,restStart:null,chapRestEvery:0,chapRestSkip:0};}
 function loadState(){
   try{
@@ -264,6 +287,7 @@ function toggleTheme(){
 function save(){
   try{localStorage.setItem('tbr-manga-v5',JSON.stringify(STATE));}
   catch(e){showToast('⚠️ Sin espacio. Considera eliminar algunas portadas.');}
+  if(typeof scheduleSyncToSupabase==='function') scheduleSyncToSupabase();
 }
 
 const NOW=new Date();
@@ -332,8 +356,8 @@ function renderTodayBanner(){
   const releases=BOOKS_LIB.filter(b=>{
     const st=BOOKS_STATE[b.id];
     if(!st.releaseDate)return false;
-    const rd=new Date(st.releaseDate);rd.setHours(0,0,0,0);
-    return rd<=todayDate&&!dismissed.includes(`rel-${b.id}`);
+    const rd=parseLocalDate(st.releaseDate);if(rd)rd.setHours(0,0,0,0);
+    return rd&&rd<=todayDate&&!dismissed.includes(`rel-${b.id}`);
   });
 
   const existingPending=getPendingUpdates();
@@ -373,8 +397,8 @@ function renderTodayBanner(){
 
   const makeReleaseItem=(b)=>{
     const st=BOOKS_STATE[b.id];
-    const rd=new Date(st.releaseDate);
-    const isToday=rd.toDateString()===new Date().toDateString();
+    const rd=parseLocalDate(st.releaseDate);
+    const isToday=rd&&rd.toDateString()===new Date().toDateString();
     const label=isToday?'🎉 ¡Sale hoy!':`📦 Salió el ${rd.toLocaleDateString('es-ES',{day:'numeric',month:'short'})}`;
     return `<div class="today-item">
       <span class="today-dot" style="background:#34d399;"></span>
@@ -633,7 +657,7 @@ function buildCardHTML(b,i){
         ?`<div style="font-size:.68rem;background:#fef3c7;color:#92400e;border-radius:6px;padding:.18rem .5rem;display:inline-block;">😴 Pausa · retoma en ${daysLeft}d</div>`
         :`<div style="font-size:.68rem;color:var(--text3);">🔄 Ciclo activo · pausa en ${daysLeft}d</div>`;
     })()}
-      ${sE?`<div class="emission-section"><div class="card-divider"></div><div class="section-title">Emisión</div><div class="emission-row">${emitBtns}</div>${st.emission==='hiatus'?`<div style="display:flex;align-items:center;gap:.4rem;margin-top:.4rem;flex-wrap:wrap;"><span style="font-size:.7rem;color:var(--text3);">⏰ Regresa el</span><input type="date" value="${st.hiatusReturn?new Date(st.hiatusReturn).toISOString().slice(0,10):''}" onchange="STATE[${b.id}].hiatusReturn=this.value?new Date(this.value).getTime():null;save();renderOneCard(${b.id})" style="font-size:.7rem;border:1px solid var(--border);border-radius:7px;padding:.15rem .45rem;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;">${st.hiatusReturn?`<span style="font-size:.68rem;color:var(--p4);">${new Date(st.hiatusReturn).toLocaleDateString('es-ES',{day:'numeric',month:'short',year:'numeric'})}</span>`:''}</div>`:''}</div>`:''}
+      ${sE?`<div class="emission-section"><div class="card-divider"></div><div class="section-title">Emisión</div><div class="emission-row">${emitBtns}</div>${st.emission==='hiatus'?`<div style="display:flex;align-items:center;gap:.4rem;margin-top:.4rem;flex-wrap:wrap;"><span style="font-size:.7rem;color:var(--text3);">⏰ Regresa el</span><input type="date" value="${st.hiatusReturn?dateInputValue(st.hiatusReturn):''}" onchange="STATE[${b.id}].hiatusReturn=this.value?parseLocalDate(this.value).getTime():null;save();renderOneCard(${b.id})" style="font-size:.7rem;border:1px solid var(--border);border-radius:7px;padding:.15rem .45rem;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;">${st.hiatusReturn?`<span style="font-size:.68rem;color:var(--p4);">${new Date(st.hiatusReturn).toLocaleDateString('es-ES',{day:'numeric',month:'short',year:'numeric'})}</span>`:''}</div>`:''}</div>`:''}
     ${scheduleHtml}
     <div class="card-expandable">
       ${chapHtml}
@@ -648,7 +672,7 @@ function buildCardHTML(b,i){
         ${st.synopsis?`<p>${st.synopsis}</p>`:`<p style="font-size:.73rem;color:var(--text3);font-style:italic;">Sin reseña aún</p>`}
         <div style="display:flex;align-items:center;gap:.45rem;margin-top:.35rem;flex-wrap:wrap;">
           <span style="font-size:.66rem;color:var(--text3);">📅 Terminado el</span>
-          <input type="date" value="${st.finishDate?new Date(st.finishDate).toISOString().slice(0,10):''}"
+          <input type="date" value="${st.finishDate?dateInputValue(st.finishDate):''}"
             onchange="setFinishDate(${b.id},this.value)"
             style="font-size:.68rem;border:1px solid var(--border);border-radius:7px;padding:.15rem .45rem;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;">
         </div>
@@ -868,7 +892,7 @@ function buildRatingBlock(id,st,isManga){
   return `<div class="stars-section"><div class="card-divider"></div><div class="stars-label">Puntuación</div><div class="emo-row">${rows}</div></div>`;
 }
 
-function setFinishDate(id,val){if(!STATE[id])return;STATE[id].finishDate=val?new Date(val).toISOString():null;save();}
+function setFinishDate(id,val){if(!STATE[id])return;STATE[id].finishDate=val?parseLocalDate(val).toISOString():null;save();}
 function setEmission(id,val){if(!STATE[id])return;STATE[id].emission=STATE[id].emission===val?'':val;save();renderTodayBanner();renderOneCard(id);}
 function setFreq(id,val){if(!STATE[id])return;STATE[id].freq=val;STATE[id].updateDays=[];save();renderOneCard(id);}
 function lockSchedule(id){if(!STATE[id])return;STATE[id].scheduleLocked=true;save();renderOneCard(id);}
@@ -1106,7 +1130,7 @@ function openEditModal(id){
   document.getElementById('editPriority').checked=book.priority||false;
   document.getElementById('editRestActive').value=st.restActive||0;
   document.getElementById('editRestPause').value=st.restPause||0;
-  document.getElementById('editRestStart').value=st.restStart?new Date(st.restStart).toISOString().slice(0,10):'';
+  document.getElementById('editRestStart').value=st.restStart?dateInputValue(st.restStart):'';
   // Campos adicionales
   const chapEl=document.getElementById('editChapTotal');if(chapEl)chapEl.value=st.chapTotal||'';
   const crEvEl=document.getElementById('editChapRestEvery');if(crEvEl)crEvEl.value=st.chapRestEvery||0;
@@ -1114,9 +1138,9 @@ function openEditModal(id){
   const sinEl=document.getElementById('editSinopsis');if(sinEl)sinEl.value=st.sinopsis||'';
   const stEl=document.getElementById('editStatus');if(stEl)stEl.value=st.status||'unread';
   const emEl=document.getElementById('editEmission');if(emEl)emEl.value=st.emission||'';
-  const sdEl=document.getElementById('editStartDate');if(sdEl)sdEl.value=st.startDate?new Date(st.startDate).toISOString().slice(0,10):'';
-  const fdEl=document.getElementById('editFinishDate');if(fdEl)fdEl.value=st.finishDate?new Date(st.finishDate).toISOString().slice(0,10):'';
-  const hrEl=document.getElementById('editHiatusReturn');if(hrEl)hrEl.value=st.hiatusReturn?new Date(st.hiatusReturn).toISOString().slice(0,10):'';
+  const sdEl=document.getElementById('editStartDate');if(sdEl)sdEl.value=st.startDate?dateInputValue(st.startDate):'';
+  const fdEl=document.getElementById('editFinishDate');if(fdEl)fdEl.value=st.finishDate?dateInputValue(st.finishDate):'';
+  const hrEl=document.getElementById('editHiatusReturn');if(hrEl)hrEl.value=st.hiatusReturn?dateInputValue(st.hiatusReturn):'';
   const fdRow=document.getElementById('editFinishDateRow');if(fdRow)fdRow.style.display=(st.status==='read')?'block':'none';
   const hRow=document.getElementById('editHiatusRow');if(hRow)hRow.style.display=(st.emission==='hiatus')?'block':'none';
   // Listeners dinámicos
@@ -1138,7 +1162,7 @@ function updateRestPreview(){
   if(!el)return;
   if(!active||!pause){el.textContent='';return;}
   if(!startVal){el.textContent='⚠️ Indica la fecha de inicio del ciclo';return;}
-  const start=new Date(startVal);start.setHours(0,0,0,0);
+  const start=parseLocalDate(startVal);start.setHours(0,0,0,0);
   const today=new Date();today.setHours(0,0,0,0);
   const diffDays=Math.floor((today-start)/(1000*60*60*24));
   if(diffDays<0){el.textContent='⚠️ La fecha de inicio es en el futuro';return;}
@@ -1167,7 +1191,7 @@ function confirmEdit(){
   STATE[id].restActive=parseInt(document.getElementById('editRestActive').value)||0;
   STATE[id].restPause=parseInt(document.getElementById('editRestPause').value)||0;
   const rsVal=document.getElementById('editRestStart').value;
-  STATE[id].restStart=rsVal?new Date(rsVal).getTime():null;
+  STATE[id].restStart=rsVal?parseLocalDate(rsVal).getTime():null;
   // Campos adicionales
   const ct=document.getElementById('editChapTotal');if(ct)STATE[id].chapTotal=parseInt(ct.value)||0;
   const crEv=document.getElementById('editChapRestEvery');if(crEv)STATE[id].chapRestEvery=parseInt(crEv.value)||0;
@@ -1175,9 +1199,9 @@ function confirmEdit(){
   const sn=document.getElementById('editSinopsis');if(sn)STATE[id].sinopsis=sn.value.trim();
   const stEl=document.getElementById('editStatus');if(stEl)STATE[id].status=stEl.value;
   const em=document.getElementById('editEmission');if(em)STATE[id].emission=em.value;
-  const sd=document.getElementById('editStartDate');if(sd)STATE[id].startDate=sd.value?new Date(sd.value).toISOString():null;
-  const fd=document.getElementById('editFinishDate');if(fd)STATE[id].finishDate=fd.value?new Date(fd.value).toISOString():null;
-  const hr=document.getElementById('editHiatusReturn');if(hr)STATE[id].hiatusReturn=hr.value?new Date(hr.value).getTime():null;
+  const sd=document.getElementById('editStartDate');if(sd)STATE[id].startDate=sd.value?parseLocalDate(sd.value).toISOString():null;
+  const fd=document.getElementById('editFinishDate');if(fd)STATE[id].finishDate=fd.value?parseLocalDate(fd.value).toISOString():null;
+  const hr=document.getElementById('editHiatusReturn');if(hr)STATE[id].hiatusReturn=hr.value?parseLocalDate(hr.value).getTime():null;
   saveBooks();save();closeEditModal();renderTodayBanner();render();showToast(`✨ "${title}" actualizado`);
 }
 function deleteBook(id){
@@ -1268,9 +1292,8 @@ function exportBackup(){
     'tbr-rating-prefs','tbr-tab-order','tbr-tab-visibility',
     'tbr-diario-sections','tbr-diario-prefs',
     'tbr-reading-log','tbr-pending-updates','tbr-dismissed-today',
-    'tbr-lib-deco-pos','tbr-lib-deco-start','tbr-lib-book-w','tbr-lib-book-h',
-    'tbr-lib-show-deco','tbr-lib-deco-count','tbr-lib-deco',
-    'tbr-book-view',
+    'tbr-lib-deco-pos','tbr-lib-book-w','tbr-lib-book-h','tbr-lib-year',
+    'tbr-book-view','tbr-notif-prefs','tbr-device-id',
   ];
   const lsData={};
   lsKeys.forEach(k=>{const v=localStorage.getItem(k);if(v!==null)lsData[k]=v;});
@@ -1300,387 +1323,6 @@ function exportBackup(){
   showToast(`💾 Respaldo guardado · ${total} portada${total!==1?'s':''} incluida${total!==1?'s':''}`);
 }
 
-
-function parseAnimeListXML(input){
-  const file=input.files[0];if(!file)return;
-  const isGz=file.name.endsWith('.gz')||file.type==='application/gzip'||file.type==='application/x-gzip';
-  const preview=document.getElementById('animeListPreview');
-  const confirmBtn=document.getElementById('animeListConfirmBtn');
-  preview.innerHTML='<p style="font-size:.78rem;color:var(--text3);">⏳ Leyendo archivo…</p>';
-  confirmBtn.style.display='none';
-
-  if(isGz){
-    // Use DecompressionStream API (supported in modern browsers)
-    if(!window.DecompressionStream){
-      preview.innerHTML='<p style="color:#dc2626;font-size:.8rem;">❌ Tu navegador no soporta descompresión automática. Descomprime el .gz manualmente y sube el .xml.</p>';
-      return;
-    }
-    file.arrayBuffer().then(buf=>{
-      const ds=new DecompressionStream('gzip');
-      const writer=ds.writable.getWriter();
-      const reader=ds.readable.getReader();
-      writer.write(new Uint8Array(buf));
-      writer.close();
-      const chunks=[];
-      function pump(){
-        return reader.read().then(({done,value})=>{
-          if(done)return;
-          chunks.push(value);
-          return pump();
-        });
-      }
-      pump().then(()=>{
-        const total=chunks.reduce((a,c)=>a+c.length,0);
-        const merged=new Uint8Array(total);
-        let offset=0;
-        chunks.forEach(c=>{merged.set(c,offset);offset+=c.length;});
-        const text=new TextDecoder('utf-8').decode(merged);
-        _processMALXML(text,preview,confirmBtn);
-      }).catch(err=>{
-        preview.innerHTML=`<p style="color:#dc2626;font-size:.8rem;">❌ Error al descomprimir: ${err.message}</p>`;
-      });
-    });
-  } else {
-    const reader=new FileReader();
-    reader.onload=e=>_processMALXML(e.target.result,preview,confirmBtn);
-    reader.readAsText(file);
-  }
-}
-
-function _processMALXML(text,preview,confirmBtn){
-  try{
-    const parser=new DOMParser();
-    const xml=parser.parseFromString(text,'text/xml');
-    const parseErr=xml.querySelector('parsererror');
-    if(parseErr){
-      preview.innerHTML='<p style="color:#dc2626;font-size:.8rem;">❌ El archivo no es XML válido.</p>';
-      return;
-    }
-
-    // Detect manga vs anime list
-    let entries=Array.from(xml.querySelectorAll('manga'));
-    let isManga=true;
-    if(!entries.length){
-      entries=Array.from(xml.querySelectorAll('anime'));
-      isManga=false;
-    }
-    if(!entries.length){
-      // Try generic 'item' tag
-      entries=Array.from(xml.querySelectorAll('item'));
-      isManga=true;
-    }
-    if(!entries.length){
-      // Log raw XML to help debug
-      console.log('XML root:', xml.documentElement.tagName);
-      console.log('XML snippet:', text.slice(0,500));
-      preview.innerHTML='<p style="color:#dc2626;font-size:.8rem;">❌ No se encontraron entradas. Revisa la consola para más detalles.</p>';
-      return;
-    }
-
-    // MAL status codes: 1=reading/watching, 2=completed, 3=on-hold, 4=dropped, 6=plan to read/watch
-    const statusMap={'1':'reading','2':'read','3':'paused','4':'paused','6':'unread','Reading':'reading','Completed':'read','On-Hold':'paused','Dropped':'paused','Plan to Read':'unread','Plan to Watch':'unread','Watching':'reading'};
-
-    window._xmlParsed=[];
-    window._xmlIsManga=isManga;
-
-    entries.forEach(a=>{
-      // ── Títulos — recopilar todos los disponibles ──────────────────────────
-      const mainTitle=(
-        a.querySelector('manga_title')?.textContent ||
-        a.querySelector('series_title')?.textContent ||
-        a.querySelector('title')?.textContent ||
-        ''
-      ).trim();
-
-      // Sinónimos: MAL guarda títulos alternativos en synonyms/english
-      const synonymsRaw=(
-        a.querySelector('manga_synonyms')?.textContent ||
-        a.querySelector('series_synonyms')?.textContent ||
-        a.querySelector('synonyms')?.textContent ||
-        ''
-      ).trim();
-      const englishTitle=(
-        a.querySelector('series_englishtitle')?.textContent ||
-        a.querySelector('manga_english')?.textContent ||
-        ''
-      ).trim();
-
-      // Descomponer sinónimos (separados por "; " o ", ")
-      const allTitles=[mainTitle, englishTitle,
-        ...synonymsRaw.split(/;\s*|,\s*/).map(s=>s.trim())
-      ].filter(Boolean);
-
-      // Detectar título en español: buscar palabras comunes en español
-      // o caracteres latinos con tildes que no sean inglés típico
-      const esWords=/\b(el|la|los|las|un|una|unos|unas|de|del|en|con|por|para|mi|tu|su|al|yo|me|te|se|nos|que|pero|mas|más|como|cuando|donde|todo|nada|algo|muy|bien|mal|hay|fue|era|son|han|eso|esa|este|esta|sin|desde|hasta|entre|sobre|bajo|cada|otra|otro|unos)\b/i;
-      const hasAccent=/[áéíóúñüÁÉÍÓÚÑÜ]/;
-
-      let title=mainTitle;
-      // Prefer a title with Spanish markers
-      for(const t of allTitles){
-        if(hasAccent.test(t)||esWords.test(t)){
-          title=t;
-          break;
-        }
-      }
-      if(!title)return;
-
-      // ── Estado ─────────────────────────────────────────────────────────────
-      const statusRaw=(
-        a.querySelector('my_status')?.textContent ||
-        a.querySelector('status')?.textContent ||
-        '6'
-      ).trim();
-      const status=statusMap[statusRaw]||'unread';
-
-      // ── Capítulos leídos ───────────────────────────────────────────────────
-      const chapCur=parseInt(
-        a.querySelector('my_read_chapters')?.textContent ||
-        a.querySelector('my_watched_episodes')?.textContent ||
-        a.querySelector('read_chapters')?.textContent ||
-        '0'
-      )||0;
-
-      // ── Total capítulos ────────────────────────────────────────────────────
-      const chapTotal=parseInt(
-        a.querySelector('manga_chapters')?.textContent ||
-        a.querySelector('series_episodes')?.textContent ||
-        a.querySelector('chapters')?.textContent ||
-        '0'
-      )||0;
-
-      // ── Puntuación (MAL 0-10 → app 0-5) ───────────────────────────────────
-      const score=parseInt(
-        a.querySelector('my_score')?.textContent ||
-        a.querySelector('score')?.textContent ||
-        '0'
-      )||0;
-      const rating=score>0?Math.round(score/2):0;
-
-      // ── Fecha de inicio real de MAL ────────────────────────────────────────
-      // MAL format: "YYYY-MM-DD" or "0000-00-00" when unknown
-      const parseMALDate=raw=>{
-        if(!raw||raw==='0000-00-00'||raw.startsWith('0000'))return null;
-        const d=new Date(raw);
-        return isNaN(d.getTime())?null:d.toISOString();
-      };
-      const startDateRaw=(
-        a.querySelector('my_start_date')?.textContent ||
-        a.querySelector('start_date')?.textContent ||
-        ''
-      ).trim();
-      const finishDateRaw=(
-        a.querySelector('my_finish_date')?.textContent ||
-        a.querySelector('finish_date')?.textContent ||
-        ''
-      ).trim();
-      const startDate=parseMALDate(startDateRaw);
-      const finishDate=parseMALDate(finishDateRaw);
-
-      // MAL ID (para referencia futura)
-      const malId=parseInt(
-        a.querySelector('manga_mangadb_id')?.textContent ||
-        a.querySelector('series_animedb_id')?.textContent ||
-        '0'
-      )||0;
-
-      window._xmlParsed.push({
-        title, status, chapCur, chapTotal, rating,
-        startDate, finishDate, malId,
-        allTitles, // guardamos todos por si el usuario quiere renombrar
-      });
-    });
-
-    if(!window._xmlParsed.length){
-      // Debug: show first entry's children
-      const first=entries[0];
-      const children=Array.from(first.children).map(c=>`<${c.tagName}>`).join(', ');
-      preview.innerHTML=`<p style="color:#dc2626;font-size:.8rem;">❌ No se pudieron leer los títulos. Tags encontrados: ${children}</p>`;
-      return;
-    }
-
-    const existing=new Set(BOOKS.map(b=>b.title.toLowerCase().trim()));
-    const dupes=window._xmlParsed.filter(x=>existing.has(x.title.toLowerCase().trim())).length;
-    const newOnes=window._xmlParsed.length-dupes;
-    const counts={unread:0,reading:0,read:0,paused:0};
-    window._xmlParsed.forEach(x=>{if(counts[x.status]!==undefined)counts[x.status]++;});
-
-    // Sample titles for preview
-    const sample=window._xmlParsed.slice(0,3).map(x=>`<div style="font-size:.7rem;color:var(--text2);padding:.15rem 0;border-bottom:1px solid var(--border);">📖 ${x.title} — Cap. ${x.chapCur}${x.chapTotal?'/'+x.chapTotal:''} ${x.startDate?'· 📅 '+new Date(x.startDate).toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'}):''}</div>`).join('');
-
-    preview.innerHTML=`
-      <div style="background:var(--p1);border:1.5px solid var(--p2);border-radius:10px;padding:.75rem;margin-top:.4rem;">
-        <div style="font-size:.82rem;font-weight:600;color:var(--p4);margin-bottom:.4rem;">📊 ${window._xmlParsed.length} ${isManga?'manga':'anime'} encontrados</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.25rem;margin-bottom:.45rem;">
-          <span style="font-size:.74rem;color:var(--text2);">📖 TBR: <strong>${counts.unread}</strong></span>
-          <span style="font-size:.74rem;color:var(--text2);">✨ Leyendo: <strong>${counts.reading}</strong></span>
-          <span style="font-size:.74rem;color:var(--text2);">✅ Leídos: <strong>${counts.read}</strong></span>
-          <span style="font-size:.74rem;color:var(--text2);">⏸ Pausados: <strong>${counts.paused}</strong></span>
-        </div>
-        <div style="margin-bottom:.45rem;">${sample}${window._xmlParsed.length>3?`<div style="font-size:.68rem;color:var(--text3);padding-top:.15rem;">… y ${window._xmlParsed.length-3} más</div>`:''}</div>
-        ${dupes>0?`<div style="font-size:.71rem;color:#d97706;margin-bottom:.2rem;">⚠️ ${dupes} ya existe${dupes===1?'':'n'} en tu lista (se omitirán)</div>`:''}
-        <div style="font-size:.71rem;color:var(--text3);">✨ ${newOnes} nuevo${newOnes!==1?'s':''} por importar</div>
-      </div>`;
-    if(newOnes>0) confirmBtn.style.display='block';
-    else confirmBtn.style.display='none';
-  }catch(err){
-    console.error(err);
-    preview.innerHTML=`<p style="color:#dc2626;font-size:.8rem;">❌ Error: ${err.message}</p>`;
-  }
-}
-
-
-function confirmAnimeListImport(){
-  const parsed=window._xmlParsed||[];if(!parsed.length)return;
-  const existing=new Set(BOOKS.map(b=>b.title.toLowerCase().trim()));
-  let added=0;
-  parsed.forEach(item=>{
-    if(existing.has(item.title.toLowerCase().trim()))return;
-    const newId=Date.now()+Math.floor(Math.random()*99999)+added;
-    BOOKS.push({id:newId,title:item.title,addedAt:new Date().toISOString()});
-    const stateEntry=Object.assign(defaultEntry(),{
-      status:item.status,
-      chapCur:item.chapCur,
-      chapTotal:item.chapTotal,
-      rating:item.rating,
-      type:'manga',
-      // Fechas reales de MAL
-      startDate:item.startDate||(item.chapCur>0?new Date().toISOString():null),
-      finishDate:item.finishDate||null,
-    });
-    STATE[newId]=stateEntry;
-    added++;
-  });
-  saveBooks();save();renderTodayBanner();render();
-  document.getElementById('animeListPreview').innerHTML=
-    `<div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:.65rem .85rem;font-size:.8rem;color:#166534;margin-top:.5rem;">
-      ✅ ${added} título${added!==1?'s':''} importado${added!==1?'s':''}. ¡Ve a la pestaña Manga!<br>
-      <span style="font-size:.71rem;opacity:.8;">💡 Las portadas no vienen en el XML. Puedes añadirlas tocando cada tarjeta.</span>
-    </div>`;
-  document.getElementById('animeListConfirmBtn').style.display='none';
-  showToast(`🌸 ${added} importado${added!==1?'s':''} — estado y capítulos incluidos`);
-  window._xmlParsed=[];
-}
-
-function fetchMALList(){
-  const username=document.getElementById('malUsername').value.trim();
-  if(!username){showToast('✏️ Escribe tu nombre de usuario de MAL');return;}
-  const btn=document.getElementById('malFetchBtn');
-  const status=document.getElementById('malStatus');
-  const preview=document.getElementById('malPreview');
-  btn.disabled=true;btn.textContent='⏳ Cargando…';
-  status.textContent='Conectando con MyAnimeList…';
-  preview.innerHTML='';
-  window._malAllEntries=[];
-  _fetchMALPage(username,1,btn,status,preview);
-}
-
-function _fetchMALPage(username,page,btn,status,preview){
-  const url=`https://api.jikan.moe/v4/users/${encodeURIComponent(username)}/animelist?page=${page}&limit=300`;
-  fetch(url)
-    .then(r=>{
-      if(r.status===404)throw new Error('Usuario no encontrado en MyAnimeList');
-      if(!r.ok)throw new Error(`Error ${r.status} al contactar la API`);
-      return r.json();
-    })
-    .then(data=>{
-      const items=data.data||[];
-      window._malAllEntries=[...(window._malAllEntries||[]),...items];
-
-      const hasNext=data.pagination?.has_next_page;
-      if(hasNext){
-        status.textContent=`Cargando… ${window._malAllEntries.length} títulos hasta ahora`;
-        // Jikan rate limit: 1 req/sec
-        setTimeout(()=>_fetchMALPage(username,page+1,btn,status,preview),1100);
-      } else {
-        _renderMALPreview(btn,status,preview);
-      }
-    })
-    .catch(err=>{
-      btn.disabled=false;btn.textContent='🔍 Buscar';
-      status.textContent='';
-      preview.innerHTML=`<p style="color:#dc2626;font-size:.8rem;">❌ ${err.message}</p>`;
-    });
-}
-
-function _renderMALPreview(btn,status,preview){
-  btn.disabled=false;btn.textContent='🔍 Buscar';
-  const entries=window._malAllEntries||[];
-  if(!entries.length){
-    status.textContent='';
-    preview.innerHTML='<p style="font-size:.8rem;color:var(--text3);">La lista está vacía o es privada.</p>';
-    return;
-  }
-
-  // MAL status: 1=watching,2=completed,3=on-hold,4=dropped,6=plan_to_watch
-  const statusMap={1:'reading',2:'read',3:'paused',4:'paused',6:'unread'};
-  window._malParsed=entries.map(e=>({
-    title:e.anime?.title||'',
-    status:statusMap[e.watching_status]||'unread',
-    chapCur:e.watched_episodes||0,
-    chapTotal:e.anime?.episodes||0,
-    rating:e.score>0?Math.round(e.score/2):0,
-    malId:e.anime?.mal_id||0,
-  })).filter(x=>x.title);
-
-  const existing=new Set(BOOKS.map(b=>b.title.toLowerCase().trim()));
-  const dupes=window._malParsed.filter(x=>existing.has(x.title.toLowerCase().trim())).length;
-  const newOnes=window._malParsed.length-dupes;
-  const counts={unread:0,reading:0,read:0,paused:0};
-  window._malParsed.forEach(x=>{if(counts[x.status]!==undefined)counts[x.status]++;});
-
-  status.textContent='';
-  preview.innerHTML=`
-    <div style="background:var(--p1);border:1.5px solid var(--p2);border-radius:12px;padding:.85rem;margin:.5rem 0;">
-      <div style="font-size:.85rem;font-weight:600;color:var(--p4);margin-bottom:.5rem;">📊 ${window._malParsed.length} títulos encontrados</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem;margin-bottom:.45rem;">
-        <span style="font-size:.76rem;color:var(--text2);">📖 Sin empezar: <strong>${counts.unread}</strong></span>
-        <span style="font-size:.76rem;color:var(--text2);">✨ Leyendo: <strong>${counts.reading}</strong></span>
-        <span style="font-size:.76rem;color:var(--text2);">✅ Completados: <strong>${counts.read}</strong></span>
-        <span style="font-size:.76rem;color:var(--text2);">⏸ Pausados: <strong>${counts.paused}</strong></span>
-      </div>
-      ${dupes>0?`<div style="font-size:.72rem;color:#d97706;margin-bottom:.25rem;">⚠️ ${dupes} ya existe${dupes===1?'':'n'} en tu lista (se omitirán)</div>`:''}
-      <div style="font-size:.72rem;color:var(--text3);">✨ ${newOnes} nuevo${newOnes!==1?'s':''} por importar</div>
-    </div>
-    <div style="display:flex;gap:.5rem;margin-top:.5rem;">
-      <button onclick="_confirmMALImport('all')"
-        style="flex:1;padding:.5rem;border-radius:11px;border:none;background:linear-gradient(135deg,var(--p3),var(--p4));color:#fff;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;">
-        ✨ Importar todos (${newOnes})
-      </button>
-    </div>
-    <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.45rem;">
-      <button onclick="_confirmMALImport('unread')" style="flex:1;padding:.38rem .5rem;border-radius:9px;border:1.5px solid var(--border);background:var(--card);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:.74rem;cursor:pointer;">Solo TBR (${counts.unread})</button>
-      <button onclick="_confirmMALImport('reading')" style="flex:1;padding:.38rem .5rem;border-radius:9px;border:1.5px solid var(--border);background:var(--card);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:.74rem;cursor:pointer;">Solo Leyendo (${counts.reading})</button>
-      <button onclick="_confirmMALImport('read')" style="flex:1;padding:.38rem .5rem;border-radius:9px;border:1.5px solid var(--border);background:var(--card);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:.74rem;cursor:pointer;">Solo Leídos (${counts.read})</button>
-    </div>`;
-}
-
-function _confirmMALImport(filter){
-  const parsed=window._malParsed||[];
-  const existing=new Set(BOOKS.map(b=>b.title.toLowerCase().trim()));
-  let toImport=parsed.filter(x=>!existing.has(x.title.toLowerCase().trim()));
-  if(filter!=='all') toImport=toImport.filter(x=>x.status===filter);
-  if(!toImport.length){showToast('✅ No hay títulos nuevos para importar');return;}
-  let added=0;
-  toImport.forEach(item=>{
-    const newId=Date.now()+Math.floor(Math.random()*99999)+added;
-    BOOKS.push({id:newId,title:item.title,addedAt:new Date().toISOString()});
-    STATE[newId]=Object.assign(defaultEntry(),{
-      status:item.status,
-      chapCur:item.chapCur,
-      chapTotal:item.chapTotal,
-      rating:item.rating,
-      type:'manga',
-    });
-    added++;
-  });
-  saveBooks();save();renderTodayBanner();render();
-  document.getElementById('malPreview').innerHTML=
-    `<div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:.7rem .85rem;font-size:.82rem;color:#166534;margin-top:.5rem;">
-      ✅ ${added} título${added!==1?'s':''} importado${added!==1?'s':''}. ¡Ve a la pestaña Manga para verlos!
-    </div>`;
-  showToast(`🌸 ${added} título${added!==1?'s':''} importado${added!==1?'s':''} de MAL`);
-}
 
 function importBackup(input){
   const file=input.files[0];if(!file)return;
@@ -1756,14 +1398,25 @@ function importBackup(input){
 
       // Recargar vars globales que viven en memoria
       try{_libCoverPos=localStorage.getItem('tbr-lib-deco-pos')||'center';}catch{}
-      try{_libDecoStart=localStorage.getItem('tbr-lib-deco-start')||'left';}catch{}
+      try{_libYear=localStorage.getItem('tbr-lib-year')||'all';}catch{}
       try{_libBookW=parseInt(localStorage.getItem('tbr-lib-book-w'))||40;}catch{}
       try{_libBookH=parseInt(localStorage.getItem('tbr-lib-book-h'))||90;}catch{}
-      try{_libShowDeco=localStorage.getItem('tbr-lib-show-deco')!=='false';}catch{}
-      try{_libDecoCount=parseInt(localStorage.getItem('tbr-lib-deco-count'))||1;}catch{}
-      try{_libDecoImg=localStorage.getItem('tbr-lib-deco')||null;}catch{}
+      try{
+        const _dp=JSON.parse(localStorage.getItem('tbr-diario-prefs')||'{}');
+        _abcYear=_dp.abcYear||new Date().getFullYear();
+      }catch{}
+      window._mensualYear=new Date().getFullYear();
+      window._mensualMonth=new Date().getMonth();
 
       renderTodayBanner();render();renderBooks();
+      if(typeof renderDiario==='function')renderDiario();
+      if(typeof renderNotifSettings==='function')renderNotifSettings();
+      try{
+        const _np=loadNotifPrefs();
+        if(_np.enabled&&'Notification' in window&&Notification.permission==='granted'){
+          subscribeToPush().then(ok=>{ if(ok) scheduleSyncToSupabase(); });
+        }
+      }catch{}
       const coverMsg=coversRestored>0?` · ${coversRestored} portada${coversRestored!==1?'s':''} migrada${coversRestored!==1?'s':''}`:' (sin portadas en backup)';
       showToast(`✨ Datos restaurados — ${BOOKS.length} manga · ${BOOKS_LIB.length} libros${coverMsg}`);
     }catch(err){console.error(err);showToast('❌ Error al leer el archivo');}
@@ -1841,20 +1494,11 @@ function switchTab(tab){
     const shSlider=document.getElementById('libBookHSlider');
     if(swSlider){swSlider.value=_libBookW;document.getElementById('libBookWVal').textContent=_libBookW+'px';}
     if(shSlider){shSlider.value=_libBookH;document.getElementById('libBookHVal').textContent=_libBookH+'px';}
-    // Botones deco on/off
-    const don=document.getElementById('libDecoOn'),doff=document.getElementById('libDecoOff');
-    if(don&&doff){
-      don.style.borderColor=_libShowDeco?'var(--p3)':'var(--border)';
-      don.style.background=_libShowDeco?'var(--p2)':'transparent';
-      don.style.color=_libShowDeco?'var(--p4)':'var(--text3)';
-      doff.style.borderColor=!_libShowDeco?'var(--p3)':'var(--border)';
-      doff.style.background=!_libShowDeco?'var(--p2)':'transparent';
-      doff.style.color=!_libShowDeco?'var(--p4)':'var(--text3)';
-    }
   }
   if(tab==='settings'){
     const target=prevTab==='books'?'books':'manga';
     setBulkTarget(target, document.getElementById(target==='manga'?'bulkTargetManga':'bulkTargetBooks'));
+    setTimeout(()=>{ renderNotifSettings(); }, 50);
   }
 }
 
@@ -1907,7 +1551,7 @@ function getReadItems(){
     BOOKS_LIB.forEach(b=>{
       const st=BOOKS_STATE[b.id];
       if(st&&st.status==='read'){
-        items.push({id:'b'+b.id,title:b.title||'',cover:_getCover('b'+b.id)||'',finishDate:st.finishDate||null,startDate:st.addedAt||null,type:'books',author:st.author||''});
+        items.push({id:'b'+b.id,title:b.title||'',cover:_getCover('b'+b.id)||'',finishDate:st.finishDate||null,startDate:st.startDate||st.addedAt||null,type:'books',author:st.author||''});
       }
     });
   }
@@ -2774,10 +2418,10 @@ function renderBooks(){
 
       ${bR?buildRatingBlock(b.id,st,false):''}
       ${bR?favBtnsB:''}
-      ${bFd&&st.status==='read'&&st.finishDate?`<div style="font-size:.7rem;color:var(--text3);">✅ Terminado: <input type="date" value="${st.finishDate}" onchange="setBookFinishDate(${b.id},this.value)" style="border:none;background:transparent;color:var(--text3);font-size:.7rem;font-family:'DM Sans',sans-serif;cursor:pointer;"></div>`:''}
+      ${bFd&&st.status==='read'&&st.finishDate?`<div style="font-size:.7rem;color:var(--text3);">✅ Terminado: <input type="date" value="${dateInputValue(st.finishDate)}" onchange="setBookFinishDate(${b.id},this.value)" style="border:none;background:transparent;color:var(--text3);font-size:.7rem;font-family:'DM Sans',sans-serif;cursor:pointer;"></div>`:''}
       ${(()=>{
         if(!st.releaseDate)return '';
-        const rd=new Date(st.releaseDate);rd.setHours(0,0,0,0);
+        const rd=parseLocalDate(st.releaseDate);if(rd)rd.setHours(0,0,0,0);
         const today=new Date();today.setHours(0,0,0,0);
         const diff=Math.round((rd-today)/(1000*60*60*24));
         if(diff>0)return `<div style="font-size:.68rem;background:#d1fae5;color:#065f46;border-radius:6px;padding:.18rem .5rem;display:inline-block;margin-top:.15rem;">📦 Sale en ${diff} día${diff!==1?'s':''}</div>`;
@@ -2833,7 +2477,7 @@ function openBookDetailModal(id){
   document.getElementById('bookDetailOverlay').classList.add('open');
 }
 function closeBookDetailModal(){document.getElementById('bookDetailOverlay').classList.remove('open');}
-function setBookStatus(id,s){const st=BOOKS_STATE[id];if(!st)return;st.status=s;if(s==='read'){if(!st.finishDate)st.finishDate=new Date().toISOString().slice(0,10);st.pagesRead=st.pages||0;}else if(s==='unread'){st.pagesRead=0;st.finishDate=null;}saveBooksState();renderBooks();}
+function setBookStatus(id,s){const st=BOOKS_STATE[id];if(!st)return;st.status=s;if(s==='read'){if(!st.finishDate)st.finishDate=dateInputValue(new Date());st.pagesRead=st.pages||0;}else if(s==='unread'){st.pagesRead=0;st.finishDate=null;}saveBooksState();renderBooks();}
 function setBookRating(id,n){if(!BOOKS_STATE[id])return;BOOKS_STATE[id].rating=BOOKS_STATE[id].rating===n?0:n;saveBooksState();renderBooks();}
 function setBookFinishDate(id,val){if(!BOOKS_STATE[id])return;BOOKS_STATE[id].finishDate=val;saveBooksState();}
 function setBookProgress(id,val,isPages){
@@ -2844,11 +2488,21 @@ function setBookProgress(id,val,isPages){
   saveBooksState();renderBooks();
 }
 
+function toggleAddBookDateFields(status){
+  const showStart=status==='reading'||status==='read'||status==='paused';
+  const showFinish=status==='read';
+  document.getElementById('bStartDateRow').style.display=showStart?'block':'none';
+  document.getElementById('bFinishDateRow').style.display=showFinish?'block':'none';
+}
 function openAddBookModal(){
   ['bTitle','bAuthor','bGenre','bSaga','bUrl'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('bPages').value='';document.getElementById('bFormat').value='fisico';
   document.getElementById('bPriority').checked=false;document.getElementById('bTitleError').style.display='none';
   document.getElementById('bReleaseDate').value='';
+  document.getElementById('bStatus').value='unread';
+  document.getElementById('bStartDate').value='';
+  document.getElementById('bFinishDate').value='';
+  toggleAddBookDateFields('unread');
   document.getElementById('addBookOverlay').classList.add('open');setTimeout(()=>document.getElementById('bTitle').focus(),300);
 }
 function closeAddBookModal(){document.getElementById('addBookOverlay').classList.remove('open');}
@@ -2857,9 +2511,20 @@ function confirmAddBook(){
   if(!title){document.getElementById('bTitleError').style.display='block';return;}
   const newId=Date.now()+Math.floor(Math.random()*9999);
   const rdVal=document.getElementById('bReleaseDate').value;
+  const status=document.getElementById('bStatus').value;
+  const sdVal=document.getElementById('bStartDate').value;
+  let fdVal=document.getElementById('bFinishDate').value;
+  const pages=parseInt(document.getElementById('bPages').value)||0;
+  let pagesRead=0;
+  if(status==='read'){
+    if(!fdVal) fdVal=dateInputValue(new Date());
+    pagesRead=pages;
+  }
   BOOKS_LIB.push({id:newId,title,addedAt:new Date().toISOString()});
-  BOOKS_STATE[newId]=Object.assign(defaultBookEntry(),{author:document.getElementById('bAuthor').value.trim(),genre:document.getElementById('bGenre').value.trim(),saga:document.getElementById('bSaga').value.trim(),format:document.getElementById('bFormat').value,pages:parseInt(document.getElementById('bPages').value)||0,url:document.getElementById('bUrl').value.trim(),priority:document.getElementById('bPriority').checked,releaseDate:rdVal||null});
-  saveBooksLib();saveBooksState();closeAddBookModal();renderBooks();renderTodayBanner();showToast(`📖 "${title}" añadido`);
+  BOOKS_STATE[newId]=Object.assign(defaultBookEntry(),{author:document.getElementById('bAuthor').value.trim(),genre:document.getElementById('bGenre').value.trim(),saga:document.getElementById('bSaga').value.trim(),format:document.getElementById('bFormat').value,pages,pagesRead,url:document.getElementById('bUrl').value.trim(),priority:document.getElementById('bPriority').checked,releaseDate:rdVal||null,status,startDate:sdVal||null,finishDate:fdVal||null});
+  saveBooksLib();saveBooksState();closeAddBookModal();renderBooks();renderTodayBanner();
+  if(typeof renderDiario==='function'&&currentTab==='diario')renderDiario();
+  showToast(`📖 "${title}" añadido`);
 }
 
 let _editBookCoverData=null;
@@ -2877,6 +2542,7 @@ function openEditBookModal(id){
   if(!b||!st)return;
   _editBookCoverData=_getCover('b'+id)||null;
   document.getElementById('editBookId').value=id;document.getElementById('editBTitle').value=b.title;
+  document.getElementById('editBStatus').value=st.status||'unread';
   document.getElementById('editBAuthor').value=st.author||'';document.getElementById('editBGenre').value=st.genre||'';
   document.getElementById('editBSaga').value=st.saga||'';document.getElementById('editBFormat').value=st.format||'fisico';
   document.getElementById('editBPages').value=st.pages||'';document.getElementById('editBUrl').value=st.url||'';
@@ -2884,6 +2550,9 @@ function openEditBookModal(id){
   document.getElementById('editBookCoverUrl').value='';
   document.getElementById('editBookCoverFile').value='';showBookCoverPreview(_getCover('b'+id)||null);
   document.getElementById('editBReleaseDate').value=st.releaseDate||'';
+  document.getElementById('editBStartDate').value=st.startDate?dateInputValue(st.startDate):'';
+  document.getElementById('editBFinishDate').value=st.finishDate?dateInputValue(st.finishDate):'';
+  document.getElementById('editBSynopsis').value=st.synopsis||'';
   document.getElementById('editBookOverlay').classList.add('open');setTimeout(()=>document.getElementById('editBTitle').focus(),300);
 }
 function closeEditBookModal(){document.getElementById('editBookOverlay').classList.remove('open');_editBookCoverData=null;}
@@ -2893,9 +2562,23 @@ function confirmEditBook(){
   if(!title){document.getElementById('editBTitleError').style.display='block';return;}
   const b=BOOKS_LIB.find(x=>x.id===id);b.title=title;b.priority=document.getElementById('editBPriority').checked;
   const rdVal=document.getElementById('editBReleaseDate').value;
-  Object.assign(BOOKS_STATE[id],{author:document.getElementById('editBAuthor').value.trim(),genre:document.getElementById('editBGenre').value.trim(),saga:document.getElementById('editBSaga').value.trim(),format:document.getElementById('editBFormat').value,pages:parseInt(document.getElementById('editBPages').value)||0,url:document.getElementById('editBUrl').value.trim(),releaseDate:rdVal||null});
+  const sdVal=document.getElementById('editBStartDate').value;
+  let fdVal=document.getElementById('editBFinishDate').value;
+  const newStatus=document.getElementById('editBStatus').value;
+  const st=BOOKS_STATE[id];
+  let pagesRead=st.pagesRead;
+  if(newStatus==='read'){
+    if(!fdVal) fdVal=dateInputValue(new Date());
+    pagesRead=parseInt(document.getElementById('editBPages').value)||st.pages||0;
+  } else if(newStatus==='unread'){
+    pagesRead=0;
+    fdVal='';
+  }
+  Object.assign(BOOKS_STATE[id],{status:newStatus,author:document.getElementById('editBAuthor').value.trim(),genre:document.getElementById('editBGenre').value.trim(),saga:document.getElementById('editBSaga').value.trim(),format:document.getElementById('editBFormat').value,pages:parseInt(document.getElementById('editBPages').value)||0,pagesRead,url:document.getElementById('editBUrl').value.trim(),releaseDate:rdVal||null,startDate:sdVal||null,finishDate:fdVal||null,synopsis:document.getElementById('editBSynopsis').value.trim()});
   if(_editBookCoverData!==null){_setCover('b'+id,_editBookCoverData||null);}
-  saveBooksLib();saveBooksState();closeEditBookModal();renderBooks();renderTodayBanner();showToast(`✨ "${title}" actualizado`);
+  saveBooksLib();saveBooksState();closeEditBookModal();renderBooks();renderTodayBanner();
+  if(typeof renderDiario==='function'&&currentTab==='diario')renderDiario();
+  showToast(`✨ "${title}" actualizado`);
 }
 function deleteBookEntry(){
   const id=Number(document.getElementById('editBookId').value);const b=BOOKS_LIB.find(x=>x.id===id);
@@ -2988,11 +2671,18 @@ function renderStatsPausedVsBooks(){
 
 const PALETTES={
   rose:{light:{p0:'#fff5f7',p1:'#ffe4ec',p2:'#ffc2d4',p3:'#ff8fab',p4:'#e05f85',p5:'#a0395a',text:'#4a1e30',text2:'#8a4a60',text3:'#b88090',card:'#ffffff',bg:'#fff5f7',border:'#f5d0db',shadow:'rgba(255,194,212,.3)',toolbar:'#ffffffee',input:'#ffffff',progress:'#fde8ed'},dark:{p0:'#1a0d12',p1:'#2d1520',p2:'#5a2a3a',p3:'#c06080',p4:'#e07090',p5:'#f0a0b8',text:'#f5d0db',text2:'#d4909f',text3:'#906070',card:'#261218',bg:'#1a0d12',border:'#3d1f28',shadow:'rgba(0,0,0,.4)',toolbar:'#1a0d12ee',input:'#261218',progress:'#3d1f28'}},
-  lavender:{light:{p0:'#f5f3ff',p1:'#ede9fe',p2:'#ddd6fe',p3:'#a78bfa',p4:'#7c3aed',p5:'#5b21b6',text:'#2e1065',text2:'#5b21b6',text3:'#7c3aed',card:'#ffffff',bg:'#f5f3ff',border:'#ddd6fe',shadow:'rgba(167,139,250,.25)',toolbar:'#ffffffee',input:'#ffffff',progress:'#ede9fe'},dark:{p0:'#130b2e',p1:'#1e1240',p2:'#3b2065',p3:'#7c5fbf',p4:'#a88bf5',p5:'#c4b5fd',text:'#ede9fe',text2:'#c4b5fd',text3:'#7c5fbf',card:'#1a1035',bg:'#130b2e',border:'#3b2065',shadow:'rgba(0,0,0,.4)',toolbar:'#130b2eee',input:'#1a1035',progress:'#2d1a50'}},
   mint:{light:{p0:'#f0fdf4',p1:'#dcfce7',p2:'#bbf7d0',p3:'#34d399',p4:'#059669',p5:'#047857',text:'#022c22',text2:'#065f46',text3:'#059669',card:'#ffffff',bg:'#f0fdf4',border:'#bbf7d0',shadow:'rgba(52,211,153,.25)',toolbar:'#ffffffee',input:'#ffffff',progress:'#dcfce7'},dark:{p0:'#021a0e',p1:'#052e16',p2:'#0a4a26',p3:'#1a8f5a',p4:'#34d399',p5:'#6ee7b7',text:'#d1fae5',text2:'#6ee7b7',text3:'#1a8f5a',card:'#041a0c',bg:'#021a0e',border:'#0a4a26',shadow:'rgba(0,0,0,.4)',toolbar:'#021a0eee',input:'#041a0c',progress:'#0a4a26'}},
   peach:{light:{p0:'#fff7ed',p1:'#ffedd5',p2:'#fed7aa',p3:'#fb923c',p4:'#ea580c',p5:'#c2410c',text:'#431407',text2:'#9a3412',text3:'#ea580c',card:'#ffffff',bg:'#fff7ed',border:'#fed7aa',shadow:'rgba(251,146,60,.25)',toolbar:'#ffffffee',input:'#ffffff',progress:'#ffedd5'},dark:{p0:'#1c0a02',p1:'#2a1204',p2:'#5a2c0e',p3:'#c0601a',p4:'#fb923c',p5:'#fdba74',text:'#ffedd5',text2:'#fdba74',text3:'#c0601a',card:'#221006',bg:'#1c0a02',border:'#5a2c0e',shadow:'rgba(0,0,0,.4)',toolbar:'#1c0a02ee',input:'#221006',progress:'#3a1a06'}},
-  sky:{light:{p0:'#f0f9ff',p1:'#e0f2fe',p2:'#bae6fd',p3:'#38bdf8',p4:'#0284c7',p5:'#0369a1',text:'#082f49',text2:'#0c4a6e',text3:'#0284c7',card:'#ffffff',bg:'#f0f9ff',border:'#bae6fd',shadow:'rgba(56,189,248,.25)',toolbar:'#ffffffee',input:'#ffffff',progress:'#e0f2fe'},dark:{p0:'#021624',p1:'#042030',p2:'#0a3a56',p3:'#0e6ea0',p4:'#38bdf8',p5:'#7dd3fc',text:'#e0f2fe',text2:'#7dd3fc',text3:'#0e6ea0',card:'#041828',bg:'#021624',border:'#0a3a56',shadow:'rgba(0,0,0,.4)',toolbar:'#021624ee',input:'#041828',progress:'#0a3a56'}},
   gold:{light:{p0:'#fffbeb',p1:'#fef3c7',p2:'#fde68a',p3:'#fbbf24',p4:'#d97706',p5:'#b45309',text:'#451a03',text2:'#92400e',text3:'#d97706',card:'#ffffff',bg:'#fffbeb',border:'#fde68a',shadow:'rgba(251,191,36,.25)',toolbar:'#ffffffee',input:'#ffffff',progress:'#fef3c7'},dark:{p0:'#1a1002',p1:'#2a1a04',p2:'#5a3808',p3:'#a07010',p4:'#fbbf24',p5:'#fde68a',text:'#fef3c7',text2:'#fde68a',text3:'#a07010',card:'#221402',bg:'#1a1002',border:'#5a3808',shadow:'rgba(0,0,0,.4)',toolbar:'#1a1002ee',input:'#221402',progress:'#3a2006'}},
+  cherry:{light:{p0:'#fff1f3',p1:'#ffe4e8',p2:'#fecdd6',p3:'#fb7185',p4:'#e11d48',p5:'#9f1239',text:'#4c0519',text2:'#9f1239',text3:'#c23a5c',card:'#ffffff',bg:'#fff1f3',border:'#fecdd6',shadow:'rgba(225,29,72,.25)',toolbar:'#ffffffee',input:'#ffffff',progress:'#ffe4e8'},dark:{p0:'#1a0508',p1:'#2d0a10',p2:'#5c1625',p3:'#c4395a',p4:'#f43f5e',p5:'#fb7185',text:'#ffe4e8',text2:'#fda4af',text3:'#c4395a',card:'#22070d',bg:'#1a0508',border:'#5c1625',shadow:'rgba(0,0,0,.4)',toolbar:'#1a0508ee',input:'#22070d',progress:'#3d0f18'}},
+  matcha:{light:{p0:'#f7faf0',p1:'#eef5dc',p2:'#dce8b8',p3:'#9cb86a',p4:'#7d9c3a',p5:'#5c7528',text:'#243309',text2:'#46591c',text3:'#7d9c3a',card:'#ffffff',bg:'#f7faf0',border:'#dce8b8',shadow:'rgba(125,156,58,.25)',toolbar:'#ffffffee',input:'#ffffff',progress:'#eef5dc'},dark:{p0:'#11160a',p1:'#1c2410',p2:'#38461f',p3:'#6f8a3e',p4:'#92b350',p5:'#b6d27a',text:'#eef5dc',text2:'#c3d99e',text3:'#6f8a3e',card:'#161d0d',bg:'#11160a',border:'#38461f',shadow:'rgba(0,0,0,.4)',toolbar:'#11160aee',input:'#161d0d',progress:'#283210'}},
+  sky:{light:{p0:'#f0f9ff',p1:'#e0f2fe',p2:'#bae6fd',p3:'#38bdf8',p4:'#0284c7',p5:'#0369a1',text:'#082f49',text2:'#0c4a6e',text3:'#0284c7',card:'#ffffff',bg:'#f0f9ff',border:'#bae6fd',shadow:'rgba(56,189,248,.25)',toolbar:'#ffffffee',input:'#ffffff',progress:'#e0f2fe'},dark:{p0:'#021624',p1:'#042030',p2:'#0a3a56',p3:'#0e6ea0',p4:'#38bdf8',p5:'#7dd3fc',text:'#e0f2fe',text2:'#7dd3fc',text3:'#0e6ea0',card:'#041828',bg:'#021624',border:'#0a3a56',shadow:'rgba(0,0,0,.4)',toolbar:'#021624ee',input:'#041828',progress:'#0a3a56'}},
+  midnight:{light:{p0:'#f4f6ff',p1:'#e6eaff',p2:'#c5cdfb',p3:'#6f7fe8',p4:'#3d52d5',p5:'#2638a0',text:'#10173f',text2:'#2638a0',text3:'#4d5fcf',card:'#ffffff',bg:'#f4f6ff',border:'#c5cdfb',shadow:'rgba(61,82,213,.25)',toolbar:'#ffffffee',input:'#ffffff',progress:'#e6eaff'},dark:{p0:'#080a1a',p1:'#10142e',p2:'#1f2a5c',p3:'#4458c0',p4:'#6478e8',p5:'#93a0f5',text:'#e6eaff',text2:'#93a0f5',text3:'#4458c0',card:'#0c1024',bg:'#080a1a',border:'#1f2a5c',shadow:'rgba(0,0,0,.4)',toolbar:'#080a1aee',input:'#0c1024',progress:'#161c3e'}},
+  lavender:{light:{p0:'#f5f3ff',p1:'#ede9fe',p2:'#ddd6fe',p3:'#a78bfa',p4:'#7c3aed',p5:'#5b21b6',text:'#2e1065',text2:'#5b21b6',text3:'#7c3aed',card:'#ffffff',bg:'#f5f3ff',border:'#ddd6fe',shadow:'rgba(167,139,250,.25)',toolbar:'#ffffffee',input:'#ffffff',progress:'#ede9fe'},dark:{p0:'#130b2e',p1:'#1e1240',p2:'#3b2065',p3:'#7c5fbf',p4:'#a88bf5',p5:'#c4b5fd',text:'#ede9fe',text2:'#c4b5fd',text3:'#7c5fbf',card:'#1a1035',bg:'#130b2e',border:'#3b2065',shadow:'rgba(0,0,0,.4)',toolbar:'#130b2eee',input:'#1a1035',progress:'#2d1a50'}},
+  grape:{light:{p0:'#f8f2ff',p1:'#ede0ff',p2:'#d6b8fb',p3:'#ab6df0',p4:'#8b2be2',p5:'#6a1cb0',text:'#2c0a4d',text2:'#6a1cb0',text3:'#9744dd',card:'#ffffff',bg:'#f8f2ff',border:'#d6b8fb',shadow:'rgba(139,43,226,.25)',toolbar:'#ffffffee',input:'#ffffff',progress:'#ede0ff'},dark:{p0:'#150821',p1:'#240f38',p2:'#451d68',p3:'#8442c4',p4:'#a85cee',p5:'#c594f7',text:'#ede0ff',text2:'#c594f7',text3:'#8442c4',card:'#1c0c2c',bg:'#150821',border:'#451d68',shadow:'rgba(0,0,0,.4)',toolbar:'#150821ee',input:'#1c0c2c',progress:'#321249'}},
+  mocha:{light:{p0:'#fbf6f0',p1:'#f3e6d8',p2:'#e3c4a4',p3:'#c08e5e',p4:'#a0714a',p5:'#785336',text:'#2e1c10',text2:'#785336',text3:'#a0714a',card:'#ffffff',bg:'#fbf6f0',border:'#e3c4a4',shadow:'rgba(160,113,74,.25)',toolbar:'#ffffffee',input:'#ffffff',progress:'#f3e6d8'},dark:{p0:'#160e08',p1:'#261810',p2:'#4a3020',p3:'#8a623f',p4:'#b08058',p5:'#d2a87c',text:'#f3e6d8',text2:'#d2a87c',text3:'#8a623f',card:'#1d130b',bg:'#160e08',border:'#4a3020',shadow:'rgba(0,0,0,.4)',toolbar:'#160e08ee',input:'#1d130b',progress:'#34210f'}},
+  teal:{light:{p0:'#f0fdfa',p1:'#ccfbf1',p2:'#99f6e4',p3:'#2dd4bf',p4:'#14b8a6',p5:'#0f766e',text:'#022c25',text2:'#0f766e',text3:'#14b8a6',card:'#ffffff',bg:'#f0fdfa',border:'#99f6e4',shadow:'rgba(20,184,166,.25)',toolbar:'#ffffffee',input:'#ffffff',progress:'#ccfbf1'},dark:{p0:'#021412',p1:'#042420',p2:'#0a4842',p3:'#1a9488',p4:'#2dd4bf',p5:'#5eead4',text:'#ccfbf1',text2:'#5eead4',text3:'#1a9488',card:'#041e1a',bg:'#021412',border:'#0a4842',shadow:'rgba(0,0,0,.4)',toolbar:'#021412ee',input:'#041e1a',progress:'#073530'}},
+  noir:{light:{p0:'#fafafa',p1:'#f0f0f0',p2:'#d4d4d4',p3:'#888888',p4:'#3a3a3a',p5:'#1a1a1a',text:'#161616',text2:'#3a3a3a',text3:'#737373',card:'#ffffff',bg:'#fafafa',border:'#d4d4d4',shadow:'rgba(0,0,0,.18)',toolbar:'#ffffffee',input:'#ffffff',progress:'#e8e8e8'},dark:{p0:'#0a0a0a',p1:'#161616',p2:'#2e2e2e',p3:'#5c5c5c',p4:'#9c9c9c',p5:'#e8e8e8',text:'#f0f0f0',text2:'#cccccc',text3:'#8a8a8a',card:'#121212',bg:'#0a0a0a',border:'#2e2e2e',shadow:'rgba(0,0,0,.5)',toolbar:'#0a0a0aee',input:'#121212',progress:'#222222'}},
 };
 function applyPalette(name,btn){
   const pal=PALETTES[name];if(!pal)return;
@@ -3500,22 +3190,19 @@ function resetTabOrder(){localStorage.removeItem('tbr-tab-order');applyTabOrder(
 
 // ── Librería visual ───────────────────────────────────────────────
 let _libType = 'both';
+let _libYear = 'all';
 let _libCoverPos = 'center';
-let _libDecoStart = 'left';
 let _libBookW = 40;   // ancho del lomo en px (20-70)
 let _libBookH = 90;   // alto del libro en px (60-140)
-let _libShowDeco = true;  // mostrar/ocultar adornos
-let _libDecoCount = 1;    // cuántos adornos por estante (1-3)
 
 function _setLibCoverPos(pos) {
   _libCoverPos = pos;
   try{localStorage.setItem('tbr-lib-deco-pos',pos);}catch{}
   renderLibreria();
 }
-
-function _setLibDecoStart(side) {
-  _libDecoStart = side;
-  try{localStorage.setItem('tbr-lib-deco-start',side);}catch{}
+function _setLibYear(y) {
+  _libYear = y;
+  try{localStorage.setItem('tbr-lib-year',y);}catch{}
   renderLibreria();
 }
 function _setLibBookSize(w, h) {
@@ -3523,24 +3210,10 @@ function _setLibBookSize(w, h) {
   try{localStorage.setItem('tbr-lib-book-w', w); localStorage.setItem('tbr-lib-book-h', h);}catch{}
   renderLibreria();
 }
-function _toggleLibDeco(show) {
-  _libShowDeco = show;
-  try{localStorage.setItem('tbr-lib-show-deco', show);}catch{}
-  renderLibreria();
-}
-function _setLibDecoCount(n) {
-  _libDecoCount = Math.max(1, Math.min(3, n));
-  try{localStorage.setItem('tbr-lib-deco-count', _libDecoCount);}catch{}
-  renderLibreria();
-}
-let _libDecoImg = null;
-try{_libDecoImg = localStorage.getItem('tbr-lib-deco') || null;}catch{}
 try{_libCoverPos = localStorage.getItem('tbr-lib-deco-pos') || 'center';}catch{}
-try{_libDecoStart = localStorage.getItem('tbr-lib-deco-start') || 'left';}catch{}
+try{_libYear = localStorage.getItem('tbr-lib-year') || 'all';}catch{}
 try{_libBookW = parseInt(localStorage.getItem('tbr-lib-book-w')) || 40;}catch{}
 try{_libBookH = parseInt(localStorage.getItem('tbr-lib-book-h')) || 90;}catch{}
-try{_libShowDeco = localStorage.getItem('tbr-lib-show-deco') !== 'false';}catch{}
-try{_libDecoCount = parseInt(localStorage.getItem('tbr-lib-deco-count')) || 1;}catch{}
 
 function setLibType(type, btn) {
   _libType = type;
@@ -3552,86 +3225,78 @@ function setLibType(type, btn) {
   renderLibreria();
 }
 
-function _uploadLibDeco() {
-  const input = document.createElement('input');
-  input.type = 'file'; input.accept = 'image/*';
-  input.onchange = () => {
-    const file = input.files[0]; if(!file) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-      const raw = e.target.result;
-      // Redimensionar para que no sea enorme
-      const img = new Image();
-      img.onload = () => {
-        const maxS = 120;
-        let w = img.width, h = img.height;
-        if(w > maxS || h > maxS){
-          if(w > h){ h = Math.round(h*maxS/w); w = maxS; }
-          else{ w = Math.round(w*maxS/h); h = maxS; }
-        }
-        const canvas = document.createElement('canvas');
-        canvas.width = w; canvas.height = h;
-        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        const data = canvas.toDataURL('image/jpeg', 0.60);
-        // Guardar en memoria primero
-        _libDecoImg = data;
-        // Intentar guardar en localStorage
-        try{
-          localStorage.setItem('tbr-lib-deco', data);
-        }catch(err){
-          showToast('⚠️ Imagen guardada solo en esta sesión (sin espacio)');
-        }
-        renderLibreria();
-        showToast('🌸 Decoración lista');
-      };
-      img.onerror = () => {
-        _libDecoImg = raw;
-        try{localStorage.setItem('tbr-lib-deco', raw);}catch{}
-        renderLibreria();
-        showToast('🌸 Decoración lista');
-      };
-      img.src = raw;
-    };
-    reader.readAsDataURL(file);
-  };
-  input.click();
-}
-
-function _removeLibDeco() {
-  try{localStorage.removeItem('tbr-lib-deco');}catch{}
-  _libDecoImg = null;
-  renderLibreria();
-}
-
 function renderLibreria() {
   const el = document.getElementById('libreriaShelf');
   if(!el) return;
 
-  let items = [];
+  // Recopilar TODOS los leídos (sin filtrar por año aún) para calcular qué años existen
+  let allRead = [];
   if(_libType !== 'books') {
     BOOKS.forEach(b => {
       const st = STATE[b.id] || {};
       if((st.status||'unread') !== 'read') return;
-      items.push({title:b.title||'?', cover:_getCover('m'+b.id)||'', favorite:!!st.favorite, type:'manga', id:b.id});
+      allRead.push({title:b.title||'?', cover:_getCover('m'+b.id)||'', favorite:!!st.favorite, type:'manga', id:b.id, finishDate:st.finishDate||null});
     });
   }
   if(_libType !== 'manga') {
     BOOKS_LIB.forEach(b => {
       const st = BOOKS_STATE[b.id] || {};
       if((st.status||'unread') !== 'read') return;
-      items.push({title:b.title||'?', cover:_getCover('b'+b.id)||'', favorite:!!st.favorite, type:'books', id:b.id});
+      allRead.push({title:b.title||'?', cover:_getCover('b'+b.id)||'', favorite:!!st.favorite, type:'books', id:b.id, finishDate:st.finishDate||null});
     });
   }
 
-  if(items.length === 0) {
+  // Años disponibles (a partir de finishDate; los sin fecha caen en "Sin fecha")
+  const yearsSet = new Set();
+  let hasNoDate = false;
+  allRead.forEach(it => {
+    if(it.finishDate){
+      const y = parseInt(String(it.finishDate).slice(0,4));
+      if(y) yearsSet.add(y);
+    } else hasNoDate = true;
+  });
+  const yearList = [...yearsSet].sort((a,b) => b-a);
+
+  // Filtrar según año seleccionado
+  let items = allRead;
+  if(_libYear !== 'all'){
+    if(_libYear === 'nodate'){
+      items = allRead.filter(it => !it.finishDate);
+    } else {
+      items = allRead.filter(it => it.finishDate && String(it.finishDate).slice(0,4) === String(_libYear));
+    }
+  }
+
+  // Selector de año (solo si hay al menos un año detectado)
+  let yearSelectorHtml = '';
+  if(yearList.length || hasNoDate){
+    const pillBtn = (val, label, count) => {
+      const active = String(_libYear) === String(val);
+      return `<button onclick="_setLibYear('${val}')" style="padding:.28rem .65rem;border-radius:20px;border:1.5px solid ${active?'var(--p3)':'var(--border)'};background:${active?'var(--p2)':'var(--card)'};color:${active?'var(--p4)':'var(--text3)'};font-family:'DM Sans',sans-serif;font-size:.74rem;font-weight:${active?'600':'400'};cursor:pointer;white-space:nowrap;">${label}${count!==undefined?` (${count})`:''}</button>`;
+    };
+    const totalCount = allRead.length;
+    let pills = pillBtn('all', '🌸 Todo', totalCount);
+    yearList.forEach(y => {
+      const cnt = allRead.filter(it => it.finishDate && String(it.finishDate).slice(0,4) === String(y)).length;
+      pills += pillBtn(y, y, cnt);
+    });
+    if(hasNoDate){
+      const cnt = allRead.filter(it => !it.finishDate).length;
+      pills += pillBtn('nodate', '❓ Sin fecha', cnt);
+    }
+    yearSelectorHtml = `<div style="display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.75rem;overflow-x:auto;-webkit-overflow-scrolling:touch;">${pills}</div>`;
+  }
+
+  if(allRead.length === 0) {
     el.innerHTML = '<div class="lib-bookcase"><div class="lib-empty">📚 Aún no tienes títulos leídos</div></div>';
     return;
   }
+  if(items.length === 0) {
+    el.innerHTML = `${yearSelectorHtml}<div class="lib-bookcase"><div class="lib-empty">📚 ${_libYear==='nodate'?'Nada leído sin fecha registrada':'Nada leído en '+_libYear}</div></div>`;
+    return;
+  }
 
-  // Calcular cuántos libros caben por estante según el ancho del lomo
-  // Ancho disponible ≈ 340px (móvil) − margen − espacio para adorno
-  const decoSpace = _libShowDeco ? (_libDecoCount * (_libBookW + 18)) : 0;
-  const shelfWidth = Math.min(window.innerWidth - 60, 620) - decoSpace - 16;
+  const shelfWidth = Math.min(window.innerWidth - 60, 620) - 16;
   const PER_SHELF = Math.max(2, Math.floor(shelfWidth / (_libBookW + 6)));
   const SPINE_COLORS = ['#f9a8d4','#fda4af','#fcd34d','#86efac','#93c5fd','#c4b5fd','#fb923c','#6ee7b7','#f0abfc','#a5f3fc'];
   const coverPos = _libCoverPos || 'center'; // top / center / bottom
@@ -3640,24 +3305,7 @@ function renderLibreria() {
   const shelves = [];
   for(let i = 0; i < items.length; i += PER_SHELF) shelves.push(items.slice(i, i + PER_SHELF));
 
-  // Adorno: alterna inicio/fin por estante
-  const DECO_EMOJIS = ['🌿','☕','🕯️','🌸','📿','🧸','🪴','🎀','⭐','🦋'];
-  const decoHtml = (si) => {
-    if(!_libShowDeco) return '';
-    const spots = [];
-    for(let d=0; d<_libDecoCount; d++){
-      const decoEl = _libDecoImg
-        ? `<img src="${_libDecoImg}" alt="deco" style="height:${_libBookH}px;width:auto;max-width:${_libBookW+14}px;object-fit:contain;border-radius:6px;">`
-        : `<span style="font-size:${_libDecoCount>1?'1.2':'1.7'}rem;line-height:1;">${DECO_EMOJIS[(si*3+d)%DECO_EMOJIS.length]}</span>`;
-      spots.push(`<div class="lib-deco-spot" style="display:flex;align-items:flex-end;justify-content:center;width:${_libBookW+14}px;flex-shrink:0;padding-bottom:2px;">${decoEl}</div>`);
-    }
-    return spots.join('');
-  };
-
-  const shelvesHtml = shelves.map((shelf, si) => {
-    // Primer estante: _libDecoStart, siguientes alternan
-    const firstIsLeft = _libDecoStart === 'left';
-    const decoLeft = si % 2 === 0 ? firstIsLeft : !firstIsLeft;
+  const shelvesHtml = shelves.map((shelf) => {
     const books = shelf.map((item) => {
       const color = SPINE_COLORS[(colorIdx++) % SPINE_COLORS.length];
       const posY = coverPos === 'top' ? 'top' : coverPos === 'bottom' ? 'bottom' : '20%';
@@ -3676,11 +3324,7 @@ function renderLibreria() {
       </div>`;
     }).join('');
 
-    return `<div class="lib-shelf" style="justify-content:flex-start;">
-      ${decoLeft ? decoHtml(si) : ''}
-      ${books}
-      ${!decoLeft ? decoHtml(si) : ''}
-    </div>`;
+    return `<div class="lib-shelf" style="justify-content:flex-start;">${books}</div>`;
   }).join('');
 
   // Botón de configuración portada
@@ -3688,28 +3332,12 @@ function renderLibreria() {
     `<button onclick="_setLibCoverPos('${p}')" style="padding:.2rem .5rem;border-radius:20px;border:1.5px solid ${coverPos===p?'var(--p3)':'var(--border)'};background:${coverPos===p?'var(--p2)':'transparent'};color:${coverPos===p?'var(--p4)':'var(--text3)'};font-family:'DM Sans',sans-serif;font-size:.68rem;cursor:pointer;">${p==='top'?'Arriba':p==='center'?'Centro':'Abajo'}</button>`
   ).join('');
 
-  const startOptions = ['left','right'].map(s =>
-    `<button onclick="_setLibDecoStart('${s}')" style="padding:.2rem .5rem;border-radius:20px;border:1.5px solid ${_libDecoStart===s?'var(--p3)':'var(--border)'};background:${_libDecoStart===s?'var(--p2)':'transparent'};color:${_libDecoStart===s?'var(--p4)':'var(--text3)'};font-family:'DM Sans',sans-serif;font-size:.68rem;cursor:pointer;">${s==='left'?'← Izquierda':'Derecha →'}</button>`
-  ).join('');
-
-  const toolbar = `<div style="display:flex;flex-direction:column;gap:.45rem;margin-bottom:.75rem;">
-    <div style="display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;">
-      <span style="font-size:.72rem;color:var(--text3);">🖼️ Zona portada:</span>${posOptions}
-    </div>
-    <div style="display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;">
-      <span style="font-size:.72rem;color:var(--text3);">🎀 Adorno empieza:</span>${startOptions}
-    </div>
-    <div style="display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;">
-      <button onclick="_uploadLibDeco()" style="padding:.25rem .65rem;border-radius:20px;border:1.5px solid var(--p3);background:var(--p1);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.72rem;cursor:pointer;">${_libDecoImg ? '🔄 Cambiar decoración' : '🖼️ Subir decoración'}</button>
-      ${_libDecoImg ? `<img src="${_libDecoImg}" style="height:28px;width:auto;border-radius:4px;border:1.5px solid var(--border);vertical-align:middle;" title="Decoración actual">` : ''}
-      ${_libDecoImg ? `<button onclick="_removeLibDeco()" style="padding:.25rem .65rem;border-radius:20px;border:1.5px solid #fca5a5;background:transparent;color:#dc2626;font-family:'DM Sans',sans-serif;font-size:.72rem;cursor:pointer;">✕</button>` : ''}
-    </div>
+  const toolbar = `<div style="display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;margin-bottom:.75rem;">
+    <span style="font-size:.72rem;color:var(--text3);">🖼️ Zona portada:</span>${posOptions}
   </div>`;
 
-  el.innerHTML = `<div class="lib-bookcase" style="position:relative;">${toolbar}${shelvesHtml}</div>`;
+  el.innerHTML = `<div class="lib-bookcase" style="position:relative;">${yearSelectorHtml}${toolbar}${shelvesHtml}</div>`;
 }
-
-
 
 function applyTabVisibility(){
   let prefs={};
@@ -3751,6 +3379,260 @@ function saveTabVisibility(){
   applyTabVisibility();
 }
 
+
+// ══ Sistema de Notificaciones Push (Supabase + VAPID) ══════════════════════════
+const SUPABASE_URL = 'https://cggmkitgegrnaaohlpux.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_-SsxibXkuADv7IL3buU_CA_ddlKJxPA';
+const VAPID_PUBLIC_KEY = 'BLGwCtdINQSQhXTIhLSTzzbnUrI-TQH6bzOeWcaPDw8xGQIA3T5XQRKWiP8ctxq7XR6bckqPflNeGmP0hGI4cIY';
+
+let _sb = null;
+function getSupabase(){
+  if(_sb) return _sb;
+  if(typeof window.supabase === 'undefined') return null;
+  _sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  return _sb;
+}
+
+function getDeviceId(){
+  let id = localStorage.getItem('tbr-device-id');
+  if(!id){
+    id = (crypto.randomUUID ? crypto.randomUUID() : 'dev-'+Date.now()+'-'+Math.random().toString(36).slice(2));
+    localStorage.setItem('tbr-device-id', id);
+  }
+  return id;
+}
+
+function urlBase64ToUint8Array(base64String){
+  const padding='='.repeat((4-base64String.length%4)%4);
+  const base64=(base64String+padding).replace(/-/g,'+').replace(/_/g,'/');
+  const raw=window.atob(base64);
+  const out=new Uint8Array(raw.length);
+  for(let i=0;i<raw.length;++i) out[i]=raw.charCodeAt(i);
+  return out;
+}
+
+const NOTIF_KEY='tbr-notif-prefs';
+function loadNotifPrefs(){ try{return JSON.parse(localStorage.getItem(NOTIF_KEY)||'{}');}catch{return{};} }
+function saveNotifPrefsLocal(p){ localStorage.setItem(NOTIF_KEY, JSON.stringify(p)); }
+
+// ── Suscripción push real ─────────────────────────────────────────────────────
+async function subscribeToPush(){
+  if(!('serviceWorker' in navigator) || !('PushManager' in window)){
+    showToast('❌ Tu navegador no soporta notificaciones push');
+    return false;
+  }
+  try{
+    const reg = await navigator.serviceWorker.register('sw.js');
+    await navigator.serviceWorker.ready;
+
+    let sub = await reg.pushManager.getSubscription();
+    if(!sub){
+      sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
+      });
+    }
+
+    const sb = getSupabase();
+    if(!sb){ showToast('❌ No se pudo conectar con el servidor'); return false; }
+
+    const deviceId = getDeviceId();
+    const tzOffset = new Date().getTimezoneOffset(); // minutos, ya en convención correcta para el server
+    const prefs = loadNotifPrefs();
+
+    const { error } = await sb.from('push_subscriptions').upsert({
+      device_id: deviceId,
+      subscription: sub.toJSON(),
+      notif_time: prefs.notifTime || '09:00',
+      tz_offset_minutes: tzOffset,
+    }, { onConflict: 'device_id' });
+
+    if(error){ console.error(error); showToast('❌ Error al guardar suscripción'); return false; }
+    return true;
+  }catch(err){
+    console.error('subscribeToPush error:', err);
+    showToast('❌ Error al activar notificaciones');
+    return false;
+  }
+}
+
+async function unsubscribeFromPush(){
+  try{
+    if('serviceWorker' in navigator){
+      const reg = await navigator.serviceWorker.getRegistration('sw.js');
+      if(reg){
+        const sub = await reg.pushManager.getSubscription();
+        if(sub) await sub.unsubscribe();
+      }
+    }
+    const sb = getSupabase();
+    if(sb){
+      await sb.from('push_subscriptions').delete().eq('device_id', getDeviceId());
+    }
+  }catch(err){ console.error('unsubscribe error:', err); }
+}
+
+// ── Sincronizar horarios de manga a Supabase (solo lo necesario para notificar) ─
+let _syncDebounceTimer = null;
+function scheduleSyncToSupabase(){
+  clearTimeout(_syncDebounceTimer);
+  _syncDebounceTimer = setTimeout(syncNotifySchedulesToSupabase, 2500);
+}
+
+async function syncNotifySchedulesToSupabase(){
+  const prefs = loadNotifPrefs();
+  if(!prefs.enabled) return;
+  const sb = getSupabase();
+  if(!sb) return;
+  const deviceId = getDeviceId();
+
+  const rows = BOOKS
+    .filter(b => STATE[b.id] && STATE[b.id].status === 'reading' && STATE[b.id].emission === 'ongoing')
+    .map(b => {
+      const st = STATE[b.id];
+      return {
+        device_id: deviceId,
+        manga_id: String(b.id),
+        title: b.title,
+        update_days: st.updateDays || [],
+        freq: st.freq || 'week',
+        emission: st.emission || '',
+        status: st.status || 'unread',
+        chap_cur: st.chapCur || 0,
+      };
+    });
+
+  try{
+    // Borrar los que ya no están en estado "reading + ongoing" y resubir el resto
+    await sb.from('manga_notify_schedules').delete().eq('device_id', deviceId);
+    if(rows.length){
+      await sb.from('manga_notify_schedules').insert(rows);
+    }
+  }catch(err){ console.error('sync schedules error:', err); }
+}
+
+// ── Toggle principal ───────────────────────────────────────────────────────────
+async function toggleNotifications(enabled){
+  const prefs = loadNotifPrefs();
+  if(enabled){
+    if(!('Notification' in window)){ showToast('❌ No soportado en este navegador'); renderNotifSettings(); return; }
+    if(Notification.permission === 'denied'){
+      showToast('⚠️ Notificaciones bloqueadas. Actívalas en ajustes del navegador.');
+      renderNotifSettings(); return;
+    }
+    let permission = Notification.permission;
+    if(permission !== 'granted'){
+      permission = await Notification.requestPermission();
+    }
+    if(permission !== 'granted'){ renderNotifSettings(); return; }
+
+    const btn = document.getElementById('notifToggle');
+    if(btn) btn.disabled = true;
+    const ok = await subscribeToPush();
+    if(!ok){ renderNotifSettings(); return; }
+
+    prefs.enabled = true;
+    saveNotifPrefsLocal(prefs);
+    await syncNotifySchedulesToSupabase();
+    showToast('🔔 Notificaciones activadas');
+  } else {
+    prefs.enabled = false;
+    saveNotifPrefsLocal(prefs);
+    await unsubscribeFromPush();
+    showToast('🔕 Notificaciones desactivadas');
+  }
+  renderNotifSettings();
+}
+
+async function saveNotifTime(val){
+  const prefs = loadNotifPrefs();
+  prefs.notifTime = val;
+  saveNotifPrefsLocal(prefs);
+  const sb = getSupabase();
+  if(sb && prefs.enabled){
+    await sb.from('push_subscriptions')
+      .update({ notif_time: val, last_notified_date: null })
+      .eq('device_id', getDeviceId());
+  }
+  showToast('⏰ Hora de notificación guardada');
+}
+
+function renderNotifSettings(){
+  const el = document.getElementById('notifSettingsArea');
+  if(!el) return;
+  const prefs = loadNotifPrefs();
+  const supported = 'Notification' in window && 'serviceWorker' in navigator && 'PushManager' in window;
+  const permission = supported ? Notification.permission : 'unsupported';
+  const enabled = !!prefs.enabled && permission === 'granted';
+  const notifTime = prefs.notifTime || '09:00';
+
+  const permBadge = permission === 'granted'
+    ? `<span style="font-size:.72rem;background:#dcfce7;color:#166534;padding:.1rem .45rem;border-radius:20px;font-weight:600;">✓ Permitidas</span>`
+    : permission === 'denied'
+    ? `<span style="font-size:.72rem;background:#fee2e2;color:#dc2626;padding:.1rem .45rem;border-radius:20px;font-weight:600;">✗ Bloqueadas</span>`
+    : permission === 'unsupported'
+    ? `<span style="font-size:.72rem;background:#fef3c7;color:#92400e;padding:.1rem .45rem;border-radius:20px;font-weight:600;">No soportadas</span>`
+    : `<span style="font-size:.72rem;background:#fef3c7;color:#92400e;padding:.1rem .45rem;border-radius:20px;font-weight:600;">Sin permiso</span>`;
+
+  el.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:.4rem;">
+      <div style="display:flex;align-items:center;gap:.5rem;">
+        <span style="font-size:.85rem;">Notificaciones push</span>
+        ${permBadge}
+      </div>
+      ${supported && permission !== 'denied' ? `
+      <label style="display:flex;align-items:center;gap:.4rem;cursor:pointer;">
+        <span style="font-size:.78rem;color:var(--text3);">${enabled?'Activas':'Inactivas'}</span>
+        <div style="position:relative;width:40px;height:22px;">
+          <input type="checkbox" id="notifToggle" ${enabled?'checked':''} onchange="toggleNotifications(this.checked)"
+            style="opacity:0;width:0;height:0;position:absolute;">
+          <div style="position:absolute;inset:0;background:${enabled?'var(--p3)':'var(--border)'};border-radius:22px;transition:background .2s;"></div>
+          <div style="position:absolute;top:3px;left:${enabled?'21':'3'}px;width:16px;height:16px;background:#fff;border-radius:50%;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2);"></div>
+        </div>
+      </label>` : ''}
+    </div>
+
+    ${permission === 'denied' ? `
+    <div style="background:#fff7ed;border:1.5px solid #fed7aa;border-radius:10px;padding:.65rem .8rem;font-size:.76rem;color:#92400e;margin-bottom:.75rem;line-height:1.6;">
+      ⚠️ Las notificaciones están bloqueadas en tu navegador.<br>
+      Ve a <strong>Ajustes del navegador → Permisos del sitio → Notificaciones</strong> y permite este sitio.
+    </div>` : ''}
+
+    ${enabled ? `
+    <div style="display:flex;flex-direction:column;gap:.65rem;">
+      <div>
+        <label style="font-size:.76rem;color:var(--text3);display:block;margin-bottom:.3rem;">⏰ Hora de notificación diaria</label>
+        <div style="display:flex;align-items:center;gap:.5rem;">
+          <input type="time" value="${notifTime}" onchange="saveNotifTime(this.value)"
+            style="padding:.38rem .65rem;border:1.5px solid var(--border);border-radius:9px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;cursor:pointer;">
+          <span style="font-size:.74rem;color:var(--text3);">Hora en que recibirás el aviso</span>
+        </div>
+      </div>
+      <div style="background:var(--p0);border-radius:10px;padding:.6rem .75rem;font-size:.74rem;color:var(--text3);line-height:1.6;">
+        💡 Recibirás un push real a las <strong>${notifTime}</strong> con los manga en estado <em>Leyendo</em> que tengan capítulo nuevo según su calendario — funciona <strong>aunque la app esté cerrada</strong>.
+      </div>
+      <button onclick="testNotification()" style="padding:.42rem .85rem;border-radius:10px;border:1.5px solid var(--p2);background:var(--p1);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.78rem;cursor:pointer;">
+        🔔 Probar notificación local ahora
+      </button>
+    </div>` : ''}
+  `;
+}
+
+function testNotification(){
+  if(Notification.permission !== 'granted'){ showToast('⚠️ Primero activa las notificaciones'); return; }
+  const updates = BOOKS.filter(b=>{
+    const st=STATE[b.id];
+    return st.emission==='ongoing' && updatesToday(st) && st.status==='reading';
+  });
+  const title = updates.length ? `🌸 ${updates.length} manga${updates.length!==1?'s':''} actualizan hoy` : '🌸 Hanami Reads';
+  const body = updates.length
+    ? updates.slice(0,3).map(b=>b.title).join(', ') + (updates.length>3?` y ${updates.length-3} más`:'')
+    : 'No hay mangas con capítulo nuevo hoy. ¡Disfruta tu lectura!';
+  new Notification(title, { body, icon:'icon-192.png', badge:'icon-192.png' });
+}
+// ═══════════════════════════════════════════════════════════════════════════════
+
+
 document.addEventListener('DOMContentLoaded',()=>{
 
   try{
@@ -3776,6 +3658,14 @@ document.addEventListener('DOMContentLoaded',()=>{
   applyTabVisibility();
   renderTodayBanner();
   document.getElementById('pdfFilter').addEventListener('change',togglePdfRows);
+  // Inicializar sistema de notificaciones push
+  setTimeout(()=>{
+    renderNotifSettings();
+    const _np = loadNotifPrefs();
+    if(_np.enabled && 'Notification' in window && Notification.permission==='granted'){
+      subscribeToPush().then(ok=>{ if(ok) scheduleSyncToSupabase(); });
+    }
+  }, 800);
 });
 
 if('serviceWorker' in navigator){
@@ -4204,25 +4094,6 @@ document.addEventListener('click',e=>{
             </div>
           </div>
 
-          <div>
-            <p style="font-size:.78rem;color:var(--text2);margin-bottom:.4rem;">🎀 Adornos</p>
-            <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;">
-              <button onclick="_toggleLibDeco(true)" id="libDecoOn"
-                style="padding:.3rem .7rem;border-radius:20px;border:1.5px solid var(--p3);background:var(--p2);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.75rem;cursor:pointer;">✅ Mostrar</button>
-              <button onclick="_toggleLibDeco(false)" id="libDecoOff"
-                style="padding:.3rem .7rem;border-radius:20px;border:1.5px solid var(--border);background:transparent;color:var(--text3);font-family:'DM Sans',sans-serif;font-size:.75rem;cursor:pointer;">❌ Ocultar</button>
-            </div>
-          </div>
-
-          <div>
-            <p style="font-size:.78rem;color:var(--text2);margin-bottom:.4rem;">🔢 Cantidad de adornos por estante</p>
-            <div style="display:flex;gap:.5rem;">
-              <button onclick="_setLibDecoCount(1)" style="padding:.3rem .65rem;border-radius:20px;border:1.5px solid var(--border);background:transparent;color:var(--text3);font-family:'DM Sans',sans-serif;font-size:.75rem;cursor:pointer;">1</button>
-              <button onclick="_setLibDecoCount(2)" style="padding:.3rem .65rem;border-radius:20px;border:1.5px solid var(--border);background:transparent;color:var(--text3);font-family:'DM Sans',sans-serif;font-size:.75rem;cursor:pointer;">2</button>
-              <button onclick="_setLibDecoCount(3)" style="padding:.3rem .65rem;border-radius:20px;border:1.5px solid var(--border);background:transparent;color:var(--text3);font-family:'DM Sans',sans-serif;font-size:.75rem;cursor:pointer;">3</button>
-            </div>
-          </div>
-
         </div>
       </div>
 
@@ -4231,6 +4102,11 @@ document.addEventListener('click',e=>{
 
   <div class="tab-section" id="sectionSettings">
     <div style="max-width:460px;margin:1.5rem auto;display:flex;flex-direction:column;gap:1.1rem;padding:0 .25rem;">
+      <div style="background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:1.3rem;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--p4);margin-bottom:.35rem;">🔔 Notificaciones</h3>
+        <p style="font-size:.8rem;color:var(--text3);margin-bottom:.85rem;">Recibe un aviso los días que tus mangas en emisión tienen capítulo nuevo.</p>
+        <div id="notifSettingsArea"></div>
+      </div>
       <div style="background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:1.3rem;">
         <h3 style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--p4);margin-bottom:.35rem;">💾 Respaldar datos</h3>
         <p style="font-size:.8rem;color:var(--text3);margin-bottom:.9rem;">Descarga un archivo con todos tus manga, libros, reseñas, portadas y puntuaciones.</p>
@@ -4248,44 +4124,6 @@ document.addEventListener('click',e=>{
         <h3 style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--p4);margin-bottom:.35rem;">🌸 Exportar Journal</h3>
         <p style="font-size:.8rem;color:var(--text3);margin-bottom:.9rem;">Genera un journal kawaii con tu historial de lecturas, tracker y estadísticas.</p>
         <button onclick="openPdfModal()" style="width:100%;padding:.6rem;border-radius:11px;border:1.5px solid #fecaca;background:#fff5f5;color:#dc2626;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;">🌸 Crear Journal PDF</button>
-      </div>
-      <div style="background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:1.3rem;">
-        <h3 style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--p4);margin-bottom:.35rem;">📺 Importar desde MyAnimeList</h3>
-        <p style="font-size:.8rem;color:var(--text3);margin-bottom:.85rem;">Dos formas de importar tu lista de MyAnimeList.</p>
-
-        <!-- Opción 1: Por nombre de usuario -->
-        <div style="background:var(--p0);border-radius:12px;padding:.85rem;margin-bottom:.75rem;border:1.5px solid var(--border);">
-          <div style="font-size:.8rem;font-weight:600;color:var(--p4);margin-bottom:.5rem;">🔍 Opción 1 — Por nombre de usuario</div>
-          <p style="font-size:.74rem;color:var(--text3);margin-bottom:.6rem;">Tu lista debe ser <strong>pública</strong> en MAL. Usa la API de Jikan.</p>
-          <div style="display:flex;gap:.5rem;">
-            <input type="text" id="malUsername" placeholder="Tu usuario de MAL…"
-              style="flex:1;padding:.45rem .75rem;border:1.5px solid var(--border);border-radius:10px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none;"
-              onfocus="this.style.borderColor='var(--p3)'" onblur="this.style.borderColor='var(--border)'"
-              onkeydown="if(event.key==='Enter')fetchMALList()">
-            <button onclick="fetchMALList()" id="malFetchBtn"
-              style="padding:.45rem .9rem;border-radius:10px;border:none;background:linear-gradient(135deg,var(--p3),var(--p4));color:#fff;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;cursor:pointer;white-space:nowrap;">
-              🔍 Buscar
-            </button>
-          </div>
-          <div id="malStatus" style="font-size:.74rem;color:var(--text3);min-height:1rem;margin-top:.35rem;"></div>
-          <div id="malPreview"></div>
-        </div>
-
-        <!-- Opción 2: Subir XML -->
-        <div style="background:var(--p0);border-radius:12px;padding:.85rem;border:1.5px solid var(--border);">
-          <div style="font-size:.8rem;font-weight:600;color:var(--p4);margin-bottom:.5rem;">📁 Opción 2 — Subir archivo XML</div>
-          <div style="font-size:.73rem;color:var(--text3);line-height:1.65;margin-bottom:.6rem;">
-            1. Ve a <em>myanimelist.net/panel.php?go=export</em><br>
-            2. Click en <em>"Export My Anime List"</em><br>
-            3. Descomprime el .gz y sube el .xml aquí
-          </div>
-          <label style="display:flex;align-items:center;justify-content:center;gap:.4rem;width:100%;padding:.5rem;border-radius:10px;border:1.5px dashed var(--p2);background:var(--card);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;box-sizing:border-box;">
-            📁 Seleccionar archivo .xml o .xml.gz
-            <input type="file" id="animeListFile" accept=".xml,.gz,.xml.gz" style="display:none" onchange="parseAnimeListXML(this)">
-          </label>
-          <div id="animeListPreview" style="margin-top:.5rem;"></div>
-          <button id="animeListConfirmBtn" onclick="confirmAnimeListImport()" style="display:none;width:100%;margin-top:.5rem;padding:.5rem;border-radius:10px;border:none;background:linear-gradient(135deg,var(--p3),var(--p4));color:#fff;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;">✨ Importar desde XML</button>
-        </div>
       </div>
       <div style="background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:1.3rem;">
         <h3 style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--p4);margin-bottom:.35rem;">📋 Importar lista en masa</h3>
@@ -4443,7 +4281,6 @@ document.addEventListener('click',e=>{
         <span style="font-size:.8rem;color:var(--text2);">cap(s).</span>
       </div>
     </div>
-    </div>
     <div class="add-field">
       <label>📝 Sinopsis personal <span style="font-size:.7rem;color:var(--text3);">(tu descripción)</span></label>
       <textarea id="editSinopsis" placeholder="Describe este manga…" style="resize:vertical;min-height:64px;"></textarea>
@@ -4541,6 +4378,23 @@ document.addEventListener('click',e=>{
     <div style="display:flex;gap:.65rem;">
       <div class="add-field" style="flex:1"><label>Formato</label><select id="bFormat"><option value="fisico">📗 Físico</option><option value="digital">💻 Digital</option></select></div>
       <div class="add-field" style="flex:1"><label>Páginas</label><input type="number" id="bPages" placeholder="0" min="0"></div>
+    </div>
+    <div class="add-field">
+      <label>Estado</label>
+      <select id="bStatus" onchange="toggleAddBookDateFields(this.value)" style="width:100%;padding:.5rem .8rem;border:1.5px solid var(--border);border-radius:11px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;appearance:none;">
+        <option value="unread">📖 Sin leer</option>
+        <option value="reading">✨ Leyendo</option>
+        <option value="read">✅ Leído</option>
+        <option value="paused">⏸ Pausado</option>
+      </select>
+    </div>
+    <div class="add-field" id="bStartDateRow" style="display:none;">
+      <label>📖 Fecha de inicio de lectura</label>
+      <input type="date" id="bStartDate" style="width:100%;padding:.38rem .7rem;border:1.5px solid var(--border);border-radius:10px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none;">
+    </div>
+    <div class="add-field" id="bFinishDateRow" style="display:none;">
+      <label>📅 Fecha de finalización</label>
+      <input type="date" id="bFinishDate" style="width:100%;padding:.38rem .7rem;border:1.5px solid var(--border);border-radius:10px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none;">
     </div>
     <div class="add-field"><label>Enlace (opcional)</label><input type="url" id="bUrl" placeholder="https://…"></div>
     <div class="add-field">
@@ -4654,30 +4508,6 @@ document.addEventListener('click',e=>{
     <div style="display:flex;gap:.5rem;margin-top:.85rem;">
       <button class="add-cancel" onclick="closeBingoShare()">Cerrar</button>
       <button class="add-confirm" onclick="downloadBingoImage()">⬇️ Descargar imagen</button>
-    </div>
-  </d
-
-<div class="add-overlay" id="animeListOverlay" onclick="closeAnimeListOnOverlay(event)">
-  <div class="add-modal" style="max-height:90vh;overflow-y:auto;width:min(440px,96vw);">
-    <h2>📺 Importar MyAnimeList</h2>
-    <p style="font-size:.78rem;color:var(--text3);margin-bottom:1rem;">Sube el archivo XML exportado desde myanimelist.net. Se importarán todos tus animes como manga, respetando estado, capítulos y puntuación.</p>
-    <div style="background:var(--p0);border-radius:10px;padding:.65rem .8rem;margin-bottom:.85rem;font-size:.75rem;color:var(--text3);line-height:1.65;">
-      <strong style="color:var(--p4);display:block;margin-bottom:.2rem;">¿Cómo exportar?</strong>
-      1. Ve a <em>myanimelist.net/panel.php?go=export</em><br>
-      2. Haz clic en <em>"Export My Anime List"</em><br>
-      3. Descarga el .gz, descomprímelo y sube el .xml aquí
-    </div>
-    <div class="add-field">
-      <label>Archivo XML de MyAnimeList</label>
-      <label style="display:flex;align-items:center;gap:.5rem;padding:.55rem .8rem;border:1.5px dashed var(--p2);border-radius:11px;background:var(--p0);cursor:pointer;font-size:.82rem;color:var(--p4);font-family:'DM Sans',sans-serif;">
-        📁 Seleccionar archivo .xml
-        <input type="file" id="animeListFile" accept=".xml" style="display:none" onchange="parseAnimeListXML(this)">
-      </label>
-    </div>
-    <div id="animeListPreview"></div>
-    <div class="add-actions">
-      <button class="add-cancel" onclick="closeAnimeListModal()">Cancelar</button>
-      <button class="add-confirm" id="animeListConfirmBtn" onclick="confirmAnimeListImport()" style="display:none;">✨ Importar títulos</button>
     </div>
   </div>
 </div>
