@@ -3418,23 +3418,37 @@ function saveNotifPrefsLocal(p){ localStorage.setItem(NOTIF_KEY, JSON.stringify(
 // ── Suscripción push real ─────────────────────────────────────────────────────
 async function subscribeToPush(){
   if(!('serviceWorker' in navigator) || !('PushManager' in window)){
-    showToast('❌ Tu navegador no soporta notificaciones push');
+    showToast('❌ Tu navegador no soporta push (en iPhone debes instalar la app primero: Compartir → Añadir a pantalla de inicio)');
     return false;
   }
   try{
-    const reg = await navigator.serviceWorker.register('sw.js');
+    let reg;
+    try{
+      reg = await navigator.serviceWorker.register('sw.js');
+    }catch(swErr){
+      console.error('SW register error:', swErr);
+      showToast('❌ No se encontró sw.js. Verifica que esté subido junto a index.html en tu repo.');
+      return false;
+    }
     await navigator.serviceWorker.ready;
 
-    let sub = await reg.pushManager.getSubscription();
-    if(!sub){
-      sub = await reg.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
-      });
+    let sub;
+    try{
+      sub = await reg.pushManager.getSubscription();
+      if(!sub){
+        sub = await reg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
+        });
+      }
+    }catch(pushErr){
+      console.error('Push subscribe error:', pushErr);
+      showToast('❌ Error al suscribir push: ' + (pushErr?.message || pushErr));
+      return false;
     }
 
     const sb = getSupabase();
-    if(!sb){ showToast('❌ No se pudo conectar con el servidor'); return false; }
+    if(!sb){ showToast('❌ No se pudo conectar con Supabase (revisa tu conexión)'); return false; }
 
     const deviceId = getDeviceId();
     const tzOffset = new Date().getTimezoneOffset(); // minutos, ya en convención correcta para el server
@@ -3447,11 +3461,15 @@ async function subscribeToPush(){
       tz_offset_minutes: tzOffset,
     }, { onConflict: 'device_id' });
 
-    if(error){ console.error(error); showToast('❌ Error al guardar suscripción'); return false; }
+    if(error){
+      console.error('Supabase upsert error:', error);
+      showToast('❌ Error de Supabase: ' + (error.message || error.hint || JSON.stringify(error)));
+      return false;
+    }
     return true;
   }catch(err){
     console.error('subscribeToPush error:', err);
-    showToast('❌ Error al activar notificaciones');
+    showToast('❌ Error al activar: ' + (err?.message || err));
     return false;
   }
 }
@@ -3459,7 +3477,7 @@ async function subscribeToPush(){
 async function unsubscribeFromPush(){
   try{
     if('serviceWorker' in navigator){
-      const reg = await navigator.serviceWorker.getRegistration('sw.js');
+      const reg = await navigator.serviceWorker.getRegistration();
       if(reg){
         const sub = await reg.pushManager.getSubscription();
         if(sub) await sub.unsubscribe();
@@ -3467,9 +3485,13 @@ async function unsubscribeFromPush(){
     }
     const sb = getSupabase();
     if(sb){
-      await sb.from('push_subscriptions').delete().eq('device_id', getDeviceId());
+      const { error } = await sb.from('push_subscriptions').delete().eq('device_id', getDeviceId());
+      if(error){ console.error('Supabase delete error:', error); showToast('⚠️ Desactivado localmente, pero hubo un error en el servidor: '+(error.message||error)); return; }
     }
-  }catch(err){ console.error('unsubscribe error:', err); }
+  }catch(err){
+    console.error('unsubscribe error:', err);
+    showToast('⚠️ Error al desactivar: ' + (err?.message || err));
+  }
 }
 
 // ── Sincronizar horarios de manga a Supabase (solo lo necesario para notificar) ─
@@ -3514,34 +3536,40 @@ async function syncNotifySchedulesToSupabase(){
 // ── Toggle principal ───────────────────────────────────────────────────────────
 async function toggleNotifications(enabled){
   const prefs = loadNotifPrefs();
-  if(enabled){
-    if(!('Notification' in window)){ showToast('❌ No soportado en este navegador'); renderNotifSettings(); return; }
-    if(Notification.permission === 'denied'){
-      showToast('⚠️ Notificaciones bloqueadas. Actívalas en ajustes del navegador.');
-      renderNotifSettings(); return;
-    }
-    let permission = Notification.permission;
-    if(permission !== 'granted'){
-      permission = await Notification.requestPermission();
-    }
-    if(permission !== 'granted'){ renderNotifSettings(); return; }
+  try{
+    if(enabled){
+      if(!('Notification' in window)){ showToast('❌ No soportado en este navegador'); return; }
+      if(Notification.permission === 'denied'){
+        showToast('⚠️ Notificaciones bloqueadas. Actívalas en ajustes del navegador.');
+        return;
+      }
+      let permission = Notification.permission;
+      if(permission !== 'granted'){
+        permission = await Notification.requestPermission();
+      }
+      if(permission !== 'granted'){ showToast('⚠️ No se concedió el permiso'); return; }
 
-    const btn = document.getElementById('notifToggle');
-    if(btn) btn.disabled = true;
-    const ok = await subscribeToPush();
-    if(!ok){ renderNotifSettings(); return; }
+      const btn = document.getElementById('notifToggle');
+      if(btn) btn.disabled = true;
+      const ok = await subscribeToPush();
+      if(!ok) return;
 
-    prefs.enabled = true;
-    saveNotifPrefsLocal(prefs);
-    await syncNotifySchedulesToSupabase();
-    showToast('🔔 Notificaciones activadas');
-  } else {
-    prefs.enabled = false;
-    saveNotifPrefsLocal(prefs);
-    await unsubscribeFromPush();
-    showToast('🔕 Notificaciones desactivadas');
+      prefs.enabled = true;
+      saveNotifPrefsLocal(prefs);
+      await syncNotifySchedulesToSupabase();
+      showToast('🔔 Notificaciones activadas');
+    } else {
+      prefs.enabled = false;
+      saveNotifPrefsLocal(prefs);
+      await unsubscribeFromPush();
+      showToast('🔕 Notificaciones desactivadas');
+    }
+  }catch(err){
+    console.error('toggleNotifications error:', err);
+    showToast('❌ Error inesperado: ' + (err?.message || err));
+  }finally{
+    renderNotifSettings();
   }
-  renderNotifSettings();
 }
 
 async function saveNotifTime(val){
