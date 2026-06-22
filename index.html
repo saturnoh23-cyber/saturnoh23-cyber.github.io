@@ -3572,6 +3572,11 @@ async function toggleNotifications(enabled){
   }
 }
 
+function saveNotifTimeFromSelects(){
+  const h = document.getElementById('notifHourSelect').value.padStart(2,'0');
+  const m = document.getElementById('notifMinSelect').value.padStart(2,'0');
+  saveNotifTime(`${h}:${m}`);
+}
 async function saveNotifTime(val){
   const prefs = loadNotifPrefs();
   prefs.notifTime = val;
@@ -3582,7 +3587,8 @@ async function saveNotifTime(val){
       .update({ notif_time: val, last_notified_date: null })
       .eq('device_id', getDeviceId());
   }
-  showToast('⏰ Hora de notificación guardada');
+  showToast(`⏰ Notificación diaria a las ${val}`);
+  renderNotifSettings();
 }
 
 function renderNotifSettings(){
@@ -3626,14 +3632,21 @@ function renderNotifSettings(){
       Ve a <strong>Ajustes del navegador → Permisos del sitio → Notificaciones</strong> y permite este sitio.
     </div>` : ''}
 
-    ${enabled ? `
+    ${enabled ? (()=>{
+      const [curH,curM]=notifTime.split(':').map(Number);
+      const hourOpts=Array.from({length:24},(_,h)=>`<option value="${h}"${h===curH?' selected':''}>${String(h).padStart(2,'0')}</option>`).join('');
+      const minOpts=[0,5,10,15,20,25,30,35,40,45,50,55].map(m=>`<option value="${m}"${m===curM?' selected':''}>${String(m).padStart(2,'0')}</option>`).join('');
+      return `
     <div style="display:flex;flex-direction:column;gap:.65rem;">
       <div>
         <label style="font-size:.76rem;color:var(--text3);display:block;margin-bottom:.3rem;">⏰ Hora de notificación diaria</label>
-        <div style="display:flex;align-items:center;gap:.5rem;">
-          <input type="time" value="${notifTime}" onchange="saveNotifTime(this.value)"
-            style="padding:.38rem .65rem;border:1.5px solid var(--border);border-radius:9px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;cursor:pointer;">
-          <span style="font-size:.74rem;color:var(--text3);">Hora en que recibirás el aviso</span>
+        <div style="display:flex;align-items:center;gap:.4rem;">
+          <select id="notifHourSelect" onchange="saveNotifTimeFromSelects()"
+            style="padding:.38rem .55rem;border:1.5px solid var(--border);border-radius:9px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;cursor:pointer;">${hourOpts}</select>
+          <span style="color:var(--text3);font-weight:600;">:</span>
+          <select id="notifMinSelect" onchange="saveNotifTimeFromSelects()"
+            style="padding:.38rem .55rem;border:1.5px solid var(--border);border-radius:9px;background:var(--input-bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;cursor:pointer;">${minOpts}</select>
+          <span style="font-size:.74rem;color:var(--text3);">Hora en que recibirás el aviso (24h)</span>
         </div>
       </div>
       <div style="background:var(--p0);border-radius:10px;padding:.6rem .75rem;font-size:.74rem;color:var(--text3);line-height:1.6;">
@@ -3642,7 +3655,8 @@ function renderNotifSettings(){
       <button onclick="testNotification()" style="padding:.42rem .85rem;border-radius:10px;border:1.5px solid var(--p2);background:var(--p1);color:var(--p4);font-family:'DM Sans',sans-serif;font-size:.78rem;cursor:pointer;">
         🔔 Probar notificación local ahora
       </button>
-    </div>` : ''}
+    </div>`;
+    })() : ''}
   `;
 }
 
